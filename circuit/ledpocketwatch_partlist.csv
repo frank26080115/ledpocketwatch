@@ -1,0 +1,23 @@
+Qty,Name,Value,Package,Notes,Sch Name,Mfg,Mfg Part #
+61,LED,Blue,0603,"second indicators, charging indicator","LED1 to LED60, LED133",Lite-On,LTST-C193TBKT-5A
+60,LED,Green,0603,minute indicators,LED61 to LED120,Dialight,598-8070-107F
+12,LED,Yellow,0603,hour indicators,LED121 to LED132,Dialight,598-8040-107F
+6,Resistor,330 ohm,0603,LED current limiting,"R1, R2, R3, R4, R5, R7, R9",Panasonic,ERJ-3GEYJ331V
+1,Resistor,100 kilo ohm,0603,pull-down for MOSFET,R8,Panasonic,ERJ-3GEYJ104V
+1,Resistor,15 K ohm,0603,sets charging current for U2,R6,Panasonic,ERJ-3GEYJ153V
+2,Ceramic Capacitor,0.1 uF,0603,MCU decoupling,"C1, C2",AVX Corporation,0603YC104KAT2A
+2,Ceramic Capacitor,25 pF,0603,for XTAL load capacitance,"C3, C4",Murata Electronics,GRM1885C1H240JA01D
+2,Tantalum Capacitor,4.7 uF,1206,"USB decoupling, battery decoupling","C5, C6",AVX Corporation,TAJA475K006RNJ
+1,Crystal,32.768 KHz,"2-SMD, 4.90 x 1.80 mm",clock source,Q1,Abracon,ABS10-32.768KHZ-1-T
+1,Microcontroller,ATmega645P,64-TQFP,main microcontroller,U1,Atmel,ATMEGA645P-AU
+1,Battery Charger IC,MCP73831T,SOT-23-5,charger for battery,U2,Microchip,MCP73831T-2ACI/OT
+1,Low Voltage Detector,TC54VC2702ECB713,SOT-23-A,low battery detection,U3,Microchip,TC54VC2702ECB713
+1,Tactile Button,SMD Vertical,5.25 x 5.25 mm,changes setting mode,S2,C&K Components,PTS525SM10SMTR LFS
+1,Tactile Button,TH Right Angle,6mm x 3.5mm,main button,S1,APEM Components,MJTP1117
+1,Piezo Buzzer,,"11 L x 9 W x 1.7 H, mm",alarm buzzer,Q2,CUI Inc,CMT-1102
+1,Vibration Motor,,,alarm vibration motor,MOT1,NMB Technologies Corp,KHN4NX1RC
+1,MOSFET,N Channel,SOT23-3,drives motor,Q3,ON Semiconductor,NTR4003NT1G
+1,Diode,,SOD-323,flyback diode,D1,Fairchild Semiconductor,BAT54HT1G
+1,USB Micro B Connector,,TH Shell,charging connector,X1,Hirose Electric,ZX62D-B-5P8
+1,Battery Holder,,"SMD, 2430",holds battery,BAT1,Keystone Electronics,3006
+1,Battery,,"2430, 3mm thick",rechargable battery,,http://batteriesdirect.com.au/,PD2430
