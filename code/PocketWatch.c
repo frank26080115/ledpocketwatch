@@ -118,7 +118,7 @@ ISR(TIMER0_OVF_vect)
 {
 	// 2.05 KHz event
 	
-	if (alarm_active)
+	if (alarm_active || mode == MODE_TESTING)
 	{
 		// buzz the alarm buzzer, set pin high, use the compare match to set pin low for 4.1 KHz
 		buzzer_high();
@@ -162,7 +162,7 @@ ISR(TIMER0_OVF_vect)
 
 ISR(TIMER0_COMP_vect)
 {
-	if (alarm_active)
+	if (alarm_active || mode == MODE_TESTING)
 	{
 		// toggle the buzzer pin again, this makes the buzzer frequency about 4.1 KHz
 		buzzer_low();
@@ -240,6 +240,7 @@ int main()
 	last_led_pin = pins[0];
 	
 	// setup async timer 2
+	TCNT2 = 0; // reset it
 	ASSR = _BV(AS2); // enable async xtal input
 	TCCR2A = _BV(CS22) | 0 | _BV(CS20); // start timer with clock div 128
 	TIMSK2 = _BV(TOIE2); // enable overflow interrupt
@@ -255,6 +256,16 @@ int main()
 	
 	sei(); // enable global interrupts
 	
+	if (button1_is_down())
+	{
+		mode = MODE_TESTING; // hold button at reset to enter test mode
+	}		
+	else
+	{
+		_delay_ms(10); // delay to guarantee TCNT2 to have a small value
+		if (TCNT2 == 0) mode = MODE_TESTING; // this means the oscillator is disconnected
+	}
+	
 	uint32_t held_cnt = 0;
 	uint32_t timeout_cnt = 0;
 	uint32_t animation_cnt = 0;
@@ -265,7 +276,7 @@ int main()
 	
 	for (;;)
 	{
-		if (mode == MODE_ALARMING || button2_is_down() || button1_is_down()) timer0_enable();
+		if (mode == MODE_ALARMING || mode == MODE_TESTING || button2_is_down() || button1_is_down()) timer0_enable();
 		
 		if (mode == MODE_WAS_SLEEPING || mode == MODE_ALARMING)
 		{
@@ -813,6 +824,32 @@ int main()
 				mode = MODE_WAS_SLEEPING;
 				to_sleep = 1;
 				debounce();
+			}
+		}
+		else if (mode == MODE_TESTING)
+		{
+			// flash all LED, the buzzer will buzz, the motor will run for half second intervals
+			
+			display_second = (display_second + 1) % 60;
+			display_minute = (display_minute + 1) % 60;
+			display_hour   = (display_hour + 1) % 24;
+			
+			if (display_second < 5)
+			{
+				motor_on();
+			}
+			else
+			{
+				motor_off();
+			}
+			
+			_delay_ms(100);
+			
+			// exit test mode if able
+			if (button1_is_down() && TCNT2 != 0)
+			{
+				mode = MODE_CURTIME_ENTERING;
+				animation_cnt = 0;
 			}
 		}
 		
