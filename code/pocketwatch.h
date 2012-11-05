@@ -59,4 +59,16 @@ extern uint16_t portx[30];
 extern uint16_t ddrx[30];
 extern uint8_t pins[30];
 
+typedef enum
+{
+	MODE_SLEEPING = 0,
+	MODE_CURTIME_SHOWING,
+	MODE_SETTIME_HOUR,
+	MODE_SETTIME_MINUTE,
+	MODE_SETALARM_HOUR,
+	MODE_SETALARM_MINUTE,
+	MODE_SETALARM_ONOFF,
+	MODE_ALARMING,
+} mode_t;
+
 #endif /* POCKETWATCH_H_ */

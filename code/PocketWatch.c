@@ -35,7 +35,7 @@ volatile int8_t display_minute;
 volatile int8_t display_hour;
 
 volatile uint8_t to_sleep = 0;
-volatile uint8_t mode = 0;
+volatile mode_t mode = MODE_SLEEPING;
 
 ISR(TIMER2_OVF_vect)
 {
@@ -64,9 +64,9 @@ ISR(TIMER2_OVF_vect)
 			alarm_active = 1;
 			alarm_already_off = 1;
 			DDRx_BUZZER |= _BV(PIN_BUZZER);
-			if (mode == 0)
+			if (mode == MODE_SLEEPING)
 			{
-				mode = 7;
+				mode = MODE_ALARMING;
 				to_sleep = 0;
 			}
 		}
@@ -76,7 +76,7 @@ ISR(TIMER2_OVF_vect)
 		alarm_already_off = 0;
 	}
 	
-	if (mode == 0)
+	if (mode == MODE_SLEEPING)
 	{
 		// should go back to sleep, nothing to do
 		to_sleep = 1;
@@ -143,7 +143,7 @@ ISR(TIMER0_COMP_vect)
 		// toggle the buzzer pin again, this makes the buzzer frequency about 4.1 KHz
 		PORTx_BUZZER &= ~_BV(PIN_BUZZER);
 	}
-	else if (mode == 0)
+	else if (mode == MODE_SLEEPING)
 	{
 		// should go back to sleep, nothing to do
 		clear_leds();
@@ -344,17 +344,17 @@ int main()
 	uint8_t button_was_down = 0;
 	uint8_t eeprom_is_dirty = 0;
 	
-	mode = 0;
+	mode = MODE_SLEEPING;
 	to_sleep = 1;
 	
 	for (;;)
 	{
-		if (mode == 0 || mode == 7)
+		if (mode == MODE_SLEEPING || mode == MODE_ALARMING)
 		{
 			if (button2_is_down())
 			{
 				// go directly into settings mode
-				mode = 2;
+				mode = MODE_SETTIME_HOUR;
 				to_sleep = 0;
 				
 				display_second = -1;
@@ -380,18 +380,18 @@ int main()
 			else if (button1_is_down())
 			{
 				// go into time display mode
-				mode = 1;
+				mode = MODE_CURTIME_SHOWING;
 				to_sleep = 0;
 				
 				debounce();
 				held_cnt = 0;
 			}
-			else if (mode != 7)
+			else if (mode != MODE_ALARMING)
 			{
 				to_sleep = 1;
 			}
 		}
-		else if (mode == 1)
+		else if (mode == MODE_CURTIME_SHOWING)
 		{
 			// indicate current time
 			display_minute = cur_minute;
@@ -422,7 +422,7 @@ int main()
 				{
 					// save power if battery is low
 					// or if user holds down the button for longer than 5 seconds
-					mode = 0;
+					mode = MODE_SLEEPING;
 					to_sleep = 1;
 				}
 				else
@@ -431,7 +431,7 @@ int main()
 					if (timeout_cnt >= 10 * 1000 / 50)
 					{
 						// button has been release for a sufficiently long enough time to sleep
-						mode = 0;
+						mode = MODE_SLEEPING;
 						to_sleep = 1;
 					}
 					else
@@ -445,10 +445,8 @@ int main()
 				held_cnt = 0;
 			}
 		}
-		else if (mode == 2)
+		else if (mode == MODE_SETTIME_HOUR)
 		{
-			// set current hour
-			
 			// indicate mode
 			display_second = bit_is_set(cur_second, 0) ? 0 : -1;
 			
@@ -515,7 +513,7 @@ int main()
 				eeprom_is_dirty = 1;
 				
 				// goto next mode
-				mode = 3;
+				mode = MODE_SETTIME_MINUTE;
 				to_sleep = 0;
 				
 				debounce();
@@ -532,10 +530,8 @@ int main()
 				debounce();
 			}
 		}
-		else if (mode == 3)
-		{
-			// set current minute
-			
+		else if (mode == MODE_SETTIME_MINUTE)
+		{			
 			// indicate mode
 			display_second = bit_is_set(cur_second, 0) ? 5 : -1;
 			
@@ -593,7 +589,7 @@ int main()
 				if (alarm_enabled == 0)
 				{
 					// skip alarm time set modes, instead go to enable/disable alarm mode
-					mode = 6;
+					mode = MODE_SETALARM_ONOFF;
 					to_sleep = 0;
 					debounce();
 					while (button2_is_down())
@@ -609,7 +605,7 @@ int main()
 				else
 				{
 					// goto alarm time set mode
-					mode = 4;
+					mode = MODE_SETALARM_ONOFF;
 					to_sleep = 0;
 					debounce();
 					while (button2_is_down())
@@ -624,10 +620,8 @@ int main()
 				}
 			}
 		}
-		else if (mode == 4)
+		else if (mode == MODE_SETALARM_HOUR)
 		{
-			// set alarm hour
-			
 			// indicate mode
 			display_second = bit_is_set(cur_second, 0) ? 10 : -1;
 			
@@ -692,7 +686,7 @@ int main()
 				display_hour = -1;
 				
 				// goto next mode
-				mode = 5;
+				mode = MODE_SETALARM_MINUTE;
 				to_sleep = 0;
 				
 				debounce();
@@ -709,10 +703,8 @@ int main()
 				debounce();
 			}
 		}
-		else if (mode == 5)
+		else if (mode == MODE_SETALARM_MINUTE)
 		{
-			// set alarm minute
-			
 			// indicate mode
 			display_second = bit_is_set(cur_second, 0) ? 15 : -1;
 			
@@ -768,7 +760,7 @@ int main()
 				display_hour = -1;
 				
 				// goto next mode
-				mode = 6;
+				mode = MODE_SETALARM_ONOFF;
 				to_sleep = 0;
 				debounce();
 				while (button2_is_down())
@@ -782,10 +774,8 @@ int main()
 				debounce();
 			}
 		}
-		else if (mode == 6)
+		else if (mode == MODE_SETALARM_ONOFF)
 		{
-			// enable/disable alarm
-			
 			// indicate mode
 			display_second = bit_is_set(cur_second, 0) ? 20 : -1;
 			
@@ -817,12 +807,12 @@ int main()
 				display_second = -1;
 				display_minute = -1;
 				display_hour = -1;
-				mode = 0;
+				mode = MODE_SLEEPING;
 				to_sleep = 1;
 				debounce();
 			}
 		}
-		else if (mode == 7)
+		else if (mode == MODE_ALARMING)
 		{
 			if (bit_is_set(cur_second, 0))
 			{
@@ -844,7 +834,7 @@ int main()
 			display_second = -1;
 			display_minute = -1;
 			display_hour = -1;
-			mode = 0;
+			mode = MODE_SLEEPING;
 			
 			// save data if required
 			if (eeprom_is_dirty)

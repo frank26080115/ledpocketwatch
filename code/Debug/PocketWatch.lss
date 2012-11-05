@@ -15,19 +15,19 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, READONLY, DEBUGGING
   5 .debug_aranges 00000140  00000000  00000000  00001b48  2**3
                   CONTENTS, READONLY, DEBUGGING
-  6 .debug_info   000014a1  00000000  00000000  00001c88  2**0
+  6 .debug_info   000014ea  00000000  00000000  00001c88  2**0
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_abbrev 000002aa  00000000  00000000  00003129  2**0
+  7 .debug_abbrev 000002c0  00000000  00000000  00003172  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_line   00000c7c  00000000  00000000  000033d3  2**0
+  8 .debug_line   00000c7c  00000000  00000000  00003432  2**0
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_frame  00000184  00000000  00000000  00004050  2**2
+  9 .debug_frame  00000184  00000000  00000000  000040b0  2**2
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_str    0000028c  00000000  00000000  000041d4  2**0
+ 10 .debug_str    00000326  00000000  00000000  00004234  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_loc    00000e08  00000000  00000000  00004460  2**0
+ 11 .debug_loc    00000e08  00000000  00000000  0000455a  2**0
                   CONTENTS, READONLY, DEBUGGING
- 12 .debug_ranges 00000050  00000000  00000000  00005268  2**0
+ 12 .debug_ranges 00000050  00000000  00000000  00005362  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -467,7 +467,7 @@ void clear_leds()
 00000304 <__vector_5>:
 
 volatile uint8_t to_sleep = 0;
-volatile uint8_t mode = 0;
+volatile mode_t mode = MODE_SLEEPING;
 
 ISR(TIMER2_OVF_vect)
 {
@@ -542,12 +542,12 @@ ISR(TIMER2_OVF_vect)
      382:	80 93 9b 01 	sts	0x019B, r24
 			DDRx_BUZZER |= _BV(PIN_BUZZER);
      386:	0c 9a       	sbi	0x01, 4	; 1
-			if (mode == 0)
+			if (mode == MODE_SLEEPING)
      388:	80 91 97 01 	lds	r24, 0x0197
      38c:	88 23       	and	r24, r24
      38e:	41 f4       	brne	.+16     	; 0x3a0 <__vector_5+0x9c>
 			{
-				mode = 7;
+				mode = MODE_ALARMING;
      390:	87 e0       	ldi	r24, 0x07	; 7
      392:	80 93 97 01 	sts	0x0197, r24
 				to_sleep = 0;
@@ -562,7 +562,7 @@ ISR(TIMER2_OVF_vect)
      39c:	10 92 9b 01 	sts	0x019B, r1
 	}
 	
-	if (mode == 0)
+	if (mode == MODE_SLEEPING)
      3a0:	80 91 97 01 	lds	r24, 0x0197
      3a4:	88 23       	and	r24, r24
      3a6:	19 f4       	brne	.+6      	; 0x3ae <__vector_5+0xaa>
@@ -752,7 +752,7 @@ ISR(TIMER0_COMP_vect)
      4b2:	14 98       	cbi	0x02, 4	; 2
      4b4:	09 c0       	rjmp	.+18     	; 0x4c8 <__vector_10+0x40>
 	}
-	else if (mode == 0)
+	else if (mode == MODE_SLEEPING)
      4b6:	80 91 97 01 	lds	r24, 0x0197
      4ba:	88 23       	and	r24, r24
      4bc:	29 f4       	brne	.+10     	; 0x4c8 <__vector_10+0x40>
@@ -1037,7 +1037,7 @@ int main()
 	uint8_t button_was_down = 0;
 	uint8_t eeprom_is_dirty = 0;
 	
-	mode = 0;
+	mode = MODE_SLEEPING;
      64c:	10 92 97 01 	sts	0x0197, r1
 	to_sleep = 1;
      650:	80 93 98 01 	sts	0x0198, r24
@@ -1074,7 +1074,7 @@ int main()
      660:	dd 24       	eor	r13, r13
      662:	76 01       	movw	r14, r12
 		}
-		else if (mode == 7)
+		else if (mode == MODE_ALARMING)
 		{
 			if (bit_is_set(cur_second, 0))
 			{
@@ -1099,12 +1099,12 @@ int main()
 			
 			if (alarm_active == 0)
      672:	20 e0       	ldi	r18, 0x00	; 0
-	mode = 0;
+	mode = MODE_SLEEPING;
 	to_sleep = 1;
 	
 	for (;;)
 	{
-		if (mode == 0 || mode == 7)
+		if (mode == MODE_SLEEPING || mode == MODE_ALARMING)
      674:	80 91 97 01 	lds	r24, 0x0197
      678:	88 23       	and	r24, r24
      67a:	29 f0       	breq	.+10     	; 0x686 <main+0x180>
@@ -1118,7 +1118,7 @@ int main()
      688:	3a c0       	rjmp	.+116    	; 0x6fe <main+0x1f8>
 			{
 				// go directly into settings mode
-				mode = 2;
+				mode = MODE_SETTIME_HOUR;
      68a:	82 e0       	ldi	r24, 0x02	; 2
      68c:	80 93 97 01 	sts	0x0197, r24
 				to_sleep = 0;
@@ -1208,7 +1208,7 @@ int main()
      700:	0a c0       	rjmp	.+20     	; 0x716 <main+0x210>
 			{
 				// go into time display mode
-				mode = 1;
+				mode = MODE_CURTIME_SHOWING;
      702:	81 e0       	ldi	r24, 0x01	; 1
      704:	80 93 97 01 	sts	0x0197, r24
 				to_sleep = 0;
@@ -1222,7 +1222,7 @@ int main()
 				debounce();
 				held_cnt = 0;
 			}
-			else if (mode != 7)
+			else if (mode != MODE_ALARMING)
      716:	80 91 97 01 	lds	r24, 0x0197
      71a:	87 30       	cpi	r24, 0x07	; 7
      71c:	09 f4       	brne	.+2      	; 0x720 <main+0x21a>
@@ -1234,7 +1234,7 @@ int main()
      726:	06 c4       	rjmp	.+2060   	; 0xf34 <main+0xa2e>
 			}
 		}
-		else if (mode == 1)
+		else if (mode == MODE_CURTIME_SHOWING)
      728:	80 91 97 01 	lds	r24, 0x0197
      72c:	81 30       	cpi	r24, 0x01	; 1
      72e:	09 f0       	breq	.+2      	; 0x732 <main+0x22c>
@@ -1313,7 +1313,7 @@ int main()
      78c:	e1 04       	cpc	r14, r1
      78e:	f1 04       	cpc	r15, r1
      790:	88 f4       	brcc	.+34     	; 0x7b4 <main+0x2ae>
-					mode = 0;
+					mode = MODE_SLEEPING;
 					to_sleep = 1;
 				}
 				else
@@ -1339,7 +1339,7 @@ int main()
      7b2:	30 f0       	brcs	.+12     	; 0x7c0 <main+0x2ba>
 					{
 						// button has been release for a sufficiently long enough time to sleep
-						mode = 0;
+						mode = MODE_SLEEPING;
      7b4:	10 92 97 01 	sts	0x0197, r1
 						to_sleep = 1;
      7b8:	81 e0       	ldi	r24, 0x01	; 1
@@ -1362,14 +1362,12 @@ int main()
      7ca:	b4 c3       	rjmp	.+1896   	; 0xf34 <main+0xa2e>
 			}
 		}
-		else if (mode == 2)
+		else if (mode == MODE_SETTIME_HOUR)
      7cc:	80 91 97 01 	lds	r24, 0x0197
      7d0:	82 30       	cpi	r24, 0x02	; 2
      7d2:	09 f0       	breq	.+2      	; 0x7d6 <main+0x2d0>
      7d4:	d1 c0       	rjmp	.+418    	; 0x978 <main+0x472>
 		{
-			// set current hour
-			
 			// indicate mode
 			display_second = bit_is_set(cur_second, 0) ? 0 : -1;
      7d6:	80 91 9f 01 	lds	r24, 0x019F
@@ -1620,7 +1618,7 @@ int main()
 				eeprom_is_dirty = 1;
 				
 				// goto next mode
-				mode = 3;
+				mode = MODE_SETTIME_MINUTE;
      93c:	00 93 97 01 	sts	0x0197, r16
 				to_sleep = 0;
      940:	10 92 98 01 	sts	0x0198, r1
@@ -1647,7 +1645,7 @@ int main()
 					display_minute = cur_minute;
      960:	80 91 a0 01 	lds	r24, 0x01A0
      964:	80 93 a8 01 	sts	0x01A8, r24
-				mode = 3;
+				mode = MODE_SETTIME_MINUTE;
 				to_sleep = 0;
 				
 				debounce();
@@ -1672,14 +1670,12 @@ int main()
 				debounce();
 			}
 		}
-		else if (mode == 3)
+		else if (mode == MODE_SETTIME_MINUTE)
      978:	80 91 97 01 	lds	r24, 0x0197
      97c:	83 30       	cpi	r24, 0x03	; 3
      97e:	09 f0       	breq	.+2      	; 0x982 <main+0x47c>
      980:	c7 c0       	rjmp	.+398    	; 0xb10 <main+0x60a>
-		{
-			// set current minute
-			
+		{			
 			// indicate mode
 			display_second = bit_is_set(cur_second, 0) ? 5 : -1;
      982:	80 91 9f 01 	lds	r24, 0x019F
@@ -1847,7 +1843,7 @@ int main()
      a4a:	79 f5       	brne	.+94     	; 0xaaa <main+0x5a4>
 				{
 					// skip alarm time set modes, instead go to enable/disable alarm mode
-					mode = 6;
+					mode = MODE_SETALARM_ONOFF;
      a4c:	86 e0       	ldi	r24, 0x06	; 6
      a4e:	80 93 97 01 	sts	0x0197, r24
 					to_sleep = 0;
@@ -1892,7 +1888,7 @@ int main()
      aa0:	90 93 a3 01 	sts	0x01A3, r25
 				{
 					// skip alarm time set modes, instead go to enable/disable alarm mode
-					mode = 6;
+					mode = MODE_SETALARM_ONOFF;
 					to_sleep = 0;
 					debounce();
 					while (button2_is_down())
@@ -1904,8 +1900,8 @@ int main()
 				else
 				{
 					// goto alarm time set mode
-					mode = 4;
-     aaa:	84 e0       	ldi	r24, 0x04	; 4
+					mode = MODE_SETALARM_ONOFF;
+     aaa:	86 e0       	ldi	r24, 0x06	; 6
      aac:	80 93 97 01 	sts	0x0197, r24
 					to_sleep = 0;
      ab0:	10 92 98 01 	sts	0x0198, r1
@@ -1949,7 +1945,7 @@ int main()
      afe:	90 93 a3 01 	sts	0x01A3, r25
 				{
 					// goto alarm time set mode
-					mode = 4;
+					mode = MODE_SETALARM_ONOFF;
 					to_sleep = 0;
 					debounce();
 					while (button2_is_down())
@@ -1965,14 +1961,12 @@ int main()
 				}
 			}
 		}
-		else if (mode == 4)
+		else if (mode == MODE_SETALARM_HOUR)
      b10:	80 91 97 01 	lds	r24, 0x0197
      b14:	84 30       	cpi	r24, 0x04	; 4
      b16:	09 f0       	breq	.+2      	; 0xb1a <main+0x614>
      b18:	d0 c0       	rjmp	.+416    	; 0xcba <main+0x7b4>
 		{
-			// set alarm hour
-			
 			// indicate mode
 			display_second = bit_is_set(cur_second, 0) ? 10 : -1;
      b1a:	80 91 9f 01 	lds	r24, 0x019F
@@ -2221,7 +2215,7 @@ int main()
      c7c:	c0 93 a3 01 	sts	0x01A3, r28
 				
 				// goto next mode
-				mode = 5;
+				mode = MODE_SETALARM_MINUTE;
      c80:	85 e0       	ldi	r24, 0x05	; 5
      c82:	80 93 97 01 	sts	0x0197, r24
 				to_sleep = 0;
@@ -2249,7 +2243,7 @@ int main()
 					display_minute = cur_minute;
      ca6:	80 91 a0 01 	lds	r24, 0x01A0
      caa:	80 93 a8 01 	sts	0x01A8, r24
-				mode = 5;
+				mode = MODE_SETALARM_MINUTE;
 				to_sleep = 0;
 				
 				debounce();
@@ -2266,14 +2260,12 @@ int main()
 				debounce();
 			}
 		}
-		else if (mode == 5)
+		else if (mode == MODE_SETALARM_MINUTE)
      cba:	80 91 97 01 	lds	r24, 0x0197
      cbe:	85 30       	cpi	r24, 0x05	; 5
      cc0:	09 f0       	breq	.+2      	; 0xcc4 <main+0x7be>
      cc2:	93 c0       	rjmp	.+294    	; 0xdea <main+0x8e4>
 		{
-			// set alarm minute
-			
 			// indicate mode
 			display_second = bit_is_set(cur_second, 0) ? 15 : -1;
      cc4:	80 91 9f 01 	lds	r24, 0x019F
@@ -2436,7 +2428,7 @@ int main()
      d82:	c0 93 a3 01 	sts	0x01A3, r28
 				
 				// goto next mode
-				mode = 6;
+				mode = MODE_SETALARM_ONOFF;
      d86:	86 e0       	ldi	r24, 0x06	; 6
      d88:	80 93 97 01 	sts	0x0197, r24
 				to_sleep = 0;
@@ -2481,7 +2473,7 @@ int main()
      dda:	90 93 a3 01 	sts	0x01A3, r25
 				
 				// goto next mode
-				mode = 6;
+				mode = MODE_SETALARM_ONOFF;
 				to_sleep = 0;
 				debounce();
 				while (button2_is_down())
@@ -2496,14 +2488,12 @@ int main()
 				debounce();
 			}
 		}
-		else if (mode == 6)
+		else if (mode == MODE_SETALARM_ONOFF)
      dea:	80 91 97 01 	lds	r24, 0x0197
      dee:	86 30       	cpi	r24, 0x06	; 6
      df0:	09 f0       	breq	.+2      	; 0xdf4 <main+0x8ee>
      df2:	85 c0       	rjmp	.+266    	; 0xefe <main+0x9f8>
 		{
-			// enable/disable alarm
-			
 			// indicate mode
 			display_second = bit_is_set(cur_second, 0) ? 20 : -1;
      df4:	80 91 9f 01 	lds	r24, 0x019F
@@ -2641,7 +2631,7 @@ int main()
      ee4:	c0 93 a8 01 	sts	0x01A8, r28
 				display_hour = -1;
      ee8:	c0 93 a3 01 	sts	0x01A3, r28
-				mode = 0;
+				mode = MODE_SLEEPING;
      eec:	10 92 97 01 	sts	0x0197, r1
 				to_sleep = 1;
      ef0:	81 e0       	ldi	r24, 0x01	; 1
@@ -2653,7 +2643,7 @@ int main()
 				debounce();
 			}
 		}
-		else if (mode == 7)
+		else if (mode == MODE_ALARMING)
      efe:	80 91 97 01 	lds	r24, 0x0197
      f02:	87 30       	cpi	r24, 0x07	; 7
      f04:	b9 f4       	brne	.+46     	; 0xf34 <main+0xa2e>
@@ -2698,7 +2688,7 @@ int main()
      f42:	c0 93 a8 01 	sts	0x01A8, r28
 			display_hour = -1;
      f46:	c0 93 a3 01 	sts	0x01A3, r28
-			mode = 0;
+			mode = MODE_SLEEPING;
      f4a:	10 92 97 01 	sts	0x0197, r1
 			
 			// save data if required
