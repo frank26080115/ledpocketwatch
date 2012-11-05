@@ -44,8 +44,8 @@ TcfTransactionLog.csv
 *.atsuo
 
 # Build results
-[Dd]ebug/
-[Rr]elease/
+*.o
+*.d
 *_i.c
 *_p.c
 *.ilk

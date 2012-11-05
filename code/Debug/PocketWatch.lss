@@ -1,0 +1,2886 @@
+
+PocketWatch.elf:     file format elf32-avr
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .data         00000096  00800100  0000106a  000010fe  2**0
+                  CONTENTS, ALLOC, LOAD, DATA
+  1 .text         0000106a  00000000  00000000  00000094  2**1
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  2 .bss          00000013  00800196  00800196  00001194  2**0
+                  ALLOC
+  3 .stab         00000864  00000000  00000000  00001194  2**2
+                  CONTENTS, READONLY, DEBUGGING
+  4 .stabstr      0000014c  00000000  00000000  000019f8  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  5 .debug_aranges 00000140  00000000  00000000  00001b48  2**3
+                  CONTENTS, READONLY, DEBUGGING
+  6 .debug_info   000014a1  00000000  00000000  00001c88  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  7 .debug_abbrev 000002aa  00000000  00000000  00003129  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  8 .debug_line   00000c75  00000000  00000000  000033d3  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  9 .debug_frame  00000184  00000000  00000000  00004048  2**2
+                  CONTENTS, READONLY, DEBUGGING
+ 10 .debug_str    0000028e  00000000  00000000  000041cc  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 11 .debug_loc    00000e08  00000000  00000000  0000445a  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 12 .debug_ranges 00000050  00000000  00000000  00005262  2**0
+                  CONTENTS, READONLY, DEBUGGING
+
+Disassembly of section .text:
+
+00000000 <__vectors>:
+       0:	0c 94 2c 00 	jmp	0x58	; 0x58 <__ctors_end>
+       4:	0c 94 49 00 	jmp	0x92	; 0x92 <__bad_interrupt>
+       8:	0c 94 49 00 	jmp	0x92	; 0x92 <__bad_interrupt>
+       c:	0c 94 75 02 	jmp	0x4ea	; 0x4ea <__vector_3>
+      10:	0c 94 49 00 	jmp	0x92	; 0x92 <__bad_interrupt>
+      14:	0c 94 82 01 	jmp	0x304	; 0x304 <__vector_5>
+      18:	0c 94 49 00 	jmp	0x92	; 0x92 <__bad_interrupt>
+      1c:	0c 94 49 00 	jmp	0x92	; 0x92 <__bad_interrupt>
+      20:	0c 94 49 00 	jmp	0x92	; 0x92 <__bad_interrupt>
+      24:	0c 94 49 00 	jmp	0x92	; 0x92 <__bad_interrupt>
+      28:	0c 94 44 02 	jmp	0x488	; 0x488 <__vector_10>
+      2c:	0c 94 de 01 	jmp	0x3bc	; 0x3bc <__vector_11>
+      30:	0c 94 49 00 	jmp	0x92	; 0x92 <__bad_interrupt>
+      34:	0c 94 49 00 	jmp	0x92	; 0x92 <__bad_interrupt>
+      38:	0c 94 49 00 	jmp	0x92	; 0x92 <__bad_interrupt>
+      3c:	0c 94 49 00 	jmp	0x92	; 0x92 <__bad_interrupt>
+      40:	0c 94 49 00 	jmp	0x92	; 0x92 <__bad_interrupt>
+      44:	0c 94 49 00 	jmp	0x92	; 0x92 <__bad_interrupt>
+      48:	0c 94 49 00 	jmp	0x92	; 0x92 <__bad_interrupt>
+      4c:	0c 94 49 00 	jmp	0x92	; 0x92 <__bad_interrupt>
+      50:	0c 94 49 00 	jmp	0x92	; 0x92 <__bad_interrupt>
+      54:	0c 94 49 00 	jmp	0x92	; 0x92 <__bad_interrupt>
+
+00000058 <__ctors_end>:
+      58:	11 24       	eor	r1, r1
+      5a:	1f be       	out	0x3f, r1	; 63
+      5c:	cf ef       	ldi	r28, 0xFF	; 255
+      5e:	d4 e0       	ldi	r29, 0x04	; 4
+      60:	de bf       	out	0x3e, r29	; 62
+      62:	cd bf       	out	0x3d, r28	; 61
+
+00000064 <__do_copy_data>:
+      64:	11 e0       	ldi	r17, 0x01	; 1
+      66:	a0 e0       	ldi	r26, 0x00	; 0
+      68:	b1 e0       	ldi	r27, 0x01	; 1
+      6a:	ea e6       	ldi	r30, 0x6A	; 106
+      6c:	f0 e1       	ldi	r31, 0x10	; 16
+      6e:	02 c0       	rjmp	.+4      	; 0x74 <__do_copy_data+0x10>
+      70:	05 90       	lpm	r0, Z+
+      72:	0d 92       	st	X+, r0
+      74:	a6 39       	cpi	r26, 0x96	; 150
+      76:	b1 07       	cpc	r27, r17
+      78:	d9 f7       	brne	.-10     	; 0x70 <__do_copy_data+0xc>
+
+0000007a <__do_clear_bss>:
+      7a:	11 e0       	ldi	r17, 0x01	; 1
+      7c:	a6 e9       	ldi	r26, 0x96	; 150
+      7e:	b1 e0       	ldi	r27, 0x01	; 1
+      80:	01 c0       	rjmp	.+2      	; 0x84 <.do_clear_bss_start>
+
+00000082 <.do_clear_bss_loop>:
+      82:	1d 92       	st	X+, r1
+
+00000084 <.do_clear_bss_start>:
+      84:	a9 3a       	cpi	r26, 0xA9	; 169
+      86:	b1 07       	cpc	r27, r17
+      88:	e1 f7       	brne	.-8      	; 0x82 <.do_clear_bss_loop>
+      8a:	0e 94 83 02 	call	0x506	; 0x506 <main>
+      8e:	0c 94 33 08 	jmp	0x1066	; 0x1066 <_exit>
+
+00000092 <__bad_interrupt>:
+      92:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
+
+00000096 <set_hour_led>:
+volatile uint8_t* last_led_port;
+volatile uint8_t* last_led_ddr;
+volatile uint8_t last_led_pin;
+
+void set_hour_led(int8_t number)
+{
+      96:	cf 93       	push	r28
+      98:	df 93       	push	r29
+      9a:	0f 92       	push	r0
+      9c:	cd b7       	in	r28, 0x3d	; 61
+      9e:	de b7       	in	r29, 0x3e	; 62
+	volatile uint8_t idx;
+	
+	// turn off last LED
+	*last_led_port &= ~last_led_pin;
+      a0:	e0 91 99 01 	lds	r30, 0x0199
+      a4:	f0 91 9a 01 	lds	r31, 0x019A
+      a8:	20 81       	ld	r18, Z
+      aa:	90 91 a2 01 	lds	r25, 0x01A2
+      ae:	90 95       	com	r25
+      b0:	92 23       	and	r25, r18
+      b2:	90 83       	st	Z, r25
+	*last_led_ddr &= ~last_led_pin;
+      b4:	e0 91 a5 01 	lds	r30, 0x01A5
+      b8:	f0 91 a6 01 	lds	r31, 0x01A6
+      bc:	20 81       	ld	r18, Z
+      be:	90 91 a2 01 	lds	r25, 0x01A2
+      c2:	90 95       	com	r25
+      c4:	92 23       	and	r25, r18
+      c6:	90 83       	st	Z, r25
+	
+	if (number >= 0)
+      c8:	87 fd       	sbrc	r24, 7
+      ca:	3c c0       	rjmp	.+120    	; 0x144 <set_hour_led+0xae>
+	{
+		// put the ring low
+		PORTx_RINGS = PORTx_RINGS & (~_BV(PIN_RING_HOUR)) | _BV(PIN_RING_MINUTE_EVEN) | _BV(PIN_RING_MINUTE_ODD) | _BV(PIN_RING_SECOND_EVEN) | _BV(PIN_RING_SECOND_ODD);
+      cc:	91 b3       	in	r25, 0x11	; 17
+      ce:	98 7c       	andi	r25, 0xC8	; 200
+      d0:	93 63       	ori	r25, 0x33	; 51
+      d2:	91 bb       	out	0x11, r25	; 17
+
+		// calculate appropriate index
+		idx = (number % 12) * 5;
+      d4:	6c e0       	ldi	r22, 0x0C	; 12
+      d6:	0e 94 e6 07 	call	0xfcc	; 0xfcc <__divmodqi4>
+      da:	89 2f       	mov	r24, r25
+      dc:	88 0f       	add	r24, r24
+      de:	88 0f       	add	r24, r24
+      e0:	89 0f       	add	r24, r25
+      e2:	89 83       	std	Y+1, r24	; 0x01
+		idx /= 2;
+      e4:	89 81       	ldd	r24, Y+1	; 0x01
+      e6:	86 95       	lsr	r24
+      e8:	89 83       	std	Y+1, r24	; 0x01
+
+		// set the LED on and remember which one
+		last_led_port = portx[idx];
+      ea:	e9 81       	ldd	r30, Y+1	; 0x01
+      ec:	f0 e0       	ldi	r31, 0x00	; 0
+      ee:	ee 0f       	add	r30, r30
+      f0:	ff 1f       	adc	r31, r31
+      f2:	e6 5a       	subi	r30, 0xA6	; 166
+      f4:	fe 4f       	sbci	r31, 0xFE	; 254
+      f6:	a0 81       	ld	r26, Z
+      f8:	b1 81       	ldd	r27, Z+1	; 0x01
+      fa:	b0 93 9a 01 	sts	0x019A, r27
+      fe:	a0 93 99 01 	sts	0x0199, r26
+		last_led_ddr = ddrx[idx];
+     102:	e9 81       	ldd	r30, Y+1	; 0x01
+     104:	f0 e0       	ldi	r31, 0x00	; 0
+     106:	ee 0f       	add	r30, r30
+     108:	ff 1f       	adc	r31, r31
+     10a:	e2 5e       	subi	r30, 0xE2	; 226
+     10c:	fe 4f       	sbci	r31, 0xFE	; 254
+     10e:	80 81       	ld	r24, Z
+     110:	91 81       	ldd	r25, Z+1	; 0x01
+     112:	90 93 a6 01 	sts	0x01A6, r25
+     116:	80 93 a5 01 	sts	0x01A5, r24
+		last_led_pin = pins[idx];
+     11a:	e9 81       	ldd	r30, Y+1	; 0x01
+     11c:	f0 e0       	ldi	r31, 0x00	; 0
+     11e:	e0 50       	subi	r30, 0x00	; 0
+     120:	ff 4f       	sbci	r31, 0xFF	; 255
+     122:	80 81       	ld	r24, Z
+     124:	80 93 a2 01 	sts	0x01A2, r24
+		*last_led_port |= last_led_pin;
+     128:	8c 91       	ld	r24, X
+     12a:	90 91 a2 01 	lds	r25, 0x01A2
+     12e:	89 2b       	or	r24, r25
+     130:	8c 93       	st	X, r24
+		*last_led_ddr |= last_led_pin;
+     132:	e0 91 a5 01 	lds	r30, 0x01A5
+     136:	f0 91 a6 01 	lds	r31, 0x01A6
+     13a:	80 81       	ld	r24, Z
+     13c:	90 91 a2 01 	lds	r25, 0x01A2
+     140:	89 2b       	or	r24, r25
+     142:	80 83       	st	Z, r24
+	}
+}
+     144:	0f 90       	pop	r0
+     146:	df 91       	pop	r29
+     148:	cf 91       	pop	r28
+     14a:	08 95       	ret
+
+0000014c <set_minute_led>:
+
+void set_minute_led(int8_t number)
+{
+     14c:	cf 93       	push	r28
+     14e:	df 93       	push	r29
+     150:	00 d0       	rcall	.+0      	; 0x152 <set_minute_led+0x6>
+     152:	cd b7       	in	r28, 0x3d	; 61
+     154:	de b7       	in	r29, 0x3e	; 62
+     156:	8a 83       	std	Y+2, r24	; 0x02
+	volatile uint8_t idx;
+	
+	// turn off last LED
+	*last_led_port &= ~last_led_pin;
+     158:	e0 91 99 01 	lds	r30, 0x0199
+     15c:	f0 91 9a 01 	lds	r31, 0x019A
+     160:	90 81       	ld	r25, Z
+     162:	80 91 a2 01 	lds	r24, 0x01A2
+     166:	80 95       	com	r24
+     168:	89 23       	and	r24, r25
+     16a:	80 83       	st	Z, r24
+	*last_led_ddr &= ~last_led_pin;
+     16c:	e0 91 a5 01 	lds	r30, 0x01A5
+     170:	f0 91 a6 01 	lds	r31, 0x01A6
+     174:	90 81       	ld	r25, Z
+     176:	80 91 a2 01 	lds	r24, 0x01A2
+     17a:	80 95       	com	r24
+     17c:	89 23       	and	r24, r25
+     17e:	80 83       	st	Z, r24
+	
+	if (number >= 0)
+     180:	8a 81       	ldd	r24, Y+2	; 0x02
+     182:	87 fd       	sbrc	r24, 7
+     184:	40 c0       	rjmp	.+128    	; 0x206 <set_minute_led+0xba>
+	{
+		// put the ring low, depending on which one is needed
+		if (bit_is_clear(number, 0))
+     186:	8a 81       	ldd	r24, Y+2	; 0x02
+     188:	80 fd       	sbrc	r24, 0
+     18a:	04 c0       	rjmp	.+8      	; 0x194 <set_minute_led+0x48>
+		{
+			PORTx_RINGS = PORTx_RINGS & (~_BV(PIN_RING_MINUTE_EVEN)) | _BV(PIN_RING_HOUR) | _BV(PIN_RING_MINUTE_ODD) | _BV(PIN_RING_SECOND_EVEN) | _BV(PIN_RING_SECOND_ODD);
+     18c:	81 b3       	in	r24, 0x11	; 17
+     18e:	88 7c       	andi	r24, 0xC8	; 200
+     190:	87 61       	ori	r24, 0x17	; 23
+     192:	03 c0       	rjmp	.+6      	; 0x19a <set_minute_led+0x4e>
+		}
+		else
+		{
+			PORTx_RINGS = PORTx_RINGS & (~_BV(PIN_RING_MINUTE_ODD)) | _BV(PIN_RING_HOUR) | _BV(PIN_RING_MINUTE_EVEN) | _BV(PIN_RING_SECOND_EVEN) | _BV(PIN_RING_SECOND_ODD);
+     194:	81 b3       	in	r24, 0x11	; 17
+     196:	88 7c       	andi	r24, 0xC8	; 200
+     198:	87 62       	ori	r24, 0x27	; 39
+     19a:	81 bb       	out	0x11, r24	; 17
+		}
+		
+		// calculate appropriate index
+		idx = number % 60;
+     19c:	8a 81       	ldd	r24, Y+2	; 0x02
+     19e:	6c e3       	ldi	r22, 0x3C	; 60
+     1a0:	0e 94 e6 07 	call	0xfcc	; 0xfcc <__divmodqi4>
+     1a4:	99 83       	std	Y+1, r25	; 0x01
+		idx /= 2;
+     1a6:	89 81       	ldd	r24, Y+1	; 0x01
+     1a8:	86 95       	lsr	r24
+     1aa:	89 83       	std	Y+1, r24	; 0x01
+		
+		// set the LED on and remember which one
+		last_led_port = portx[idx];
+     1ac:	e9 81       	ldd	r30, Y+1	; 0x01
+     1ae:	f0 e0       	ldi	r31, 0x00	; 0
+     1b0:	ee 0f       	add	r30, r30
+     1b2:	ff 1f       	adc	r31, r31
+     1b4:	e6 5a       	subi	r30, 0xA6	; 166
+     1b6:	fe 4f       	sbci	r31, 0xFE	; 254
+     1b8:	a0 81       	ld	r26, Z
+     1ba:	b1 81       	ldd	r27, Z+1	; 0x01
+     1bc:	b0 93 9a 01 	sts	0x019A, r27
+     1c0:	a0 93 99 01 	sts	0x0199, r26
+		last_led_ddr = ddrx[idx];
+     1c4:	e9 81       	ldd	r30, Y+1	; 0x01
+     1c6:	f0 e0       	ldi	r31, 0x00	; 0
+     1c8:	ee 0f       	add	r30, r30
+     1ca:	ff 1f       	adc	r31, r31
+     1cc:	e2 5e       	subi	r30, 0xE2	; 226
+     1ce:	fe 4f       	sbci	r31, 0xFE	; 254
+     1d0:	80 81       	ld	r24, Z
+     1d2:	91 81       	ldd	r25, Z+1	; 0x01
+     1d4:	90 93 a6 01 	sts	0x01A6, r25
+     1d8:	80 93 a5 01 	sts	0x01A5, r24
+		last_led_pin = pins[idx];
+     1dc:	e9 81       	ldd	r30, Y+1	; 0x01
+     1de:	f0 e0       	ldi	r31, 0x00	; 0
+     1e0:	e0 50       	subi	r30, 0x00	; 0
+     1e2:	ff 4f       	sbci	r31, 0xFF	; 255
+     1e4:	80 81       	ld	r24, Z
+     1e6:	80 93 a2 01 	sts	0x01A2, r24
+		*last_led_port |= last_led_pin;
+     1ea:	8c 91       	ld	r24, X
+     1ec:	90 91 a2 01 	lds	r25, 0x01A2
+     1f0:	89 2b       	or	r24, r25
+     1f2:	8c 93       	st	X, r24
+		*last_led_ddr |= last_led_pin;
+     1f4:	e0 91 a5 01 	lds	r30, 0x01A5
+     1f8:	f0 91 a6 01 	lds	r31, 0x01A6
+     1fc:	80 81       	ld	r24, Z
+     1fe:	90 91 a2 01 	lds	r25, 0x01A2
+     202:	89 2b       	or	r24, r25
+     204:	80 83       	st	Z, r24
+	}
+}
+     206:	0f 90       	pop	r0
+     208:	0f 90       	pop	r0
+     20a:	df 91       	pop	r29
+     20c:	cf 91       	pop	r28
+     20e:	08 95       	ret
+
+00000210 <set_second_led>:
+
+void set_second_led(int8_t number)
+{
+     210:	cf 93       	push	r28
+     212:	df 93       	push	r29
+     214:	00 d0       	rcall	.+0      	; 0x216 <set_second_led+0x6>
+     216:	cd b7       	in	r28, 0x3d	; 61
+     218:	de b7       	in	r29, 0x3e	; 62
+     21a:	8a 83       	std	Y+2, r24	; 0x02
+	volatile uint8_t idx;
+	
+	// turn off last LED
+	*last_led_port &= ~last_led_pin;
+     21c:	e0 91 99 01 	lds	r30, 0x0199
+     220:	f0 91 9a 01 	lds	r31, 0x019A
+     224:	90 81       	ld	r25, Z
+     226:	80 91 a2 01 	lds	r24, 0x01A2
+     22a:	80 95       	com	r24
+     22c:	89 23       	and	r24, r25
+     22e:	80 83       	st	Z, r24
+	*last_led_ddr &= ~last_led_pin;
+     230:	e0 91 a5 01 	lds	r30, 0x01A5
+     234:	f0 91 a6 01 	lds	r31, 0x01A6
+     238:	90 81       	ld	r25, Z
+     23a:	80 91 a2 01 	lds	r24, 0x01A2
+     23e:	80 95       	com	r24
+     240:	89 23       	and	r24, r25
+     242:	80 83       	st	Z, r24
+	
+	if (number >= 0)
+     244:	8a 81       	ldd	r24, Y+2	; 0x02
+     246:	87 fd       	sbrc	r24, 7
+     248:	40 c0       	rjmp	.+128    	; 0x2ca <set_second_led+0xba>
+	{
+		// put the ring low, depending on which one is needed
+		if (bit_is_clear(number, 0))
+     24a:	8a 81       	ldd	r24, Y+2	; 0x02
+     24c:	80 fd       	sbrc	r24, 0
+     24e:	04 c0       	rjmp	.+8      	; 0x258 <set_second_led+0x48>
+		{
+			PORTx_RINGS = PORTx_RINGS & (~_BV(PIN_RING_SECOND_EVEN)) | _BV(PIN_RING_HOUR) | _BV(PIN_RING_SECOND_ODD) | _BV(PIN_RING_MINUTE_EVEN) | _BV(PIN_RING_MINUTE_ODD);
+     250:	81 b3       	in	r24, 0x11	; 17
+     252:	88 7c       	andi	r24, 0xC8	; 200
+     254:	85 63       	ori	r24, 0x35	; 53
+     256:	03 c0       	rjmp	.+6      	; 0x25e <set_second_led+0x4e>
+		}
+		else
+		{
+			PORTx_RINGS = PORTx_RINGS & (~_BV(PIN_RING_SECOND_ODD)) | _BV(PIN_RING_HOUR) | _BV(PIN_RING_SECOND_EVEN) | _BV(PIN_RING_MINUTE_EVEN) | _BV(PIN_RING_MINUTE_ODD);
+     258:	81 b3       	in	r24, 0x11	; 17
+     25a:	88 7c       	andi	r24, 0xC8	; 200
+     25c:	86 63       	ori	r24, 0x36	; 54
+     25e:	81 bb       	out	0x11, r24	; 17
+		}
+		
+		// calculate appropriate index
+		idx = number % 60;
+     260:	8a 81       	ldd	r24, Y+2	; 0x02
+     262:	6c e3       	ldi	r22, 0x3C	; 60
+     264:	0e 94 e6 07 	call	0xfcc	; 0xfcc <__divmodqi4>
+     268:	99 83       	std	Y+1, r25	; 0x01
+		idx /= 2;
+     26a:	89 81       	ldd	r24, Y+1	; 0x01
+     26c:	86 95       	lsr	r24
+     26e:	89 83       	std	Y+1, r24	; 0x01
+		
+		// set the LED on and remember which one
+		last_led_port = portx[idx];
+     270:	e9 81       	ldd	r30, Y+1	; 0x01
+     272:	f0 e0       	ldi	r31, 0x00	; 0
+     274:	ee 0f       	add	r30, r30
+     276:	ff 1f       	adc	r31, r31
+     278:	e6 5a       	subi	r30, 0xA6	; 166
+     27a:	fe 4f       	sbci	r31, 0xFE	; 254
+     27c:	a0 81       	ld	r26, Z
+     27e:	b1 81       	ldd	r27, Z+1	; 0x01
+     280:	b0 93 9a 01 	sts	0x019A, r27
+     284:	a0 93 99 01 	sts	0x0199, r26
+		last_led_ddr = ddrx[idx];
+     288:	e9 81       	ldd	r30, Y+1	; 0x01
+     28a:	f0 e0       	ldi	r31, 0x00	; 0
+     28c:	ee 0f       	add	r30, r30
+     28e:	ff 1f       	adc	r31, r31
+     290:	e2 5e       	subi	r30, 0xE2	; 226
+     292:	fe 4f       	sbci	r31, 0xFE	; 254
+     294:	80 81       	ld	r24, Z
+     296:	91 81       	ldd	r25, Z+1	; 0x01
+     298:	90 93 a6 01 	sts	0x01A6, r25
+     29c:	80 93 a5 01 	sts	0x01A5, r24
+		last_led_pin = pins[idx];
+     2a0:	e9 81       	ldd	r30, Y+1	; 0x01
+     2a2:	f0 e0       	ldi	r31, 0x00	; 0
+     2a4:	e0 50       	subi	r30, 0x00	; 0
+     2a6:	ff 4f       	sbci	r31, 0xFF	; 255
+     2a8:	80 81       	ld	r24, Z
+     2aa:	80 93 a2 01 	sts	0x01A2, r24
+		*last_led_port |= last_led_pin;
+     2ae:	8c 91       	ld	r24, X
+     2b0:	90 91 a2 01 	lds	r25, 0x01A2
+     2b4:	89 2b       	or	r24, r25
+     2b6:	8c 93       	st	X, r24
+		*last_led_ddr |= last_led_pin;
+     2b8:	e0 91 a5 01 	lds	r30, 0x01A5
+     2bc:	f0 91 a6 01 	lds	r31, 0x01A6
+     2c0:	80 81       	ld	r24, Z
+     2c2:	90 91 a2 01 	lds	r25, 0x01A2
+     2c6:	89 2b       	or	r24, r25
+     2c8:	80 83       	st	Z, r24
+	}
+}
+     2ca:	0f 90       	pop	r0
+     2cc:	0f 90       	pop	r0
+     2ce:	df 91       	pop	r29
+     2d0:	cf 91       	pop	r28
+     2d2:	08 95       	ret
+
+000002d4 <clear_leds>:
+
+void clear_leds()
+{
+	// turn off all the LEDs
+	*last_led_port &= ~last_led_pin;
+     2d4:	e0 91 99 01 	lds	r30, 0x0199
+     2d8:	f0 91 9a 01 	lds	r31, 0x019A
+     2dc:	90 81       	ld	r25, Z
+     2de:	80 91 a2 01 	lds	r24, 0x01A2
+     2e2:	80 95       	com	r24
+     2e4:	89 23       	and	r24, r25
+     2e6:	80 83       	st	Z, r24
+	*last_led_ddr &= ~last_led_pin;
+     2e8:	e0 91 a5 01 	lds	r30, 0x01A5
+     2ec:	f0 91 a6 01 	lds	r31, 0x01A6
+     2f0:	90 81       	ld	r25, Z
+     2f2:	80 91 a2 01 	lds	r24, 0x01A2
+     2f6:	80 95       	com	r24
+     2f8:	89 23       	and	r24, r25
+     2fa:	80 83       	st	Z, r24
+	PORTx_RINGS = PORTx_RINGS | _BV(PIN_RING_SECOND_ODD) | _BV(PIN_RING_HOUR) | _BV(PIN_RING_SECOND_EVEN) | _BV(PIN_RING_MINUTE_EVEN) | _BV(PIN_RING_MINUTE_ODD);
+     2fc:	81 b3       	in	r24, 0x11	; 17
+     2fe:	87 63       	ori	r24, 0x37	; 55
+     300:	81 bb       	out	0x11, r24	; 17
+}
+     302:	08 95       	ret
+
+00000304 <__vector_5>:
+
+volatile uint8_t to_sleep = 0;
+volatile uint8_t mode = 0;
+
+ISR(TIMER2_OVF_vect)
+{
+     304:	1f 92       	push	r1
+     306:	0f 92       	push	r0
+     308:	0f b6       	in	r0, 0x3f	; 63
+     30a:	0f 92       	push	r0
+     30c:	11 24       	eor	r1, r1
+     30e:	8f 93       	push	r24
+     310:	9f 93       	push	r25
+	// one second event, add to time
+	cur_second++;
+     312:	80 91 9f 01 	lds	r24, 0x019F
+     316:	8f 5f       	subi	r24, 0xFF	; 255
+     318:	80 93 9f 01 	sts	0x019F, r24
+	if (cur_second >= 60)
+     31c:	80 91 9f 01 	lds	r24, 0x019F
+     320:	8c 33       	cpi	r24, 0x3C	; 60
+     322:	c0 f0       	brcs	.+48     	; 0x354 <__vector_5+0x50>
+	{
+		cur_second = 0;
+     324:	10 92 9f 01 	sts	0x019F, r1
+		cur_minute++;
+     328:	80 91 a0 01 	lds	r24, 0x01A0
+     32c:	8f 5f       	subi	r24, 0xFF	; 255
+     32e:	80 93 a0 01 	sts	0x01A0, r24
+		if (cur_minute >= 60)
+     332:	80 91 a0 01 	lds	r24, 0x01A0
+     336:	8c 33       	cpi	r24, 0x3C	; 60
+     338:	68 f0       	brcs	.+26     	; 0x354 <__vector_5+0x50>
+		{
+			cur_minute = 0;
+     33a:	10 92 a0 01 	sts	0x01A0, r1
+			cur_hour++;
+     33e:	80 91 9e 01 	lds	r24, 0x019E
+     342:	8f 5f       	subi	r24, 0xFF	; 255
+     344:	80 93 9e 01 	sts	0x019E, r24
+			if (cur_hour >= 24)
+     348:	80 91 9e 01 	lds	r24, 0x019E
+     34c:	88 31       	cpi	r24, 0x18	; 24
+     34e:	10 f0       	brcs	.+4      	; 0x354 <__vector_5+0x50>
+			{
+				cur_hour = 0;
+     350:	10 92 9e 01 	sts	0x019E, r1
+			}
+		}
+	}
+	
+	// check if alarm should go off
+	if (alarm_enabled != 0 && alarm_hour == cur_hour && alarm_minute == cur_minute)
+     354:	80 91 9d 01 	lds	r24, 0x019D
+     358:	88 23       	and	r24, r24
+     35a:	01 f1       	breq	.+64     	; 0x39c <__vector_5+0x98>
+     35c:	90 91 9c 01 	lds	r25, 0x019C
+     360:	80 91 9e 01 	lds	r24, 0x019E
+     364:	98 17       	cp	r25, r24
+     366:	d1 f4       	brne	.+52     	; 0x39c <__vector_5+0x98>
+     368:	90 91 a1 01 	lds	r25, 0x01A1
+     36c:	80 91 a0 01 	lds	r24, 0x01A0
+     370:	98 17       	cp	r25, r24
+     372:	a1 f4       	brne	.+40     	; 0x39c <__vector_5+0x98>
+	{
+		if (alarm_already_off == 0)
+     374:	80 91 9b 01 	lds	r24, 0x019B
+     378:	88 23       	and	r24, r24
+     37a:	91 f4       	brne	.+36     	; 0x3a0 <__vector_5+0x9c>
+		{
+			alarm_active = 1;
+     37c:	81 e0       	ldi	r24, 0x01	; 1
+     37e:	80 93 a7 01 	sts	0x01A7, r24
+			alarm_already_off = 1;
+     382:	80 93 9b 01 	sts	0x019B, r24
+			DDRx_BUZZER |= _BV(PIN_BUZZER);
+     386:	0c 9a       	sbi	0x01, 4	; 1
+			if (mode == 0)
+     388:	80 91 97 01 	lds	r24, 0x0197
+     38c:	88 23       	and	r24, r24
+     38e:	41 f4       	brne	.+16     	; 0x3a0 <__vector_5+0x9c>
+			{
+				mode = 7;
+     390:	87 e0       	ldi	r24, 0x07	; 7
+     392:	80 93 97 01 	sts	0x0197, r24
+				to_sleep = 0;
+     396:	10 92 98 01 	sts	0x0198, r1
+     39a:	02 c0       	rjmp	.+4      	; 0x3a0 <__vector_5+0x9c>
+			}
+		}
+	}
+	else
+	{
+		alarm_already_off = 0;
+     39c:	10 92 9b 01 	sts	0x019B, r1
+	}
+	
+	if (mode == 0)
+     3a0:	80 91 97 01 	lds	r24, 0x0197
+     3a4:	88 23       	and	r24, r24
+     3a6:	19 f4       	brne	.+6      	; 0x3ae <__vector_5+0xaa>
+	{
+		// should go back to sleep, nothing to do
+		to_sleep = 1;
+     3a8:	81 e0       	ldi	r24, 0x01	; 1
+     3aa:	80 93 98 01 	sts	0x0198, r24
+	}
+}
+     3ae:	9f 91       	pop	r25
+     3b0:	8f 91       	pop	r24
+     3b2:	0f 90       	pop	r0
+     3b4:	0f be       	out	0x3f, r0	; 63
+     3b6:	0f 90       	pop	r0
+     3b8:	1f 90       	pop	r1
+     3ba:	18 95       	reti
+
+000003bc <__vector_11>:
+
+volatile uint8_t ovf_cnt = 0;
+
+ISR(TIMER0_OVF_vect)
+{
+     3bc:	1f 92       	push	r1
+     3be:	0f 92       	push	r0
+     3c0:	0f b6       	in	r0, 0x3f	; 63
+     3c2:	0f 92       	push	r0
+     3c4:	11 24       	eor	r1, r1
+     3c6:	2f 93       	push	r18
+     3c8:	3f 93       	push	r19
+     3ca:	4f 93       	push	r20
+     3cc:	5f 93       	push	r21
+     3ce:	6f 93       	push	r22
+     3d0:	7f 93       	push	r23
+     3d2:	8f 93       	push	r24
+     3d4:	9f 93       	push	r25
+     3d6:	af 93       	push	r26
+     3d8:	bf 93       	push	r27
+     3da:	ef 93       	push	r30
+     3dc:	ff 93       	push	r31
+	// 2.05 KHz event
+	
+	if (alarm_active)
+     3de:	80 91 a7 01 	lds	r24, 0x01A7
+     3e2:	88 23       	and	r24, r24
+     3e4:	29 f0       	breq	.+10     	; 0x3f0 <__vector_11+0x34>
+	{
+		// buzz the alarm buzzer, set pin high, use the compare match to set pin low for 4.1 KHz
+		PORTx_BUZZER |= _BV(PIN_BUZZER);
+     3e6:	14 9a       	sbi	0x02, 4	; 2
+		if (battery_is_low() == 0) PORTx_MOTOR |= _BV(PIN_MOTOR);
+     3e8:	13 9b       	sbis	0x02, 3	; 2
+     3ea:	03 c0       	rjmp	.+6      	; 0x3f2 <__vector_11+0x36>
+     3ec:	16 9a       	sbi	0x02, 6	; 2
+     3ee:	01 c0       	rjmp	.+2      	; 0x3f2 <__vector_11+0x36>
+	}
+	else
+	{
+		PORTx_MOTOR &= ~_BV(PIN_MOTOR);
+     3f0:	16 98       	cbi	0x02, 6	; 2
+	}
+	
+	if (mode != 0 && mode != 7)
+     3f2:	80 91 97 01 	lds	r24, 0x0197
+     3f6:	88 23       	and	r24, r24
+     3f8:	89 f1       	breq	.+98     	; 0x45c <__vector_11+0xa0>
+     3fa:	80 91 97 01 	lds	r24, 0x0197
+     3fe:	87 30       	cpi	r24, 0x07	; 7
+     400:	69 f1       	breq	.+90     	; 0x45c <__vector_11+0xa0>
+	{
+		// display LEDs if not sleeping
+
+		uint8_t which_ring = ovf_cnt % 3; // each ring will only get 1/3 duty cycle
+     402:	80 91 96 01 	lds	r24, 0x0196
+     406:	63 e0       	ldi	r22, 0x03	; 3
+     408:	0e 94 da 07 	call	0xfb4	; 0xfb4 <__udivmodqi4>
+		
+		if (which_ring == 0) // hour
+     40c:	99 23       	and	r25, r25
+     40e:	41 f4       	brne	.+16     	; 0x420 <__vector_11+0x64>
+		{
+			set_hour_led(display_hour);
+     410:	80 91 a3 01 	lds	r24, 0x01A3
+     414:	99 27       	eor	r25, r25
+     416:	87 fd       	sbrc	r24, 7
+     418:	90 95       	com	r25
+     41a:	0e 94 4b 00 	call	0x96	; 0x96 <set_hour_led>
+     41e:	11 c0       	rjmp	.+34     	; 0x442 <__vector_11+0x86>
+		}
+		else if (which_ring == 1) // minute
+     420:	91 30       	cpi	r25, 0x01	; 1
+     422:	41 f4       	brne	.+16     	; 0x434 <__vector_11+0x78>
+		{
+			set_minute_led(display_minute);
+     424:	80 91 a8 01 	lds	r24, 0x01A8
+     428:	99 27       	eor	r25, r25
+     42a:	87 fd       	sbrc	r24, 7
+     42c:	90 95       	com	r25
+     42e:	0e 94 a6 00 	call	0x14c	; 0x14c <set_minute_led>
+     432:	07 c0       	rjmp	.+14     	; 0x442 <__vector_11+0x86>
+		}
+		else if (which_ring == 2) // second
+		{
+			set_second_led(display_second);
+     434:	80 91 a4 01 	lds	r24, 0x01A4
+     438:	99 27       	eor	r25, r25
+     43a:	87 fd       	sbrc	r24, 7
+     43c:	90 95       	com	r25
+     43e:	0e 94 08 01 	call	0x210	; 0x210 <set_second_led>
+		}
+		
+		if (ovf_cnt >= 125)
+     442:	80 91 96 01 	lds	r24, 0x0196
+     446:	8d 37       	cpi	r24, 0x7D	; 125
+     448:	18 f0       	brcs	.+6      	; 0x450 <__vector_11+0x94>
+		{
+			ovf_cnt = 0;
+     44a:	10 92 96 01 	sts	0x0196, r1
+     44e:	0b c0       	rjmp	.+22     	; 0x466 <__vector_11+0xaa>
+		}
+		else
+		{
+			ovf_cnt++;
+     450:	80 91 96 01 	lds	r24, 0x0196
+     454:	8f 5f       	subi	r24, 0xFF	; 255
+     456:	80 93 96 01 	sts	0x0196, r24
+     45a:	05 c0       	rjmp	.+10     	; 0x466 <__vector_11+0xaa>
+		}
+	}
+	else
+	{
+		// should go back to sleep, nothing to do
+		clear_leds();
+     45c:	0e 94 6a 01 	call	0x2d4	; 0x2d4 <clear_leds>
+		to_sleep = 1;
+     460:	81 e0       	ldi	r24, 0x01	; 1
+     462:	80 93 98 01 	sts	0x0198, r24
+	}
+}
+     466:	ff 91       	pop	r31
+     468:	ef 91       	pop	r30
+     46a:	bf 91       	pop	r27
+     46c:	af 91       	pop	r26
+     46e:	9f 91       	pop	r25
+     470:	8f 91       	pop	r24
+     472:	7f 91       	pop	r23
+     474:	6f 91       	pop	r22
+     476:	5f 91       	pop	r21
+     478:	4f 91       	pop	r20
+     47a:	3f 91       	pop	r19
+     47c:	2f 91       	pop	r18
+     47e:	0f 90       	pop	r0
+     480:	0f be       	out	0x3f, r0	; 63
+     482:	0f 90       	pop	r0
+     484:	1f 90       	pop	r1
+     486:	18 95       	reti
+
+00000488 <__vector_10>:
+
+ISR(TIMER0_COMP_vect)
+{
+     488:	1f 92       	push	r1
+     48a:	0f 92       	push	r0
+     48c:	0f b6       	in	r0, 0x3f	; 63
+     48e:	0f 92       	push	r0
+     490:	11 24       	eor	r1, r1
+     492:	2f 93       	push	r18
+     494:	3f 93       	push	r19
+     496:	4f 93       	push	r20
+     498:	5f 93       	push	r21
+     49a:	6f 93       	push	r22
+     49c:	7f 93       	push	r23
+     49e:	8f 93       	push	r24
+     4a0:	9f 93       	push	r25
+     4a2:	af 93       	push	r26
+     4a4:	bf 93       	push	r27
+     4a6:	ef 93       	push	r30
+     4a8:	ff 93       	push	r31
+	if (alarm_active)
+     4aa:	80 91 a7 01 	lds	r24, 0x01A7
+     4ae:	88 23       	and	r24, r24
+     4b0:	11 f0       	breq	.+4      	; 0x4b6 <__vector_10+0x2e>
+	{
+		// toggle the buzzer pin again, this makes the buzzer frequency about 4.1 KHz
+		PORTx_BUZZER &= ~_BV(PIN_BUZZER);
+     4b2:	14 98       	cbi	0x02, 4	; 2
+     4b4:	09 c0       	rjmp	.+18     	; 0x4c8 <__vector_10+0x40>
+	}
+	else if (mode == 0)
+     4b6:	80 91 97 01 	lds	r24, 0x0197
+     4ba:	88 23       	and	r24, r24
+     4bc:	29 f4       	brne	.+10     	; 0x4c8 <__vector_10+0x40>
+	{
+		// should go back to sleep, nothing to do
+		clear_leds();
+     4be:	0e 94 6a 01 	call	0x2d4	; 0x2d4 <clear_leds>
+		to_sleep = 1;
+     4c2:	81 e0       	ldi	r24, 0x01	; 1
+     4c4:	80 93 98 01 	sts	0x0198, r24
+	}
+}
+     4c8:	ff 91       	pop	r31
+     4ca:	ef 91       	pop	r30
+     4cc:	bf 91       	pop	r27
+     4ce:	af 91       	pop	r26
+     4d0:	9f 91       	pop	r25
+     4d2:	8f 91       	pop	r24
+     4d4:	7f 91       	pop	r23
+     4d6:	6f 91       	pop	r22
+     4d8:	5f 91       	pop	r21
+     4da:	4f 91       	pop	r20
+     4dc:	3f 91       	pop	r19
+     4de:	2f 91       	pop	r18
+     4e0:	0f 90       	pop	r0
+     4e2:	0f be       	out	0x3f, r0	; 63
+     4e4:	0f 90       	pop	r0
+     4e6:	1f 90       	pop	r1
+     4e8:	18 95       	reti
+
+000004ea <__vector_3>:
+
+ISR(PCINT1_vect)
+{
+     4ea:	1f 92       	push	r1
+     4ec:	0f 92       	push	r0
+     4ee:	0f b6       	in	r0, 0x3f	; 63
+     4f0:	0f 92       	push	r0
+     4f2:	11 24       	eor	r1, r1
+	// turn off alarm
+	alarm_active = 0;
+     4f4:	10 92 a7 01 	sts	0x01A7, r1
+	
+	// disable the output on buzzer but leave pull-up resistor on to save power
+	PORTx_BUZZER |= _BV(PIN_BUZZER);
+     4f8:	14 9a       	sbi	0x02, 4	; 2
+	DDRx_BUZZER &= ~_BV(PIN_BUZZER);
+     4fa:	0c 98       	cbi	0x01, 4	; 1
+	
+	// at this point, the processor has woken up
+}
+     4fc:	0f 90       	pop	r0
+     4fe:	0f be       	out	0x3f, r0	; 63
+     500:	0f 90       	pop	r0
+     502:	1f 90       	pop	r1
+     504:	18 95       	reti
+
+00000506 <main>:
+}
+
+int main()
+{
+	// read in time from eeprom, to keep things interesting during development
+	cur_second = eeprom_read_byte(0) % 60;
+     506:	80 e0       	ldi	r24, 0x00	; 0
+     508:	90 e0       	ldi	r25, 0x00	; 0
+     50a:	0e 94 1a 08 	call	0x1034	; 0x1034 <__eerd_byte_m165pa>
+     50e:	cc e3       	ldi	r28, 0x3C	; 60
+     510:	6c 2f       	mov	r22, r28
+     512:	0e 94 da 07 	call	0xfb4	; 0xfb4 <__udivmodqi4>
+     516:	90 93 9f 01 	sts	0x019F, r25
+	cur_minute = eeprom_read_byte(1) % 60;
+     51a:	81 e0       	ldi	r24, 0x01	; 1
+     51c:	90 e0       	ldi	r25, 0x00	; 0
+     51e:	0e 94 1a 08 	call	0x1034	; 0x1034 <__eerd_byte_m165pa>
+     522:	6c 2f       	mov	r22, r28
+     524:	0e 94 da 07 	call	0xfb4	; 0xfb4 <__udivmodqi4>
+     528:	90 93 a0 01 	sts	0x01A0, r25
+	cur_hour = eeprom_read_byte(2) % 24;
+     52c:	82 e0       	ldi	r24, 0x02	; 2
+     52e:	90 e0       	ldi	r25, 0x00	; 0
+     530:	0e 94 1a 08 	call	0x1034	; 0x1034 <__eerd_byte_m165pa>
+     534:	d8 e1       	ldi	r29, 0x18	; 24
+     536:	6d 2f       	mov	r22, r29
+     538:	0e 94 da 07 	call	0xfb4	; 0xfb4 <__udivmodqi4>
+     53c:	90 93 9e 01 	sts	0x019E, r25
+	
+	// read in alarm settings from eeprom
+	alarm_minute = eeprom_read_byte(3) % 60;
+     540:	83 e0       	ldi	r24, 0x03	; 3
+     542:	90 e0       	ldi	r25, 0x00	; 0
+     544:	0e 94 1a 08 	call	0x1034	; 0x1034 <__eerd_byte_m165pa>
+     548:	6c 2f       	mov	r22, r28
+     54a:	0e 94 da 07 	call	0xfb4	; 0xfb4 <__udivmodqi4>
+     54e:	90 93 a1 01 	sts	0x01A1, r25
+	alarm_hour = eeprom_read_byte(4) % 24;
+     552:	84 e0       	ldi	r24, 0x04	; 4
+     554:	90 e0       	ldi	r25, 0x00	; 0
+     556:	0e 94 1a 08 	call	0x1034	; 0x1034 <__eerd_byte_m165pa>
+     55a:	6d 2f       	mov	r22, r29
+     55c:	0e 94 da 07 	call	0xfb4	; 0xfb4 <__udivmodqi4>
+     560:	90 93 9c 01 	sts	0x019C, r25
+	alarm_enabled = eeprom_read_byte(5);
+     564:	85 e0       	ldi	r24, 0x05	; 5
+     566:	90 e0       	ldi	r25, 0x00	; 0
+     568:	0e 94 1a 08 	call	0x1034	; 0x1034 <__eerd_byte_m165pa>
+     56c:	80 93 9d 01 	sts	0x019D, r24
+	
+	// ground all grounded pins
+	DDRA  = 0x00;
+     570:	11 b8       	out	0x01, r1	; 1
+	DDRB  = 0x00;
+     572:	14 b8       	out	0x04, r1	; 4
+	DDRC  = 0x00;
+     574:	17 b8       	out	0x07, r1	; 7
+	DDRD  = 0x00;
+     576:	1a b8       	out	0x0a, r1	; 10
+	DDRE  = 0x00;
+     578:	1d b8       	out	0x0d, r1	; 13
+	DDRG  = 0x00;
+     57a:	13 ba       	out	0x13, r1	; 19
+	PORTA = 0x00;
+     57c:	12 b8       	out	0x02, r1	; 2
+	PORTB = 0x00;
+     57e:	15 b8       	out	0x05, r1	; 5
+	PORTC = 0x00;
+     580:	18 b8       	out	0x08, r1	; 8
+	PORTD = 0x00;
+     582:	1b b8       	out	0x0b, r1	; 11
+	PORTE = 0x00;
+     584:	1e b8       	out	0x0e, r1	; 14
+	PORTG = 0x00;
+     586:	14 ba       	out	0x14, r1	; 20
+	
+	// setup pins
+	DDRx_RINGS  = _BV(PIN_RING_SECOND_ODD) | _BV(PIN_RING_HOUR) | _BV(PIN_RING_SECOND_EVEN) | _BV(PIN_RING_MINUTE_EVEN) | _BV(PIN_RING_MINUTE_ODD);
+     588:	87 e3       	ldi	r24, 0x37	; 55
+     58a:	80 bb       	out	0x10, r24	; 16
+	PORTx_RINGS = _BV(PIN_RING_SECOND_ODD) | _BV(PIN_RING_HOUR) | _BV(PIN_RING_SECOND_EVEN) | _BV(PIN_RING_MINUTE_EVEN) | _BV(PIN_RING_MINUTE_ODD);
+     58c:	81 bb       	out	0x11, r24	; 17
+	
+	// setup inputs and outputs
+	DDRx_BUTTON1 &= ~_BV(PIN_BUTTON1);
+     58e:	23 98       	cbi	0x04, 3	; 4
+	DDRx_BUTTON2 &= ~_BV(PIN_BUTTON2);
+     590:	21 98       	cbi	0x04, 1	; 4
+	PORTx_BUTTON1 |= _BV(PIN_BUTTON1);
+     592:	2b 9a       	sbi	0x05, 3	; 5
+	PORTx_BUTTON2 |= _BV(PIN_BUTTON2);
+     594:	29 9a       	sbi	0x05, 1	; 5
+	PORTx_BUZZER |= _BV(PIN_BUZZER);
+     596:	14 9a       	sbi	0x02, 4	; 2
+	DDRx_BUZZER &= ~_BV(PIN_BUZZER);
+     598:	0c 98       	cbi	0x01, 4	; 1
+	DDRx_MOTOR |= _BV(PIN_MOTOR);
+     59a:	0e 9a       	sbi	0x01, 6	; 1
+	PORTx_LOWBATTDET |= _BV(PIN_LOWBATTDET);
+     59c:	13 9a       	sbi	0x02, 3	; 2
+	DDRx_LOWBATTDET &= ~_BV(PIN_LOWBATTDET);
+     59e:	0b 98       	cbi	0x01, 3	; 1
+     5a0:	ea e5       	ldi	r30, 0x5A	; 90
+     5a2:	f1 e0       	ldi	r31, 0x01	; 1
+     5a4:	ae e1       	ldi	r26, 0x1E	; 30
+     5a6:	b1 e0       	ldi	r27, 0x01	; 1
+     5a8:	00 e0       	ldi	r16, 0x00	; 0
+     5aa:	11 e0       	ldi	r17, 0x01	; 1
+     5ac:	4e e1       	ldi	r20, 0x1E	; 30
+	for (uint8_t i = 0; i < 30; i++)
+	{
+		uint8_t* p = portx[i];
+     5ae:	30 81       	ld	r19, Z
+     5b0:	21 81       	ldd	r18, Z+1	; 0x01
+     5b2:	32 96       	adiw	r30, 0x02	; 2
+     5b4:	83 2f       	mov	r24, r19
+     5b6:	92 2f       	mov	r25, r18
+	*last_led_port &= ~last_led_pin;
+	*last_led_ddr &= ~last_led_pin;
+	PORTx_RINGS = PORTx_RINGS | _BV(PIN_RING_SECOND_ODD) | _BV(PIN_RING_HOUR) | _BV(PIN_RING_SECOND_EVEN) | _BV(PIN_RING_MINUTE_EVEN) | _BV(PIN_RING_MINUTE_ODD);
+}
+
+int main()
+     5b8:	98 01       	movw	r18, r16
+	PORTx_LOWBATTDET |= _BV(PIN_LOWBATTDET);
+	DDRx_LOWBATTDET &= ~_BV(PIN_LOWBATTDET);
+	for (uint8_t i = 0; i < 30; i++)
+	{
+		uint8_t* p = portx[i];
+		*p &= ~pins[i];
+     5ba:	e8 01       	movw	r28, r16
+     5bc:	69 91       	ld	r22, Y+
+     5be:	8e 01       	movw	r16, r28
+     5c0:	60 95       	com	r22
+     5c2:	ec 01       	movw	r28, r24
+     5c4:	58 81       	ld	r21, Y
+     5c6:	56 23       	and	r21, r22
+     5c8:	58 83       	st	Y, r21
+		uint8_t* d = ddrx[i];
+     5ca:	6c 91       	ld	r22, X
+     5cc:	11 96       	adiw	r26, 0x01	; 1
+     5ce:	5c 91       	ld	r21, X
+     5d0:	11 97       	sbiw	r26, 0x01	; 1
+     5d2:	12 96       	adiw	r26, 0x02	; 2
+     5d4:	86 2f       	mov	r24, r22
+     5d6:	95 2f       	mov	r25, r21
+		*d &= ~pins[i];
+     5d8:	e9 01       	movw	r28, r18
+     5da:	38 81       	ld	r19, Y
+     5dc:	30 95       	com	r19
+     5de:	ec 01       	movw	r28, r24
+     5e0:	28 81       	ld	r18, Y
+     5e2:	23 23       	and	r18, r19
+     5e4:	28 83       	st	Y, r18
+     5e6:	41 50       	subi	r20, 0x01	; 1
+	PORTx_BUZZER |= _BV(PIN_BUZZER);
+	DDRx_BUZZER &= ~_BV(PIN_BUZZER);
+	DDRx_MOTOR |= _BV(PIN_MOTOR);
+	PORTx_LOWBATTDET |= _BV(PIN_LOWBATTDET);
+	DDRx_LOWBATTDET &= ~_BV(PIN_LOWBATTDET);
+	for (uint8_t i = 0; i < 30; i++)
+     5e8:	11 f7       	brne	.-60     	; 0x5ae <main+0xa8>
+		uint8_t* p = portx[i];
+		*p &= ~pins[i];
+		uint8_t* d = ddrx[i];
+		*d &= ~pins[i];
+	}
+	last_led_port = portx[0];
+     5ea:	80 91 5a 01 	lds	r24, 0x015A
+     5ee:	90 91 5b 01 	lds	r25, 0x015B
+     5f2:	90 93 9a 01 	sts	0x019A, r25
+     5f6:	80 93 99 01 	sts	0x0199, r24
+	last_led_ddr = ddrx[0];
+     5fa:	80 91 1e 01 	lds	r24, 0x011E
+     5fe:	90 91 1f 01 	lds	r25, 0x011F
+     602:	90 93 a6 01 	sts	0x01A6, r25
+     606:	80 93 a5 01 	sts	0x01A5, r24
+	last_led_pin = pins[0];
+     60a:	80 91 00 01 	lds	r24, 0x0100
+     60e:	80 93 a2 01 	sts	0x01A2, r24
+	
+	// setup async timer 2
+	ASSR = _BV(AS2); // enable async xtal input
+     612:	88 e0       	ldi	r24, 0x08	; 8
+     614:	80 93 b6 00 	sts	0x00B6, r24
+	TCCR2A = _BV(CS22) | 0 | _BV(CS20); // start timer with clock div 128
+     618:	85 e0       	ldi	r24, 0x05	; 5
+     61a:	80 93 b0 00 	sts	0x00B0, r24
+	TIMSK2 = _BV(TOIE2); // enable overflow interrupt
+     61e:	81 e0       	ldi	r24, 0x01	; 1
+     620:	80 93 70 00 	sts	0x0070, r24
+	
+	// setup timer 0
+	TCCR0A = _BV(CS00); // start timer with clk div 1
+     624:	84 bd       	out	0x24, r24	; 36
+	OCR0A = 0x80; // setup compare match at 50% duty cycle
+     626:	90 e8       	ldi	r25, 0x80	; 128
+     628:	97 bd       	out	0x27, r25	; 39
+	TIMSK0 = _BV(TOIE0) | _BV(OCIE0A); // enable overflow and compare match interrupts
+     62a:	93 e0       	ldi	r25, 0x03	; 3
+     62c:	90 93 6e 00 	sts	0x006E, r25
+	
+	// setup button interrupts
+	PCMSK1 |= _BV(PCINT11) | _BV(PCINT9);
+     630:	90 91 6c 00 	lds	r25, 0x006C
+     634:	9a 60       	ori	r25, 0x0A	; 10
+     636:	90 93 6c 00 	sts	0x006C, r25
+	EIMSK |= _BV(PCIE1);
+     63a:	ed 9a       	sbi	0x1d, 5	; 29
+	
+	// setup power saving features
+	power_all_disable(); // PRR = 0x0F; // disable all (ADC, USART, SPI, TMR1)
+     63c:	90 91 64 00 	lds	r25, 0x0064
+     640:	9f 60       	ori	r25, 0x0F	; 15
+     642:	90 93 64 00 	sts	0x0064, r25
+	SMCR = _BV(SM1) | _BV(SM0); // set power-save mode
+     646:	96 e0       	ldi	r25, 0x06	; 6
+     648:	93 bf       	out	0x33, r25	; 51
+	
+	sei(); // enable global interrupts
+     64a:	78 94       	sei
+	uint32_t held_cnt = 0;
+	uint32_t timeout_cnt = 0;
+	uint8_t button_was_down = 0;
+	uint8_t eeprom_is_dirty = 0;
+	
+	mode = 0;
+     64c:	10 92 97 01 	sts	0x0197, r1
+	to_sleep = 1;
+     650:	80 93 98 01 	sts	0x0198, r24
+	sei(); // enable global interrupts
+	
+	uint32_t held_cnt = 0;
+	uint32_t timeout_cnt = 0;
+	uint8_t button_was_down = 0;
+	uint8_t eeprom_is_dirty = 0;
+     654:	20 e0       	ldi	r18, 0x00	; 0
+	
+	sei(); // enable global interrupts
+	
+	uint32_t held_cnt = 0;
+	uint32_t timeout_cnt = 0;
+	uint8_t button_was_down = 0;
+     656:	10 e0       	ldi	r17, 0x00	; 0
+	SMCR = _BV(SM1) | _BV(SM0); // set power-save mode
+	
+	sei(); // enable global interrupts
+	
+	uint32_t held_cnt = 0;
+	uint32_t timeout_cnt = 0;
+     658:	44 24       	eor	r4, r4
+     65a:	55 24       	eor	r5, r5
+     65c:	32 01       	movw	r6, r4
+	power_all_disable(); // PRR = 0x0F; // disable all (ADC, USART, SPI, TMR1)
+	SMCR = _BV(SM1) | _BV(SM0); // set power-save mode
+	
+	sei(); // enable global interrupts
+	
+	uint32_t held_cnt = 0;
+     65e:	cc 24       	eor	r12, r12
+     660:	dd 24       	eor	r13, r13
+     662:	76 01       	movw	r14, r12
+		}
+		else if (mode == 7)
+		{
+			if (bit_is_set(cur_second, 0))
+			{
+				display_second = -1;
+     664:	cf ef       	ldi	r28, 0xFF	; 255
+				{
+					// indicate mode
+					display_second = bit_is_set(cur_second, 0) ? 20 : -1;
+					
+					// indicate alarm enabled status
+					display_hour = (alarm_enabled != 0) ? (5 + (cur_second % 3)) : ((11 + (cur_second % 3)) % 12);
+     666:	d3 e0       	ldi	r29, 0x03	; 3
+     668:	ec e0       	ldi	r30, 0x0C	; 12
+     66a:	8e 2e       	mov	r8, r30
+     66c:	91 2c       	mov	r9, r1
+     66e:	03 e0       	ldi	r16, 0x03	; 3
+     670:	01 c0       	rjmp	.+2      	; 0x674 <main+0x16e>
+				eeprom_update_byte(5, alarm_enabled);
+				
+				eeprom_is_dirty = 0;
+			}
+			
+			if (alarm_active == 0)
+     672:	20 e0       	ldi	r18, 0x00	; 0
+	mode = 0;
+	to_sleep = 1;
+	
+	for (;;)
+	{
+		if (mode == 0 || mode == 7)
+     674:	80 91 97 01 	lds	r24, 0x0197
+     678:	88 23       	and	r24, r24
+     67a:	29 f0       	breq	.+10     	; 0x686 <main+0x180>
+     67c:	80 91 97 01 	lds	r24, 0x0197
+     680:	87 30       	cpi	r24, 0x07	; 7
+     682:	09 f0       	breq	.+2      	; 0x686 <main+0x180>
+     684:	51 c0       	rjmp	.+162    	; 0x728 <main+0x222>
+		{
+			if (button2_is_down())
+     686:	19 99       	sbic	0x03, 1	; 3
+     688:	3a c0       	rjmp	.+116    	; 0x6fe <main+0x1f8>
+			{
+				// go directly into settings mode
+				mode = 2;
+     68a:	82 e0       	ldi	r24, 0x02	; 2
+     68c:	80 93 97 01 	sts	0x0197, r24
+				to_sleep = 0;
+     690:	10 92 98 01 	sts	0x0198, r1
+				
+				display_second = -1;
+     694:	c0 93 a4 01 	sts	0x01A4, r28
+				display_minute = -1;
+     698:	c0 93 a8 01 	sts	0x01A8, r28
+				display_hour = -1;
+     69c:	c0 93 a3 01 	sts	0x01A3, r28
+	#else
+		//round up by default
+		__ticks_dc = (uint32_t)(ceil(fabs(__tmp)));
+	#endif
+
+	__builtin_avr_delay_cycles(__ticks_dc);
+     6a0:	41 e2       	ldi	r20, 0x21	; 33
+     6a2:	4a 95       	dec	r20
+     6a4:	f1 f7       	brne	.-4      	; 0x6a2 <main+0x19c>
+     6a6:	00 00       	nop
+				{
+					// indicate mode
+					display_second = bit_is_set(cur_second, 0) ? 0 : -1;
+					
+					// indicate AM or PM
+					display_minute = (((cur_hour >= 12) ? 58 : 28) + (cur_second % 5)) % 60;
+     6a8:	35 e0       	ldi	r19, 0x05	; 5
+     6aa:	ec e3       	ldi	r30, 0x3C	; 60
+     6ac:	f0 e0       	ldi	r31, 0x00	; 0
+     6ae:	24 c0       	rjmp	.+72     	; 0x6f8 <main+0x1f2>
+				debounce();
+				
+				while (button2_is_down())
+				{
+					// indicate mode
+					display_second = bit_is_set(cur_second, 0) ? 0 : -1;
+     6b0:	80 91 9f 01 	lds	r24, 0x019F
+     6b4:	80 ff       	sbrs	r24, 0
+     6b6:	02 c0       	rjmp	.+4      	; 0x6bc <main+0x1b6>
+     6b8:	80 e0       	ldi	r24, 0x00	; 0
+     6ba:	01 c0       	rjmp	.+2      	; 0x6be <main+0x1b8>
+     6bc:	8f ef       	ldi	r24, 0xFF	; 255
+     6be:	80 93 a4 01 	sts	0x01A4, r24
+					
+					// indicate AM or PM
+					display_minute = (((cur_hour >= 12) ? 58 : 28) + (cur_second % 5)) % 60;
+     6c2:	80 91 9e 01 	lds	r24, 0x019E
+     6c6:	8c 30       	cpi	r24, 0x0C	; 12
+     6c8:	18 f0       	brcs	.+6      	; 0x6d0 <main+0x1ca>
+     6ca:	4a e3       	ldi	r20, 0x3A	; 58
+     6cc:	50 e0       	ldi	r21, 0x00	; 0
+     6ce:	02 c0       	rjmp	.+4      	; 0x6d4 <main+0x1ce>
+     6d0:	4c e1       	ldi	r20, 0x1C	; 28
+     6d2:	50 e0       	ldi	r21, 0x00	; 0
+     6d4:	80 91 9f 01 	lds	r24, 0x019F
+     6d8:	63 2f       	mov	r22, r19
+     6da:	0e 94 da 07 	call	0xfb4	; 0xfb4 <__udivmodqi4>
+     6de:	ba 01       	movw	r22, r20
+     6e0:	69 0f       	add	r22, r25
+     6e2:	71 1d       	adc	r23, r1
+     6e4:	cb 01       	movw	r24, r22
+     6e6:	bf 01       	movw	r22, r30
+     6e8:	0e 94 f3 07 	call	0xfe6	; 0xfe6 <__divmodhi4>
+     6ec:	80 93 a8 01 	sts	0x01A8, r24
+					
+					// indicate current settings
+					display_hour = cur_hour;
+     6f0:	80 91 9e 01 	lds	r24, 0x019E
+     6f4:	80 93 a3 01 	sts	0x01A3, r24
+				display_minute = -1;
+				display_hour = -1;
+				
+				debounce();
+				
+				while (button2_is_down())
+     6f8:	19 9b       	sbis	0x03, 1	; 3
+     6fa:	da cf       	rjmp	.-76     	; 0x6b0 <main+0x1aa>
+     6fc:	72 c3       	rjmp	.+1764   	; 0xde2 <main+0x8dc>
+					display_hour = cur_hour;
+				}
+				
+				debounce();
+			}
+			else if (button1_is_down())
+     6fe:	1b 99       	sbic	0x03, 3	; 3
+     700:	0a c0       	rjmp	.+20     	; 0x716 <main+0x210>
+			{
+				// go into time display mode
+				mode = 1;
+     702:	81 e0       	ldi	r24, 0x01	; 1
+     704:	80 93 97 01 	sts	0x0197, r24
+				to_sleep = 0;
+     708:	10 92 98 01 	sts	0x0198, r1
+     70c:	81 e2       	ldi	r24, 0x21	; 33
+     70e:	8a 95       	dec	r24
+     710:	f1 f7       	brne	.-4      	; 0x70e <main+0x208>
+     712:	00 00       	nop
+     714:	57 c0       	rjmp	.+174    	; 0x7c4 <main+0x2be>
+				
+				debounce();
+				held_cnt = 0;
+			}
+			else if (mode != 7)
+     716:	80 91 97 01 	lds	r24, 0x0197
+     71a:	87 30       	cpi	r24, 0x07	; 7
+     71c:	09 f4       	brne	.+2      	; 0x720 <main+0x21a>
+     71e:	0a c4       	rjmp	.+2068   	; 0xf34 <main+0xa2e>
+			{
+				to_sleep = 1;
+     720:	81 e0       	ldi	r24, 0x01	; 1
+     722:	80 93 98 01 	sts	0x0198, r24
+     726:	06 c4       	rjmp	.+2060   	; 0xf34 <main+0xa2e>
+			}
+		}
+		else if (mode == 1)
+     728:	80 91 97 01 	lds	r24, 0x0197
+     72c:	81 30       	cpi	r24, 0x01	; 1
+     72e:	09 f0       	breq	.+2      	; 0x732 <main+0x22c>
+     730:	4d c0       	rjmp	.+154    	; 0x7cc <main+0x2c6>
+		{
+			// indicate current time
+			display_minute = cur_minute;
+     732:	80 91 a0 01 	lds	r24, 0x01A0
+     736:	80 93 a8 01 	sts	0x01A8, r24
+			display_hour = cur_hour;
+     73a:	80 91 9e 01 	lds	r24, 0x019E
+     73e:	80 93 a3 01 	sts	0x01A3, r24
+			
+			if (battery_is_low())
+     742:	13 99       	sbic	0x02, 3	; 2
+     744:	03 c0       	rjmp	.+6      	; 0x74c <main+0x246>
+			{
+				// save some power by not showing seconds
+				// this also indicates low battery status to the user
+				display_second = -1;
+     746:	c0 93 a4 01 	sts	0x01A4, r28
+     74a:	04 c0       	rjmp	.+8      	; 0x754 <main+0x24e>
+			}
+			else
+			{
+				display_second = cur_second;
+     74c:	80 91 9f 01 	lds	r24, 0x019F
+     750:	80 93 a4 01 	sts	0x01A4, r24
+     754:	41 e2       	ldi	r20, 0x21	; 33
+     756:	4a 95       	dec	r20
+     758:	f1 f7       	brne	.-4      	; 0x756 <main+0x250>
+     75a:	00 00       	nop
+			}
+			
+			debounce(); // this delay both debounces and also helps with pacing the counters
+			
+			if (button1_is_down())
+     75c:	1b 99       	sbic	0x03, 3	; 3
+     75e:	11 c0       	rjmp	.+34     	; 0x782 <main+0x27c>
+			{
+				held_cnt = (held_cnt > 10 * 1000 / 50) ? held_cnt : (held_cnt + 1);
+     760:	59 ec       	ldi	r21, 0xC9	; 201
+     762:	c5 16       	cp	r12, r21
+     764:	d1 04       	cpc	r13, r1
+     766:	e1 04       	cpc	r14, r1
+     768:	f1 04       	cpc	r15, r1
+     76a:	28 f4       	brcc	.+10     	; 0x776 <main+0x270>
+     76c:	08 94       	sec
+     76e:	c1 1c       	adc	r12, r1
+     770:	d1 1c       	adc	r13, r1
+     772:	e1 1c       	adc	r14, r1
+     774:	f1 1c       	adc	r15, r1
+				timeout_cnt = 0;
+				to_sleep = 0;
+     776:	10 92 98 01 	sts	0x0198, r1
+			debounce(); // this delay both debounces and also helps with pacing the counters
+			
+			if (button1_is_down())
+			{
+				held_cnt = (held_cnt > 10 * 1000 / 50) ? held_cnt : (held_cnt + 1);
+				timeout_cnt = 0;
+     77a:	44 24       	eor	r4, r4
+     77c:	55 24       	eor	r5, r5
+     77e:	32 01       	movw	r6, r4
+     780:	d9 c3       	rjmp	.+1970   	; 0xf34 <main+0xa2e>
+				to_sleep = 0;
+			}
+			else
+			{
+				if (battery_is_low() || held_cnt >= 10 * 1000 / 50)
+     782:	13 9b       	sbis	0x02, 3	; 2
+     784:	17 c0       	rjmp	.+46     	; 0x7b4 <main+0x2ae>
+     786:	68 ec       	ldi	r22, 0xC8	; 200
+     788:	c6 16       	cp	r12, r22
+     78a:	d1 04       	cpc	r13, r1
+     78c:	e1 04       	cpc	r14, r1
+     78e:	f1 04       	cpc	r15, r1
+     790:	88 f4       	brcc	.+34     	; 0x7b4 <main+0x2ae>
+					mode = 0;
+					to_sleep = 1;
+				}
+				else
+				{
+					timeout_cnt = (timeout_cnt > 10 * 1000 / 50) ? timeout_cnt : (timeout_cnt + 1);
+     792:	79 ec       	ldi	r23, 0xC9	; 201
+     794:	47 16       	cp	r4, r23
+     796:	51 04       	cpc	r5, r1
+     798:	61 04       	cpc	r6, r1
+     79a:	71 04       	cpc	r7, r1
+     79c:	58 f4       	brcc	.+22     	; 0x7b4 <main+0x2ae>
+     79e:	08 94       	sec
+     7a0:	41 1c       	adc	r4, r1
+     7a2:	51 1c       	adc	r5, r1
+     7a4:	61 1c       	adc	r6, r1
+     7a6:	71 1c       	adc	r7, r1
+					if (timeout_cnt >= 10 * 1000 / 50)
+     7a8:	88 ec       	ldi	r24, 0xC8	; 200
+     7aa:	48 16       	cp	r4, r24
+     7ac:	51 04       	cpc	r5, r1
+     7ae:	61 04       	cpc	r6, r1
+     7b0:	71 04       	cpc	r7, r1
+     7b2:	30 f0       	brcs	.+12     	; 0x7c0 <main+0x2ba>
+					{
+						// button has been release for a sufficiently long enough time to sleep
+						mode = 0;
+     7b4:	10 92 97 01 	sts	0x0197, r1
+						to_sleep = 1;
+     7b8:	81 e0       	ldi	r24, 0x01	; 1
+     7ba:	80 93 98 01 	sts	0x0198, r24
+     7be:	02 c0       	rjmp	.+4      	; 0x7c4 <main+0x2be>
+					}
+					else
+					{
+						// did not timeout yet, do not sleep
+						to_sleep = 0;
+     7c0:	10 92 98 01 	sts	0x0198, r1
+					}
+				}
+				
+				// no longer held down
+				held_cnt = 0;
+     7c4:	cc 24       	eor	r12, r12
+     7c6:	dd 24       	eor	r13, r13
+     7c8:	76 01       	movw	r14, r12
+     7ca:	b4 c3       	rjmp	.+1896   	; 0xf34 <main+0xa2e>
+			}
+		}
+		else if (mode == 2)
+     7cc:	80 91 97 01 	lds	r24, 0x0197
+     7d0:	82 30       	cpi	r24, 0x02	; 2
+     7d2:	09 f0       	breq	.+2      	; 0x7d6 <main+0x2d0>
+     7d4:	d1 c0       	rjmp	.+418    	; 0x978 <main+0x472>
+		{
+			// set current hour
+			
+			// indicate mode
+			display_second = bit_is_set(cur_second, 0) ? 0 : -1;
+     7d6:	80 91 9f 01 	lds	r24, 0x019F
+     7da:	80 ff       	sbrs	r24, 0
+     7dc:	02 c0       	rjmp	.+4      	; 0x7e2 <main+0x2dc>
+     7de:	80 e0       	ldi	r24, 0x00	; 0
+     7e0:	01 c0       	rjmp	.+2      	; 0x7e4 <main+0x2de>
+     7e2:	8f ef       	ldi	r24, 0xFF	; 255
+     7e4:	80 93 a4 01 	sts	0x01A4, r24
+			
+			// indicate AM or PM
+			display_minute = (((cur_hour >= 12) ? 58 : 28) + (cur_second % 5)) % 60;
+     7e8:	80 91 9e 01 	lds	r24, 0x019E
+     7ec:	8c 30       	cpi	r24, 0x0C	; 12
+     7ee:	18 f0       	brcs	.+6      	; 0x7f6 <main+0x2f0>
+     7f0:	4a e3       	ldi	r20, 0x3A	; 58
+     7f2:	50 e0       	ldi	r21, 0x00	; 0
+     7f4:	02 c0       	rjmp	.+4      	; 0x7fa <main+0x2f4>
+     7f6:	4c e1       	ldi	r20, 0x1C	; 28
+     7f8:	50 e0       	ldi	r21, 0x00	; 0
+     7fa:	80 91 9f 01 	lds	r24, 0x019F
+     7fe:	65 e0       	ldi	r22, 0x05	; 5
+     800:	0e 94 da 07 	call	0xfb4	; 0xfb4 <__udivmodqi4>
+     804:	ba 01       	movw	r22, r20
+     806:	69 0f       	add	r22, r25
+     808:	71 1d       	adc	r23, r1
+     80a:	cb 01       	movw	r24, r22
+     80c:	6c e3       	ldi	r22, 0x3C	; 60
+     80e:	70 e0       	ldi	r23, 0x00	; 0
+     810:	0e 94 f3 07 	call	0xfe6	; 0xfe6 <__divmodhi4>
+     814:	80 93 a8 01 	sts	0x01A8, r24
+			
+			// indicate current settings
+			display_hour = cur_hour;
+     818:	80 91 9e 01 	lds	r24, 0x019E
+     81c:	80 93 a3 01 	sts	0x01A3, r24
+			
+			if (button1_is_down())
+     820:	1b 99       	sbic	0x03, 3	; 3
+     822:	6f c0       	rjmp	.+222    	; 0x902 <main+0x3fc>
+			{
+				// change
+				cur_hour = (cur_hour + 1) % 24;
+     824:	80 91 9e 01 	lds	r24, 0x019E
+     828:	90 e0       	ldi	r25, 0x00	; 0
+     82a:	01 96       	adiw	r24, 0x01	; 1
+     82c:	68 e1       	ldi	r22, 0x18	; 24
+     82e:	70 e0       	ldi	r23, 0x00	; 0
+     830:	0e 94 f3 07 	call	0xfe6	; 0xfe6 <__divmodhi4>
+     834:	80 93 9e 01 	sts	0x019E, r24
+				display_hour = cur_hour;
+     838:	80 91 9e 01 	lds	r24, 0x019E
+     83c:	80 93 a3 01 	sts	0x01A3, r24
+				
+				eeprom_is_dirty = 1;
+				
+				// indicate AM or PM
+				display_minute = (((cur_hour >= 12) ? 58 : 28) + (cur_second % 5)) % 60;
+     840:	80 91 9e 01 	lds	r24, 0x019E
+     844:	8c 30       	cpi	r24, 0x0C	; 12
+     846:	18 f0       	brcs	.+6      	; 0x84e <main+0x348>
+     848:	2a e3       	ldi	r18, 0x3A	; 58
+     84a:	30 e0       	ldi	r19, 0x00	; 0
+     84c:	02 c0       	rjmp	.+4      	; 0x852 <main+0x34c>
+     84e:	2c e1       	ldi	r18, 0x1C	; 28
+     850:	30 e0       	ldi	r19, 0x00	; 0
+     852:	80 91 9f 01 	lds	r24, 0x019F
+     856:	65 e0       	ldi	r22, 0x05	; 5
+     858:	0e 94 da 07 	call	0xfb4	; 0xfb4 <__udivmodqi4>
+     85c:	a9 01       	movw	r20, r18
+     85e:	49 0f       	add	r20, r25
+     860:	51 1d       	adc	r21, r1
+     862:	ca 01       	movw	r24, r20
+     864:	6c e3       	ldi	r22, 0x3C	; 60
+     866:	70 e0       	ldi	r23, 0x00	; 0
+     868:	0e 94 f3 07 	call	0xfe6	; 0xfe6 <__divmodhi4>
+     86c:	80 93 a8 01 	sts	0x01A8, r24
+     870:	51 e2       	ldi	r21, 0x21	; 33
+     872:	5a 95       	dec	r21
+     874:	f1 f7       	brne	.-4      	; 0x872 <main+0x36c>
+     876:	00 00       	nop
+				
+				debounce();
+				
+				for (uint8_t i = 0; i < (button_was_down == 0 ? 10 : 5) && button1_is_down(); i++)
+     878:	40 e0       	ldi	r20, 0x00	; 0
+				{
+					// indicate mode
+					display_second = bit_is_set(cur_second, 0) ? 0 : -1;
+					
+					// indicate AM or PM
+					display_minute = (((cur_hour >= 12) ? 58 : 28) + (cur_second % 5)) % 60;
+     87a:	e5 e0       	ldi	r30, 0x05	; 5
+     87c:	7c e3       	ldi	r23, 0x3C	; 60
+     87e:	a7 2e       	mov	r10, r23
+     880:	b1 2c       	mov	r11, r1
+				// indicate AM or PM
+				display_minute = (((cur_hour >= 12) ? 58 : 28) + (cur_second % 5)) % 60;
+				
+				debounce();
+				
+				for (uint8_t i = 0; i < (button_was_down == 0 ? 10 : 5) && button1_is_down(); i++)
+     882:	29 c0       	rjmp	.+82     	; 0x8d6 <main+0x3d0>
+				{
+					// indicate mode
+					display_second = bit_is_set(cur_second, 0) ? 0 : -1;
+     884:	80 91 9f 01 	lds	r24, 0x019F
+     888:	80 ff       	sbrs	r24, 0
+     88a:	02 c0       	rjmp	.+4      	; 0x890 <main+0x38a>
+     88c:	80 e0       	ldi	r24, 0x00	; 0
+     88e:	01 c0       	rjmp	.+2      	; 0x892 <main+0x38c>
+     890:	8f ef       	ldi	r24, 0xFF	; 255
+     892:	80 93 a4 01 	sts	0x01A4, r24
+					
+					// indicate AM or PM
+					display_minute = (((cur_hour >= 12) ? 58 : 28) + (cur_second % 5)) % 60;
+     896:	80 91 9e 01 	lds	r24, 0x019E
+     89a:	8c 30       	cpi	r24, 0x0C	; 12
+     89c:	18 f0       	brcs	.+6      	; 0x8a4 <main+0x39e>
+     89e:	2a e3       	ldi	r18, 0x3A	; 58
+     8a0:	30 e0       	ldi	r19, 0x00	; 0
+     8a2:	02 c0       	rjmp	.+4      	; 0x8a8 <main+0x3a2>
+     8a4:	2c e1       	ldi	r18, 0x1C	; 28
+     8a6:	30 e0       	ldi	r19, 0x00	; 0
+     8a8:	80 91 9f 01 	lds	r24, 0x019F
+     8ac:	6e 2f       	mov	r22, r30
+     8ae:	0e 94 da 07 	call	0xfb4	; 0xfb4 <__udivmodqi4>
+     8b2:	b9 01       	movw	r22, r18
+     8b4:	69 0f       	add	r22, r25
+     8b6:	71 1d       	adc	r23, r1
+     8b8:	cb 01       	movw	r24, r22
+     8ba:	b5 01       	movw	r22, r10
+     8bc:	0e 94 f3 07 	call	0xfe6	; 0xfe6 <__divmodhi4>
+     8c0:	80 93 a8 01 	sts	0x01A8, r24
+					
+					// indicate current settings
+					display_hour = cur_hour;
+     8c4:	80 91 9e 01 	lds	r24, 0x019E
+     8c8:	80 93 a3 01 	sts	0x01A3, r24
+     8cc:	71 e2       	ldi	r23, 0x21	; 33
+     8ce:	7a 95       	dec	r23
+     8d0:	f1 f7       	brne	.-4      	; 0x8ce <main+0x3c8>
+     8d2:	00 00       	nop
+				// indicate AM or PM
+				display_minute = (((cur_hour >= 12) ? 58 : 28) + (cur_second % 5)) % 60;
+				
+				debounce();
+				
+				for (uint8_t i = 0; i < (button_was_down == 0 ? 10 : 5) && button1_is_down(); i++)
+     8d4:	4f 5f       	subi	r20, 0xFF	; 255
+     8d6:	24 2f       	mov	r18, r20
+     8d8:	30 e0       	ldi	r19, 0x00	; 0
+     8da:	11 23       	and	r17, r17
+     8dc:	19 f4       	brne	.+6      	; 0x8e4 <main+0x3de>
+     8de:	8a e0       	ldi	r24, 0x0A	; 10
+     8e0:	90 e0       	ldi	r25, 0x00	; 0
+     8e2:	02 c0       	rjmp	.+4      	; 0x8e8 <main+0x3e2>
+     8e4:	85 e0       	ldi	r24, 0x05	; 5
+     8e6:	90 e0       	ldi	r25, 0x00	; 0
+     8e8:	28 17       	cp	r18, r24
+     8ea:	39 07       	cpc	r19, r25
+     8ec:	14 f4       	brge	.+4      	; 0x8f2 <main+0x3ec>
+     8ee:	1b 9b       	sbis	0x03, 3	; 3
+     8f0:	c9 cf       	rjmp	.-110    	; 0x884 <main+0x37e>
+					debounce();
+				}
+				
+				button_was_down = 1;
+				
+				if (button1_is_up())
+     8f2:	1b 9b       	sbis	0x03, 3	; 3
+     8f4:	10 c0       	rjmp	.+32     	; 0x916 <main+0x410>
+     8f6:	81 e2       	ldi	r24, 0x21	; 33
+     8f8:	8a 95       	dec	r24
+     8fa:	f1 f7       	brne	.-4      	; 0x8f8 <main+0x3f2>
+     8fc:	00 00       	nop
+			{
+				// change
+				cur_hour = (cur_hour + 1) % 24;
+				display_hour = cur_hour;
+				
+				eeprom_is_dirty = 1;
+     8fe:	21 e0       	ldi	r18, 0x01	; 1
+     900:	08 c0       	rjmp	.+16     	; 0x912 <main+0x40c>
+				{
+					button_was_down = 0;
+					debounce();
+				}
+			}
+			else if (button1_is_up())
+     902:	1b 9b       	sbis	0x03, 3	; 3
+     904:	0a c0       	rjmp	.+20     	; 0x91a <main+0x414>
+			{
+				if (button_was_down != 0)
+     906:	11 23       	and	r17, r17
+     908:	41 f0       	breq	.+16     	; 0x91a <main+0x414>
+     90a:	41 e2       	ldi	r20, 0x21	; 33
+     90c:	4a 95       	dec	r20
+     90e:	f1 f7       	brne	.-4      	; 0x90c <main+0x406>
+     910:	00 00       	nop
+				{
+					debounce();
+				}
+				
+				button_was_down = 0;
+     912:	10 e0       	ldi	r17, 0x00	; 0
+     914:	02 c0       	rjmp	.+4      	; 0x91a <main+0x414>
+			{
+				// change
+				cur_hour = (cur_hour + 1) % 24;
+				display_hour = cur_hour;
+				
+				eeprom_is_dirty = 1;
+     916:	21 e0       	ldi	r18, 0x01	; 1
+					display_hour = cur_hour;
+					
+					debounce();
+				}
+				
+				button_was_down = 1;
+     918:	11 e0       	ldi	r17, 0x01	; 1
+				}
+				
+				button_was_down = 0;
+			}
+			
+			if (button2_is_down())
+     91a:	19 99       	sbic	0x03, 1	; 3
+     91c:	0b c3       	rjmp	.+1558   	; 0xf34 <main+0xa2e>
+			{
+				// indicate mode
+				display_second = bit_is_set(cur_second, 0) ? 5 : -1;
+     91e:	80 91 9f 01 	lds	r24, 0x019F
+     922:	80 ff       	sbrs	r24, 0
+     924:	02 c0       	rjmp	.+4      	; 0x92a <main+0x424>
+     926:	85 e0       	ldi	r24, 0x05	; 5
+     928:	01 c0       	rjmp	.+2      	; 0x92c <main+0x426>
+     92a:	8f ef       	ldi	r24, 0xFF	; 255
+     92c:	80 93 a4 01 	sts	0x01A4, r24
+				
+				// indicate current settings
+				display_minute = cur_minute;
+     930:	80 91 a0 01 	lds	r24, 0x01A0
+     934:	80 93 a8 01 	sts	0x01A8, r24
+				display_hour = -1;
+     938:	c0 93 a3 01 	sts	0x01A3, r28
+				
+				eeprom_is_dirty = 1;
+				
+				// goto next mode
+				mode = 3;
+     93c:	00 93 97 01 	sts	0x0197, r16
+				to_sleep = 0;
+     940:	10 92 98 01 	sts	0x0198, r1
+     944:	51 e2       	ldi	r21, 0x21	; 33
+     946:	5a 95       	dec	r21
+     948:	f1 f7       	brne	.-4      	; 0x946 <main+0x440>
+     94a:	00 00       	nop
+     94c:	0d c0       	rjmp	.+26     	; 0x968 <main+0x462>
+				debounce();
+				
+				while (button2_is_down())
+				{
+					// indicate mode
+					display_second = bit_is_set(cur_second, 0) ? 5 : -1;
+     94e:	80 91 9f 01 	lds	r24, 0x019F
+     952:	80 ff       	sbrs	r24, 0
+     954:	02 c0       	rjmp	.+4      	; 0x95a <main+0x454>
+     956:	85 e0       	ldi	r24, 0x05	; 5
+     958:	01 c0       	rjmp	.+2      	; 0x95c <main+0x456>
+     95a:	8f ef       	ldi	r24, 0xFF	; 255
+     95c:	80 93 a4 01 	sts	0x01A4, r24
+					
+					// indicate current settings
+					display_minute = cur_minute;
+     960:	80 91 a0 01 	lds	r24, 0x01A0
+     964:	80 93 a8 01 	sts	0x01A8, r24
+				mode = 3;
+				to_sleep = 0;
+				
+				debounce();
+				
+				while (button2_is_down())
+     968:	19 9b       	sbis	0x03, 1	; 3
+     96a:	f1 cf       	rjmp	.-30     	; 0x94e <main+0x448>
+     96c:	61 e2       	ldi	r22, 0x21	; 33
+     96e:	6a 95       	dec	r22
+     970:	f1 f7       	brne	.-4      	; 0x96e <main+0x468>
+     972:	00 00       	nop
+				
+				// indicate current settings
+				display_minute = cur_minute;
+				display_hour = -1;
+				
+				eeprom_is_dirty = 1;
+     974:	21 e0       	ldi	r18, 0x01	; 1
+     976:	de c2       	rjmp	.+1468   	; 0xf34 <main+0xa2e>
+				}
+				
+				debounce();
+			}
+		}
+		else if (mode == 3)
+     978:	80 91 97 01 	lds	r24, 0x0197
+     97c:	83 30       	cpi	r24, 0x03	; 3
+     97e:	09 f0       	breq	.+2      	; 0x982 <main+0x47c>
+     980:	c7 c0       	rjmp	.+398    	; 0xb10 <main+0x60a>
+		{
+			// set current minute
+			
+			// indicate mode
+			display_second = bit_is_set(cur_second, 0) ? 5 : -1;
+     982:	80 91 9f 01 	lds	r24, 0x019F
+     986:	80 ff       	sbrs	r24, 0
+     988:	02 c0       	rjmp	.+4      	; 0x98e <main+0x488>
+     98a:	85 e0       	ldi	r24, 0x05	; 5
+     98c:	01 c0       	rjmp	.+2      	; 0x990 <main+0x48a>
+     98e:	8f ef       	ldi	r24, 0xFF	; 255
+     990:	80 93 a4 01 	sts	0x01A4, r24
+			
+			// turn off
+			display_hour = -1;
+     994:	c0 93 a3 01 	sts	0x01A3, r28
+			
+			// show current settings
+			display_minute = cur_minute;
+     998:	80 91 a0 01 	lds	r24, 0x01A0
+     99c:	80 93 a8 01 	sts	0x01A8, r24
+			
+			if (button1_is_down())
+     9a0:	1b 99       	sbic	0x03, 3	; 3
+     9a2:	3c c0       	rjmp	.+120    	; 0xa1c <main+0x516>
+			{
+				// change
+				cur_minute = (cur_minute + 1) % 60;
+     9a4:	80 91 a0 01 	lds	r24, 0x01A0
+     9a8:	90 e0       	ldi	r25, 0x00	; 0
+     9aa:	01 96       	adiw	r24, 0x01	; 1
+     9ac:	6c e3       	ldi	r22, 0x3C	; 60
+     9ae:	70 e0       	ldi	r23, 0x00	; 0
+     9b0:	0e 94 f3 07 	call	0xfe6	; 0xfe6 <__divmodhi4>
+     9b4:	80 93 a0 01 	sts	0x01A0, r24
+				display_minute = cur_minute;
+     9b8:	80 91 a0 01 	lds	r24, 0x01A0
+     9bc:	80 93 a8 01 	sts	0x01A8, r24
+     9c0:	71 e2       	ldi	r23, 0x21	; 33
+     9c2:	7a 95       	dec	r23
+     9c4:	f1 f7       	brne	.-4      	; 0x9c2 <main+0x4bc>
+     9c6:	00 00       	nop
+				
+				eeprom_is_dirty = 1;
+				
+				debounce();
+				
+				for (uint8_t i = 0; i < (button_was_down == 0 ? 10 : 5) && button1_is_down(); i++)
+     9c8:	40 e0       	ldi	r20, 0x00	; 0
+     9ca:	12 c0       	rjmp	.+36     	; 0x9f0 <main+0x4ea>
+				{
+					// indicate mode
+					display_second = bit_is_set(cur_second, 0) ? 5 : -1;
+     9cc:	80 91 9f 01 	lds	r24, 0x019F
+     9d0:	80 ff       	sbrs	r24, 0
+     9d2:	02 c0       	rjmp	.+4      	; 0x9d8 <main+0x4d2>
+     9d4:	85 e0       	ldi	r24, 0x05	; 5
+     9d6:	01 c0       	rjmp	.+2      	; 0x9da <main+0x4d4>
+     9d8:	8f ef       	ldi	r24, 0xFF	; 255
+     9da:	80 93 a4 01 	sts	0x01A4, r24
+					
+					// show current settings
+					display_minute = cur_minute;
+     9de:	80 91 a0 01 	lds	r24, 0x01A0
+     9e2:	80 93 a8 01 	sts	0x01A8, r24
+     9e6:	81 e2       	ldi	r24, 0x21	; 33
+     9e8:	8a 95       	dec	r24
+     9ea:	f1 f7       	brne	.-4      	; 0x9e8 <main+0x4e2>
+     9ec:	00 00       	nop
+				
+				eeprom_is_dirty = 1;
+				
+				debounce();
+				
+				for (uint8_t i = 0; i < (button_was_down == 0 ? 10 : 5) && button1_is_down(); i++)
+     9ee:	4f 5f       	subi	r20, 0xFF	; 255
+     9f0:	24 2f       	mov	r18, r20
+     9f2:	30 e0       	ldi	r19, 0x00	; 0
+     9f4:	11 23       	and	r17, r17
+     9f6:	19 f4       	brne	.+6      	; 0x9fe <main+0x4f8>
+     9f8:	8a e0       	ldi	r24, 0x0A	; 10
+     9fa:	90 e0       	ldi	r25, 0x00	; 0
+     9fc:	02 c0       	rjmp	.+4      	; 0xa02 <main+0x4fc>
+     9fe:	85 e0       	ldi	r24, 0x05	; 5
+     a00:	90 e0       	ldi	r25, 0x00	; 0
+     a02:	28 17       	cp	r18, r24
+     a04:	39 07       	cpc	r19, r25
+     a06:	14 f4       	brge	.+4      	; 0xa0c <main+0x506>
+     a08:	1b 9b       	sbis	0x03, 3	; 3
+     a0a:	e0 cf       	rjmp	.-64     	; 0x9cc <main+0x4c6>
+					debounce();
+				}
+				
+				button_was_down = 1;
+				
+				if (button1_is_up())
+     a0c:	1b 9b       	sbis	0x03, 3	; 3
+     a0e:	10 c0       	rjmp	.+32     	; 0xa30 <main+0x52a>
+     a10:	41 e2       	ldi	r20, 0x21	; 33
+     a12:	4a 95       	dec	r20
+     a14:	f1 f7       	brne	.-4      	; 0xa12 <main+0x50c>
+     a16:	00 00       	nop
+			{
+				// change
+				cur_minute = (cur_minute + 1) % 60;
+				display_minute = cur_minute;
+				
+				eeprom_is_dirty = 1;
+     a18:	21 e0       	ldi	r18, 0x01	; 1
+     a1a:	08 c0       	rjmp	.+16     	; 0xa2c <main+0x526>
+				{
+					button_was_down = 0;
+					debounce();
+				}
+			}
+			else if (button1_is_up())
+     a1c:	1b 9b       	sbis	0x03, 3	; 3
+     a1e:	0a c0       	rjmp	.+20     	; 0xa34 <main+0x52e>
+			{
+				if (button_was_down != 0)
+     a20:	11 23       	and	r17, r17
+     a22:	41 f0       	breq	.+16     	; 0xa34 <main+0x52e>
+     a24:	51 e2       	ldi	r21, 0x21	; 33
+     a26:	5a 95       	dec	r21
+     a28:	f1 f7       	brne	.-4      	; 0xa26 <main+0x520>
+     a2a:	00 00       	nop
+				{
+					debounce();
+				}
+				
+				button_was_down = 0;
+     a2c:	10 e0       	ldi	r17, 0x00	; 0
+     a2e:	02 c0       	rjmp	.+4      	; 0xa34 <main+0x52e>
+			{
+				// change
+				cur_minute = (cur_minute + 1) % 60;
+				display_minute = cur_minute;
+				
+				eeprom_is_dirty = 1;
+     a30:	21 e0       	ldi	r18, 0x01	; 1
+					// show current settings
+					display_minute = cur_minute;
+					debounce();
+				}
+				
+				button_was_down = 1;
+     a32:	11 e0       	ldi	r17, 0x01	; 1
+				}
+				
+				button_was_down = 0;
+			}
+			
+			if (button2_is_down())
+     a34:	19 99       	sbic	0x03, 1	; 3
+     a36:	7e c2       	rjmp	.+1276   	; 0xf34 <main+0xa2e>
+			{
+				// clear display
+				display_second = -1;
+     a38:	c0 93 a4 01 	sts	0x01A4, r28
+				display_minute = -1;
+     a3c:	c0 93 a8 01 	sts	0x01A8, r28
+				display_hour = -1;
+     a40:	c0 93 a3 01 	sts	0x01A3, r28
+				
+				if (alarm_enabled == 0)
+     a44:	80 91 9d 01 	lds	r24, 0x019D
+     a48:	88 23       	and	r24, r24
+     a4a:	79 f5       	brne	.+94     	; 0xaaa <main+0x5a4>
+				{
+					// skip alarm time set modes, instead go to enable/disable alarm mode
+					mode = 6;
+     a4c:	86 e0       	ldi	r24, 0x06	; 6
+     a4e:	80 93 97 01 	sts	0x0197, r24
+					to_sleep = 0;
+     a52:	10 92 98 01 	sts	0x0198, r1
+     a56:	61 e2       	ldi	r22, 0x21	; 33
+     a58:	6a 95       	dec	r22
+     a5a:	f1 f7       	brne	.-4      	; 0xa58 <main+0x552>
+     a5c:	00 00       	nop
+     a5e:	22 c0       	rjmp	.+68     	; 0xaa4 <main+0x59e>
+					debounce();
+					while (button2_is_down())
+					{
+						// indicate mode
+						display_second = bit_is_set(cur_second, 0) ? 20 : -1;
+     a60:	80 91 9f 01 	lds	r24, 0x019F
+     a64:	80 ff       	sbrs	r24, 0
+     a66:	02 c0       	rjmp	.+4      	; 0xa6c <main+0x566>
+     a68:	84 e1       	ldi	r24, 0x14	; 20
+     a6a:	01 c0       	rjmp	.+2      	; 0xa6e <main+0x568>
+     a6c:	8f ef       	ldi	r24, 0xFF	; 255
+     a6e:	80 93 a4 01 	sts	0x01A4, r24
+						
+						// indicate alarm enabled status
+						display_hour = (alarm_enabled != 0) ? (5 + (cur_second % 3)) : ((11 + (cur_second % 3)) % 12);
+     a72:	80 91 9d 01 	lds	r24, 0x019D
+     a76:	88 23       	and	r24, r24
+     a78:	39 f0       	breq	.+14     	; 0xa88 <main+0x582>
+     a7a:	80 91 9f 01 	lds	r24, 0x019F
+     a7e:	6d 2f       	mov	r22, r29
+     a80:	0e 94 da 07 	call	0xfb4	; 0xfb4 <__udivmodqi4>
+     a84:	9b 5f       	subi	r25, 0xFB	; 251
+     a86:	0c c0       	rjmp	.+24     	; 0xaa0 <main+0x59a>
+     a88:	80 91 9f 01 	lds	r24, 0x019F
+     a8c:	6d 2f       	mov	r22, r29
+     a8e:	0e 94 da 07 	call	0xfb4	; 0xfb4 <__udivmodqi4>
+     a92:	89 2f       	mov	r24, r25
+     a94:	90 e0       	ldi	r25, 0x00	; 0
+     a96:	0b 96       	adiw	r24, 0x0b	; 11
+     a98:	b4 01       	movw	r22, r8
+     a9a:	0e 94 f3 07 	call	0xfe6	; 0xfe6 <__divmodhi4>
+     a9e:	98 2f       	mov	r25, r24
+     aa0:	90 93 a3 01 	sts	0x01A3, r25
+				{
+					// skip alarm time set modes, instead go to enable/disable alarm mode
+					mode = 6;
+					to_sleep = 0;
+					debounce();
+					while (button2_is_down())
+     aa4:	19 9b       	sbis	0x03, 1	; 3
+     aa6:	dc cf       	rjmp	.-72     	; 0xa60 <main+0x55a>
+     aa8:	9c c1       	rjmp	.+824    	; 0xde2 <main+0x8dc>
+					debounce();
+				}
+				else
+				{
+					// goto alarm time set mode
+					mode = 4;
+     aaa:	84 e0       	ldi	r24, 0x04	; 4
+     aac:	80 93 97 01 	sts	0x0197, r24
+					to_sleep = 0;
+     ab0:	10 92 98 01 	sts	0x0198, r1
+     ab4:	81 e2       	ldi	r24, 0x21	; 33
+     ab6:	8a 95       	dec	r24
+     ab8:	f1 f7       	brne	.-4      	; 0xab6 <main+0x5b0>
+     aba:	00 00       	nop
+     abc:	22 c0       	rjmp	.+68     	; 0xb02 <main+0x5fc>
+					debounce();
+					while (button2_is_down())
+					{
+						// indicate mode
+						display_second = bit_is_set(cur_second, 0) ? 10 : -1;
+     abe:	80 91 9f 01 	lds	r24, 0x019F
+     ac2:	80 ff       	sbrs	r24, 0
+     ac4:	02 c0       	rjmp	.+4      	; 0xaca <main+0x5c4>
+     ac6:	8a e0       	ldi	r24, 0x0A	; 10
+     ac8:	01 c0       	rjmp	.+2      	; 0xacc <main+0x5c6>
+     aca:	8f ef       	ldi	r24, 0xFF	; 255
+     acc:	80 93 a4 01 	sts	0x01A4, r24
+						
+						// indicate alarm enabled status
+						display_hour = (alarm_enabled != 0) ? (5 + (cur_second % 3)) : ((11 + (cur_second % 3)) % 12);
+     ad0:	80 91 9d 01 	lds	r24, 0x019D
+     ad4:	88 23       	and	r24, r24
+     ad6:	39 f0       	breq	.+14     	; 0xae6 <main+0x5e0>
+     ad8:	80 91 9f 01 	lds	r24, 0x019F
+     adc:	6d 2f       	mov	r22, r29
+     ade:	0e 94 da 07 	call	0xfb4	; 0xfb4 <__udivmodqi4>
+     ae2:	9b 5f       	subi	r25, 0xFB	; 251
+     ae4:	0c c0       	rjmp	.+24     	; 0xafe <main+0x5f8>
+     ae6:	80 91 9f 01 	lds	r24, 0x019F
+     aea:	6d 2f       	mov	r22, r29
+     aec:	0e 94 da 07 	call	0xfb4	; 0xfb4 <__udivmodqi4>
+     af0:	89 2f       	mov	r24, r25
+     af2:	90 e0       	ldi	r25, 0x00	; 0
+     af4:	0b 96       	adiw	r24, 0x0b	; 11
+     af6:	b4 01       	movw	r22, r8
+     af8:	0e 94 f3 07 	call	0xfe6	; 0xfe6 <__divmodhi4>
+     afc:	98 2f       	mov	r25, r24
+     afe:	90 93 a3 01 	sts	0x01A3, r25
+				{
+					// goto alarm time set mode
+					mode = 4;
+					to_sleep = 0;
+					debounce();
+					while (button2_is_down())
+     b02:	19 9b       	sbis	0x03, 1	; 3
+     b04:	dc cf       	rjmp	.-72     	; 0xabe <main+0x5b8>
+     b06:	41 e2       	ldi	r20, 0x21	; 33
+     b08:	4a 95       	dec	r20
+     b0a:	f1 f7       	brne	.-4      	; 0xb08 <main+0x602>
+     b0c:	00 00       	nop
+     b0e:	12 c2       	rjmp	.+1060   	; 0xf34 <main+0xa2e>
+					}
+					debounce();
+				}
+			}
+		}
+		else if (mode == 4)
+     b10:	80 91 97 01 	lds	r24, 0x0197
+     b14:	84 30       	cpi	r24, 0x04	; 4
+     b16:	09 f0       	breq	.+2      	; 0xb1a <main+0x614>
+     b18:	d0 c0       	rjmp	.+416    	; 0xcba <main+0x7b4>
+		{
+			// set alarm hour
+			
+			// indicate mode
+			display_second = bit_is_set(cur_second, 0) ? 10 : -1;
+     b1a:	80 91 9f 01 	lds	r24, 0x019F
+     b1e:	80 ff       	sbrs	r24, 0
+     b20:	02 c0       	rjmp	.+4      	; 0xb26 <main+0x620>
+     b22:	8a e0       	ldi	r24, 0x0A	; 10
+     b24:	01 c0       	rjmp	.+2      	; 0xb28 <main+0x622>
+     b26:	8f ef       	ldi	r24, 0xFF	; 255
+     b28:	80 93 a4 01 	sts	0x01A4, r24
+			
+			// indicate AM or PM
+			display_minute = (((alarm_hour >= 12) ? 58 : 28) + (cur_second % 5)) % 60;
+     b2c:	80 91 9c 01 	lds	r24, 0x019C
+     b30:	8c 30       	cpi	r24, 0x0C	; 12
+     b32:	18 f0       	brcs	.+6      	; 0xb3a <main+0x634>
+     b34:	4a e3       	ldi	r20, 0x3A	; 58
+     b36:	50 e0       	ldi	r21, 0x00	; 0
+     b38:	02 c0       	rjmp	.+4      	; 0xb3e <main+0x638>
+     b3a:	4c e1       	ldi	r20, 0x1C	; 28
+     b3c:	50 e0       	ldi	r21, 0x00	; 0
+     b3e:	80 91 9f 01 	lds	r24, 0x019F
+     b42:	65 e0       	ldi	r22, 0x05	; 5
+     b44:	0e 94 da 07 	call	0xfb4	; 0xfb4 <__udivmodqi4>
+     b48:	ba 01       	movw	r22, r20
+     b4a:	69 0f       	add	r22, r25
+     b4c:	71 1d       	adc	r23, r1
+     b4e:	cb 01       	movw	r24, r22
+     b50:	6c e3       	ldi	r22, 0x3C	; 60
+     b52:	70 e0       	ldi	r23, 0x00	; 0
+     b54:	0e 94 f3 07 	call	0xfe6	; 0xfe6 <__divmodhi4>
+     b58:	80 93 a8 01 	sts	0x01A8, r24
+			
+			// indicate current settings
+			display_hour = alarm_hour;
+     b5c:	80 91 9c 01 	lds	r24, 0x019C
+     b60:	80 93 a3 01 	sts	0x01A3, r24
+			
+			if (button1_is_down())
+     b64:	1b 99       	sbic	0x03, 3	; 3
+     b66:	6f c0       	rjmp	.+222    	; 0xc46 <main+0x740>
+			{
+				// change
+				alarm_hour = (alarm_hour + 1) % 24;
+     b68:	80 91 9c 01 	lds	r24, 0x019C
+     b6c:	90 e0       	ldi	r25, 0x00	; 0
+     b6e:	01 96       	adiw	r24, 0x01	; 1
+     b70:	68 e1       	ldi	r22, 0x18	; 24
+     b72:	70 e0       	ldi	r23, 0x00	; 0
+     b74:	0e 94 f3 07 	call	0xfe6	; 0xfe6 <__divmodhi4>
+     b78:	80 93 9c 01 	sts	0x019C, r24
+				display_hour = alarm_hour;
+     b7c:	80 91 9c 01 	lds	r24, 0x019C
+     b80:	80 93 a3 01 	sts	0x01A3, r24
+				
+				eeprom_is_dirty = 1;
+				
+				// indicate AM or PM
+				display_minute = (((alarm_hour >= 12) ? 58 : 28) + (cur_second % 5)) % 60;
+     b84:	80 91 9c 01 	lds	r24, 0x019C
+     b88:	8c 30       	cpi	r24, 0x0C	; 12
+     b8a:	18 f0       	brcs	.+6      	; 0xb92 <main+0x68c>
+     b8c:	2a e3       	ldi	r18, 0x3A	; 58
+     b8e:	30 e0       	ldi	r19, 0x00	; 0
+     b90:	02 c0       	rjmp	.+4      	; 0xb96 <main+0x690>
+     b92:	2c e1       	ldi	r18, 0x1C	; 28
+     b94:	30 e0       	ldi	r19, 0x00	; 0
+     b96:	80 91 9f 01 	lds	r24, 0x019F
+     b9a:	65 e0       	ldi	r22, 0x05	; 5
+     b9c:	0e 94 da 07 	call	0xfb4	; 0xfb4 <__udivmodqi4>
+     ba0:	a9 01       	movw	r20, r18
+     ba2:	49 0f       	add	r20, r25
+     ba4:	51 1d       	adc	r21, r1
+     ba6:	ca 01       	movw	r24, r20
+     ba8:	6c e3       	ldi	r22, 0x3C	; 60
+     baa:	70 e0       	ldi	r23, 0x00	; 0
+     bac:	0e 94 f3 07 	call	0xfe6	; 0xfe6 <__divmodhi4>
+     bb0:	80 93 a8 01 	sts	0x01A8, r24
+     bb4:	51 e2       	ldi	r21, 0x21	; 33
+     bb6:	5a 95       	dec	r21
+     bb8:	f1 f7       	brne	.-4      	; 0xbb6 <main+0x6b0>
+     bba:	00 00       	nop
+				
+				debounce();
+				
+				for (uint8_t i = 0; i < (button_was_down == 0 ? 10 : 5) && button1_is_down(); i++)
+     bbc:	40 e0       	ldi	r20, 0x00	; 0
+				{
+					// indicate mode
+					display_second = bit_is_set(cur_second, 0) ? 10 : -1;
+					
+					// indicate AM or PM
+					display_minute = (((alarm_hour >= 12) ? 58 : 28) + (cur_second % 5)) % 60;
+     bbe:	e5 e0       	ldi	r30, 0x05	; 5
+     bc0:	6c e3       	ldi	r22, 0x3C	; 60
+     bc2:	a6 2e       	mov	r10, r22
+     bc4:	b1 2c       	mov	r11, r1
+				// indicate AM or PM
+				display_minute = (((alarm_hour >= 12) ? 58 : 28) + (cur_second % 5)) % 60;
+				
+				debounce();
+				
+				for (uint8_t i = 0; i < (button_was_down == 0 ? 10 : 5) && button1_is_down(); i++)
+     bc6:	29 c0       	rjmp	.+82     	; 0xc1a <main+0x714>
+				{
+					// indicate mode
+					display_second = bit_is_set(cur_second, 0) ? 10 : -1;
+     bc8:	80 91 9f 01 	lds	r24, 0x019F
+     bcc:	80 ff       	sbrs	r24, 0
+     bce:	02 c0       	rjmp	.+4      	; 0xbd4 <main+0x6ce>
+     bd0:	8a e0       	ldi	r24, 0x0A	; 10
+     bd2:	01 c0       	rjmp	.+2      	; 0xbd6 <main+0x6d0>
+     bd4:	8f ef       	ldi	r24, 0xFF	; 255
+     bd6:	80 93 a4 01 	sts	0x01A4, r24
+					
+					// indicate AM or PM
+					display_minute = (((alarm_hour >= 12) ? 58 : 28) + (cur_second % 5)) % 60;
+     bda:	80 91 9c 01 	lds	r24, 0x019C
+     bde:	8c 30       	cpi	r24, 0x0C	; 12
+     be0:	18 f0       	brcs	.+6      	; 0xbe8 <main+0x6e2>
+     be2:	2a e3       	ldi	r18, 0x3A	; 58
+     be4:	30 e0       	ldi	r19, 0x00	; 0
+     be6:	02 c0       	rjmp	.+4      	; 0xbec <main+0x6e6>
+     be8:	2c e1       	ldi	r18, 0x1C	; 28
+     bea:	30 e0       	ldi	r19, 0x00	; 0
+     bec:	80 91 9f 01 	lds	r24, 0x019F
+     bf0:	6e 2f       	mov	r22, r30
+     bf2:	0e 94 da 07 	call	0xfb4	; 0xfb4 <__udivmodqi4>
+     bf6:	b9 01       	movw	r22, r18
+     bf8:	69 0f       	add	r22, r25
+     bfa:	71 1d       	adc	r23, r1
+     bfc:	cb 01       	movw	r24, r22
+     bfe:	b5 01       	movw	r22, r10
+     c00:	0e 94 f3 07 	call	0xfe6	; 0xfe6 <__divmodhi4>
+     c04:	80 93 a8 01 	sts	0x01A8, r24
+					
+					// indicate current settings
+					display_hour = alarm_hour;
+     c08:	80 91 9c 01 	lds	r24, 0x019C
+     c0c:	80 93 a3 01 	sts	0x01A3, r24
+     c10:	71 e2       	ldi	r23, 0x21	; 33
+     c12:	7a 95       	dec	r23
+     c14:	f1 f7       	brne	.-4      	; 0xc12 <main+0x70c>
+     c16:	00 00       	nop
+				// indicate AM or PM
+				display_minute = (((alarm_hour >= 12) ? 58 : 28) + (cur_second % 5)) % 60;
+				
+				debounce();
+				
+				for (uint8_t i = 0; i < (button_was_down == 0 ? 10 : 5) && button1_is_down(); i++)
+     c18:	4f 5f       	subi	r20, 0xFF	; 255
+     c1a:	24 2f       	mov	r18, r20
+     c1c:	30 e0       	ldi	r19, 0x00	; 0
+     c1e:	11 23       	and	r17, r17
+     c20:	19 f4       	brne	.+6      	; 0xc28 <main+0x722>
+     c22:	8a e0       	ldi	r24, 0x0A	; 10
+     c24:	90 e0       	ldi	r25, 0x00	; 0
+     c26:	02 c0       	rjmp	.+4      	; 0xc2c <main+0x726>
+     c28:	85 e0       	ldi	r24, 0x05	; 5
+     c2a:	90 e0       	ldi	r25, 0x00	; 0
+     c2c:	28 17       	cp	r18, r24
+     c2e:	39 07       	cpc	r19, r25
+     c30:	14 f4       	brge	.+4      	; 0xc36 <main+0x730>
+     c32:	1b 9b       	sbis	0x03, 3	; 3
+     c34:	c9 cf       	rjmp	.-110    	; 0xbc8 <main+0x6c2>
+					debounce();
+				}
+				
+				button_was_down = 1;
+				
+				if (button1_is_up())
+     c36:	1b 9b       	sbis	0x03, 3	; 3
+     c38:	10 c0       	rjmp	.+32     	; 0xc5a <main+0x754>
+     c3a:	81 e2       	ldi	r24, 0x21	; 33
+     c3c:	8a 95       	dec	r24
+     c3e:	f1 f7       	brne	.-4      	; 0xc3c <main+0x736>
+     c40:	00 00       	nop
+			{
+				// change
+				alarm_hour = (alarm_hour + 1) % 24;
+				display_hour = alarm_hour;
+				
+				eeprom_is_dirty = 1;
+     c42:	21 e0       	ldi	r18, 0x01	; 1
+     c44:	08 c0       	rjmp	.+16     	; 0xc56 <main+0x750>
+				{
+					button_was_down = 0;
+					debounce();
+				}
+			}
+			else if (button1_is_up())
+     c46:	1b 9b       	sbis	0x03, 3	; 3
+     c48:	0a c0       	rjmp	.+20     	; 0xc5e <main+0x758>
+			{
+				if (button_was_down != 0)
+     c4a:	11 23       	and	r17, r17
+     c4c:	41 f0       	breq	.+16     	; 0xc5e <main+0x758>
+     c4e:	41 e2       	ldi	r20, 0x21	; 33
+     c50:	4a 95       	dec	r20
+     c52:	f1 f7       	brne	.-4      	; 0xc50 <main+0x74a>
+     c54:	00 00       	nop
+				{
+					debounce();
+				}
+				
+				button_was_down = 0;
+     c56:	10 e0       	ldi	r17, 0x00	; 0
+     c58:	02 c0       	rjmp	.+4      	; 0xc5e <main+0x758>
+			{
+				// change
+				alarm_hour = (alarm_hour + 1) % 24;
+				display_hour = alarm_hour;
+				
+				eeprom_is_dirty = 1;
+     c5a:	21 e0       	ldi	r18, 0x01	; 1
+					display_hour = alarm_hour;
+					
+					debounce();
+				}
+				
+				button_was_down = 1;
+     c5c:	11 e0       	ldi	r17, 0x01	; 1
+				}
+				
+				button_was_down = 0;
+			}
+			
+			if (button2_is_down())
+     c5e:	19 99       	sbic	0x03, 1	; 3
+     c60:	69 c1       	rjmp	.+722    	; 0xf34 <main+0xa2e>
+			{
+				// indicate mode
+				display_second = bit_is_set(cur_second, 0) ? 15 : -1;
+     c62:	80 91 9f 01 	lds	r24, 0x019F
+     c66:	80 ff       	sbrs	r24, 0
+     c68:	02 c0       	rjmp	.+4      	; 0xc6e <main+0x768>
+     c6a:	8f e0       	ldi	r24, 0x0F	; 15
+     c6c:	01 c0       	rjmp	.+2      	; 0xc70 <main+0x76a>
+     c6e:	8f ef       	ldi	r24, 0xFF	; 255
+     c70:	80 93 a4 01 	sts	0x01A4, r24
+				
+				// indicate current settings
+				display_minute = alarm_minute;
+     c74:	80 91 a1 01 	lds	r24, 0x01A1
+     c78:	80 93 a8 01 	sts	0x01A8, r24
+				display_hour = -1;
+     c7c:	c0 93 a3 01 	sts	0x01A3, r28
+				
+				// goto next mode
+				mode = 5;
+     c80:	85 e0       	ldi	r24, 0x05	; 5
+     c82:	80 93 97 01 	sts	0x0197, r24
+				to_sleep = 0;
+     c86:	10 92 98 01 	sts	0x0198, r1
+     c8a:	51 e2       	ldi	r21, 0x21	; 33
+     c8c:	5a 95       	dec	r21
+     c8e:	f1 f7       	brne	.-4      	; 0xc8c <main+0x786>
+     c90:	00 00       	nop
+     c92:	0d c0       	rjmp	.+26     	; 0xcae <main+0x7a8>
+				debounce();
+				
+				while (button2_is_down())
+				{
+					// indicate mode
+					display_second = bit_is_set(cur_second, 0) ? 15 : -1;
+     c94:	80 91 9f 01 	lds	r24, 0x019F
+     c98:	80 ff       	sbrs	r24, 0
+     c9a:	02 c0       	rjmp	.+4      	; 0xca0 <main+0x79a>
+     c9c:	8f e0       	ldi	r24, 0x0F	; 15
+     c9e:	01 c0       	rjmp	.+2      	; 0xca2 <main+0x79c>
+     ca0:	8f ef       	ldi	r24, 0xFF	; 255
+     ca2:	80 93 a4 01 	sts	0x01A4, r24
+					
+					// indicate current settings
+					display_minute = cur_minute;
+     ca6:	80 91 a0 01 	lds	r24, 0x01A0
+     caa:	80 93 a8 01 	sts	0x01A8, r24
+				mode = 5;
+				to_sleep = 0;
+				
+				debounce();
+				
+				while (button2_is_down())
+     cae:	19 9b       	sbis	0x03, 1	; 3
+     cb0:	f1 cf       	rjmp	.-30     	; 0xc94 <main+0x78e>
+     cb2:	61 e2       	ldi	r22, 0x21	; 33
+     cb4:	6a 95       	dec	r22
+     cb6:	f1 f7       	brne	.-4      	; 0xcb4 <main+0x7ae>
+     cb8:	29 cf       	rjmp	.-430    	; 0xb0c <main+0x606>
+				}
+				
+				debounce();
+			}
+		}
+		else if (mode == 5)
+     cba:	80 91 97 01 	lds	r24, 0x0197
+     cbe:	85 30       	cpi	r24, 0x05	; 5
+     cc0:	09 f0       	breq	.+2      	; 0xcc4 <main+0x7be>
+     cc2:	93 c0       	rjmp	.+294    	; 0xdea <main+0x8e4>
+		{
+			// set alarm minute
+			
+			// indicate mode
+			display_second = bit_is_set(cur_second, 0) ? 15 : -1;
+     cc4:	80 91 9f 01 	lds	r24, 0x019F
+     cc8:	80 ff       	sbrs	r24, 0
+     cca:	02 c0       	rjmp	.+4      	; 0xcd0 <main+0x7ca>
+     ccc:	8f e0       	ldi	r24, 0x0F	; 15
+     cce:	01 c0       	rjmp	.+2      	; 0xcd2 <main+0x7cc>
+     cd0:	8f ef       	ldi	r24, 0xFF	; 255
+     cd2:	80 93 a4 01 	sts	0x01A4, r24
+			
+			// turn off
+			display_hour = -1;
+     cd6:	c0 93 a3 01 	sts	0x01A3, r28
+			
+			// show current settings
+			display_minute = alarm_minute;
+     cda:	80 91 a1 01 	lds	r24, 0x01A1
+     cde:	80 93 a8 01 	sts	0x01A8, r24
+			
+			if (button1_is_down())
+     ce2:	1b 99       	sbic	0x03, 3	; 3
+     ce4:	3c c0       	rjmp	.+120    	; 0xd5e <main+0x858>
+			{
+				// change
+				alarm_minute = (alarm_minute + 1) % 60;
+     ce6:	80 91 a1 01 	lds	r24, 0x01A1
+     cea:	90 e0       	ldi	r25, 0x00	; 0
+     cec:	01 96       	adiw	r24, 0x01	; 1
+     cee:	6c e3       	ldi	r22, 0x3C	; 60
+     cf0:	70 e0       	ldi	r23, 0x00	; 0
+     cf2:	0e 94 f3 07 	call	0xfe6	; 0xfe6 <__divmodhi4>
+     cf6:	80 93 a1 01 	sts	0x01A1, r24
+				display_minute = alarm_minute;
+     cfa:	80 91 a1 01 	lds	r24, 0x01A1
+     cfe:	80 93 a8 01 	sts	0x01A8, r24
+     d02:	71 e2       	ldi	r23, 0x21	; 33
+     d04:	7a 95       	dec	r23
+     d06:	f1 f7       	brne	.-4      	; 0xd04 <main+0x7fe>
+     d08:	00 00       	nop
+				
+				eeprom_is_dirty = 1;
+				
+				debounce();
+				
+				for (uint8_t i = 0; i < (button_was_down == 0 ? 10 : 5) && button1_is_down(); i++)
+     d0a:	40 e0       	ldi	r20, 0x00	; 0
+     d0c:	12 c0       	rjmp	.+36     	; 0xd32 <main+0x82c>
+				{
+					// indicate mode
+					display_second = bit_is_set(cur_second, 0) ? 15 : -1;
+     d0e:	80 91 9f 01 	lds	r24, 0x019F
+     d12:	80 ff       	sbrs	r24, 0
+     d14:	02 c0       	rjmp	.+4      	; 0xd1a <main+0x814>
+     d16:	8f e0       	ldi	r24, 0x0F	; 15
+     d18:	01 c0       	rjmp	.+2      	; 0xd1c <main+0x816>
+     d1a:	8f ef       	ldi	r24, 0xFF	; 255
+     d1c:	80 93 a4 01 	sts	0x01A4, r24
+					
+					// show current settings
+					display_minute = alarm_minute;
+     d20:	80 91 a1 01 	lds	r24, 0x01A1
+     d24:	80 93 a8 01 	sts	0x01A8, r24
+     d28:	81 e2       	ldi	r24, 0x21	; 33
+     d2a:	8a 95       	dec	r24
+     d2c:	f1 f7       	brne	.-4      	; 0xd2a <main+0x824>
+     d2e:	00 00       	nop
+				
+				eeprom_is_dirty = 1;
+				
+				debounce();
+				
+				for (uint8_t i = 0; i < (button_was_down == 0 ? 10 : 5) && button1_is_down(); i++)
+     d30:	4f 5f       	subi	r20, 0xFF	; 255
+     d32:	24 2f       	mov	r18, r20
+     d34:	30 e0       	ldi	r19, 0x00	; 0
+     d36:	11 23       	and	r17, r17
+     d38:	19 f4       	brne	.+6      	; 0xd40 <main+0x83a>
+     d3a:	8a e0       	ldi	r24, 0x0A	; 10
+     d3c:	90 e0       	ldi	r25, 0x00	; 0
+     d3e:	02 c0       	rjmp	.+4      	; 0xd44 <main+0x83e>
+     d40:	85 e0       	ldi	r24, 0x05	; 5
+     d42:	90 e0       	ldi	r25, 0x00	; 0
+     d44:	28 17       	cp	r18, r24
+     d46:	39 07       	cpc	r19, r25
+     d48:	14 f4       	brge	.+4      	; 0xd4e <main+0x848>
+     d4a:	1b 9b       	sbis	0x03, 3	; 3
+     d4c:	e0 cf       	rjmp	.-64     	; 0xd0e <main+0x808>
+					debounce();
+				}
+				
+				button_was_down = 1;
+				
+				if (button1_is_up())
+     d4e:	1b 9b       	sbis	0x03, 3	; 3
+     d50:	10 c0       	rjmp	.+32     	; 0xd72 <main+0x86c>
+     d52:	41 e2       	ldi	r20, 0x21	; 33
+     d54:	4a 95       	dec	r20
+     d56:	f1 f7       	brne	.-4      	; 0xd54 <main+0x84e>
+     d58:	00 00       	nop
+			{
+				// change
+				alarm_minute = (alarm_minute + 1) % 60;
+				display_minute = alarm_minute;
+				
+				eeprom_is_dirty = 1;
+     d5a:	21 e0       	ldi	r18, 0x01	; 1
+     d5c:	08 c0       	rjmp	.+16     	; 0xd6e <main+0x868>
+				{
+					button_was_down = 0;
+					debounce();
+				}
+			}
+			else if (button1_is_up())
+     d5e:	1b 9b       	sbis	0x03, 3	; 3
+     d60:	0a c0       	rjmp	.+20     	; 0xd76 <main+0x870>
+			{
+				if (button_was_down != 0)
+     d62:	11 23       	and	r17, r17
+     d64:	41 f0       	breq	.+16     	; 0xd76 <main+0x870>
+     d66:	51 e2       	ldi	r21, 0x21	; 33
+     d68:	5a 95       	dec	r21
+     d6a:	f1 f7       	brne	.-4      	; 0xd68 <main+0x862>
+     d6c:	00 00       	nop
+				{
+					debounce();
+				}
+				
+				button_was_down = 0;
+     d6e:	10 e0       	ldi	r17, 0x00	; 0
+     d70:	02 c0       	rjmp	.+4      	; 0xd76 <main+0x870>
+			{
+				// change
+				alarm_minute = (alarm_minute + 1) % 60;
+				display_minute = alarm_minute;
+				
+				eeprom_is_dirty = 1;
+     d72:	21 e0       	ldi	r18, 0x01	; 1
+					// show current settings
+					display_minute = alarm_minute;
+					debounce();
+				}
+				
+				button_was_down = 1;
+     d74:	11 e0       	ldi	r17, 0x01	; 1
+				}
+				
+				button_was_down = 0;
+			}
+			
+			if (button2_is_down())
+     d76:	19 99       	sbic	0x03, 1	; 3
+     d78:	dd c0       	rjmp	.+442    	; 0xf34 <main+0xa2e>
+			{
+				// clear display
+				display_second = -1;
+     d7a:	c0 93 a4 01 	sts	0x01A4, r28
+				display_minute = -1;
+     d7e:	c0 93 a8 01 	sts	0x01A8, r28
+				display_hour = -1;
+     d82:	c0 93 a3 01 	sts	0x01A3, r28
+				
+				// goto next mode
+				mode = 6;
+     d86:	86 e0       	ldi	r24, 0x06	; 6
+     d88:	80 93 97 01 	sts	0x0197, r24
+				to_sleep = 0;
+     d8c:	10 92 98 01 	sts	0x0198, r1
+     d90:	61 e2       	ldi	r22, 0x21	; 33
+     d92:	6a 95       	dec	r22
+     d94:	f1 f7       	brne	.-4      	; 0xd92 <main+0x88c>
+     d96:	00 00       	nop
+     d98:	22 c0       	rjmp	.+68     	; 0xdde <main+0x8d8>
+				debounce();
+				while (button2_is_down())
+				{
+					// indicate mode
+					display_second = bit_is_set(cur_second, 0) ? 20 : -1;
+     d9a:	80 91 9f 01 	lds	r24, 0x019F
+     d9e:	80 ff       	sbrs	r24, 0
+     da0:	02 c0       	rjmp	.+4      	; 0xda6 <main+0x8a0>
+     da2:	84 e1       	ldi	r24, 0x14	; 20
+     da4:	01 c0       	rjmp	.+2      	; 0xda8 <main+0x8a2>
+     da6:	8f ef       	ldi	r24, 0xFF	; 255
+     da8:	80 93 a4 01 	sts	0x01A4, r24
+					
+					// indicate alarm enabled status
+					display_hour = (alarm_enabled != 0) ? (5 + (cur_second % 3)) : ((11 + (cur_second % 3)) % 12);
+     dac:	80 91 9d 01 	lds	r24, 0x019D
+     db0:	88 23       	and	r24, r24
+     db2:	39 f0       	breq	.+14     	; 0xdc2 <main+0x8bc>
+     db4:	80 91 9f 01 	lds	r24, 0x019F
+     db8:	6d 2f       	mov	r22, r29
+     dba:	0e 94 da 07 	call	0xfb4	; 0xfb4 <__udivmodqi4>
+     dbe:	9b 5f       	subi	r25, 0xFB	; 251
+     dc0:	0c c0       	rjmp	.+24     	; 0xdda <main+0x8d4>
+     dc2:	80 91 9f 01 	lds	r24, 0x019F
+     dc6:	6d 2f       	mov	r22, r29
+     dc8:	0e 94 da 07 	call	0xfb4	; 0xfb4 <__udivmodqi4>
+     dcc:	89 2f       	mov	r24, r25
+     dce:	90 e0       	ldi	r25, 0x00	; 0
+     dd0:	0b 96       	adiw	r24, 0x0b	; 11
+     dd2:	b4 01       	movw	r22, r8
+     dd4:	0e 94 f3 07 	call	0xfe6	; 0xfe6 <__divmodhi4>
+     dd8:	98 2f       	mov	r25, r24
+     dda:	90 93 a3 01 	sts	0x01A3, r25
+				
+				// goto next mode
+				mode = 6;
+				to_sleep = 0;
+				debounce();
+				while (button2_is_down())
+     dde:	19 9b       	sbis	0x03, 1	; 3
+     de0:	dc cf       	rjmp	.-72     	; 0xd9a <main+0x894>
+     de2:	71 e2       	ldi	r23, 0x21	; 33
+     de4:	7a 95       	dec	r23
+     de6:	f1 f7       	brne	.-4      	; 0xde4 <main+0x8de>
+     de8:	91 ce       	rjmp	.-734    	; 0xb0c <main+0x606>
+					display_hour = (alarm_enabled != 0) ? (5 + (cur_second % 3)) : ((11 + (cur_second % 3)) % 12);
+				}
+				debounce();
+			}
+		}
+		else if (mode == 6)
+     dea:	80 91 97 01 	lds	r24, 0x0197
+     dee:	86 30       	cpi	r24, 0x06	; 6
+     df0:	09 f0       	breq	.+2      	; 0xdf4 <main+0x8ee>
+     df2:	85 c0       	rjmp	.+266    	; 0xefe <main+0x9f8>
+		{
+			// enable/disable alarm
+			
+			// indicate mode
+			display_second = bit_is_set(cur_second, 0) ? 20 : -1;
+     df4:	80 91 9f 01 	lds	r24, 0x019F
+     df8:	80 ff       	sbrs	r24, 0
+     dfa:	02 c0       	rjmp	.+4      	; 0xe00 <main+0x8fa>
+     dfc:	84 e1       	ldi	r24, 0x14	; 20
+     dfe:	01 c0       	rjmp	.+2      	; 0xe02 <main+0x8fc>
+     e00:	8f ef       	ldi	r24, 0xFF	; 255
+     e02:	80 93 a4 01 	sts	0x01A4, r24
+			
+			display_minute = -1; // turn off
+     e06:	c0 93 a8 01 	sts	0x01A8, r28
+			
+			// indicate alarm enabled status
+			display_hour = (alarm_enabled != 0) ? (5 + (cur_second % 3)) : ((11 + (cur_second % 3)) % 12);
+     e0a:	80 91 9d 01 	lds	r24, 0x019D
+     e0e:	88 23       	and	r24, r24
+     e10:	39 f0       	breq	.+14     	; 0xe20 <main+0x91a>
+     e12:	80 91 9f 01 	lds	r24, 0x019F
+     e16:	6d 2f       	mov	r22, r29
+     e18:	0e 94 da 07 	call	0xfb4	; 0xfb4 <__udivmodqi4>
+     e1c:	9b 5f       	subi	r25, 0xFB	; 251
+     e1e:	0c c0       	rjmp	.+24     	; 0xe38 <main+0x932>
+     e20:	80 91 9f 01 	lds	r24, 0x019F
+     e24:	6d 2f       	mov	r22, r29
+     e26:	0e 94 da 07 	call	0xfb4	; 0xfb4 <__udivmodqi4>
+     e2a:	89 2f       	mov	r24, r25
+     e2c:	90 e0       	ldi	r25, 0x00	; 0
+     e2e:	0b 96       	adiw	r24, 0x0b	; 11
+     e30:	b4 01       	movw	r22, r8
+     e32:	0e 94 f3 07 	call	0xfe6	; 0xfe6 <__divmodhi4>
+     e36:	98 2f       	mov	r25, r24
+     e38:	90 93 a3 01 	sts	0x01A3, r25
+			
+			if (button1_is_down())
+     e3c:	1b 99       	sbic	0x03, 3	; 3
+     e3e:	4e c0       	rjmp	.+156    	; 0xedc <main+0x9d6>
+			{
+				alarm_enabled = alarm_enabled == 0 ? 1 : 0; // change
+     e40:	90 91 9d 01 	lds	r25, 0x019D
+     e44:	81 e0       	ldi	r24, 0x01	; 1
+     e46:	91 11       	cpse	r25, r1
+     e48:	80 e0       	ldi	r24, 0x00	; 0
+     e4a:	80 93 9d 01 	sts	0x019D, r24
+				display_hour = (alarm_enabled != 0) ? (5 + (cur_second % 3)) : ((11 + (cur_second % 3)) % 12);
+     e4e:	80 91 9d 01 	lds	r24, 0x019D
+     e52:	88 23       	and	r24, r24
+     e54:	39 f0       	breq	.+14     	; 0xe64 <main+0x95e>
+     e56:	80 91 9f 01 	lds	r24, 0x019F
+     e5a:	6d 2f       	mov	r22, r29
+     e5c:	0e 94 da 07 	call	0xfb4	; 0xfb4 <__udivmodqi4>
+     e60:	9b 5f       	subi	r25, 0xFB	; 251
+     e62:	0c c0       	rjmp	.+24     	; 0xe7c <main+0x976>
+     e64:	80 91 9f 01 	lds	r24, 0x019F
+     e68:	6d 2f       	mov	r22, r29
+     e6a:	0e 94 da 07 	call	0xfb4	; 0xfb4 <__udivmodqi4>
+     e6e:	89 2f       	mov	r24, r25
+     e70:	90 e0       	ldi	r25, 0x00	; 0
+     e72:	0b 96       	adiw	r24, 0x0b	; 11
+     e74:	b4 01       	movw	r22, r8
+     e76:	0e 94 f3 07 	call	0xfe6	; 0xfe6 <__divmodhi4>
+     e7a:	98 2f       	mov	r25, r24
+     e7c:	90 93 a3 01 	sts	0x01A3, r25
+     e80:	81 e2       	ldi	r24, 0x21	; 33
+     e82:	8a 95       	dec	r24
+     e84:	f1 f7       	brne	.-4      	; 0xe82 <main+0x97c>
+     e86:	00 00       	nop
+     e88:	22 c0       	rjmp	.+68     	; 0xece <main+0x9c8>
+				eeprom_is_dirty = 1;
+				debounce();
+				while (button1_is_down())
+				{
+					// indicate mode
+					display_second = bit_is_set(cur_second, 0) ? 20 : -1;
+     e8a:	80 91 9f 01 	lds	r24, 0x019F
+     e8e:	80 ff       	sbrs	r24, 0
+     e90:	02 c0       	rjmp	.+4      	; 0xe96 <main+0x990>
+     e92:	84 e1       	ldi	r24, 0x14	; 20
+     e94:	01 c0       	rjmp	.+2      	; 0xe98 <main+0x992>
+     e96:	8f ef       	ldi	r24, 0xFF	; 255
+     e98:	80 93 a4 01 	sts	0x01A4, r24
+					
+					// indicate alarm enabled status
+					display_hour = (alarm_enabled != 0) ? (5 + (cur_second % 3)) : ((11 + (cur_second % 3)) % 12);
+     e9c:	80 91 9d 01 	lds	r24, 0x019D
+     ea0:	88 23       	and	r24, r24
+     ea2:	39 f0       	breq	.+14     	; 0xeb2 <main+0x9ac>
+     ea4:	80 91 9f 01 	lds	r24, 0x019F
+     ea8:	6d 2f       	mov	r22, r29
+     eaa:	0e 94 da 07 	call	0xfb4	; 0xfb4 <__udivmodqi4>
+     eae:	9b 5f       	subi	r25, 0xFB	; 251
+     eb0:	0c c0       	rjmp	.+24     	; 0xeca <main+0x9c4>
+     eb2:	80 91 9f 01 	lds	r24, 0x019F
+     eb6:	6d 2f       	mov	r22, r29
+     eb8:	0e 94 da 07 	call	0xfb4	; 0xfb4 <__udivmodqi4>
+     ebc:	89 2f       	mov	r24, r25
+     ebe:	90 e0       	ldi	r25, 0x00	; 0
+     ec0:	0b 96       	adiw	r24, 0x0b	; 11
+     ec2:	b4 01       	movw	r22, r8
+     ec4:	0e 94 f3 07 	call	0xfe6	; 0xfe6 <__divmodhi4>
+     ec8:	98 2f       	mov	r25, r24
+     eca:	90 93 a3 01 	sts	0x01A3, r25
+			{
+				alarm_enabled = alarm_enabled == 0 ? 1 : 0; // change
+				display_hour = (alarm_enabled != 0) ? (5 + (cur_second % 3)) : ((11 + (cur_second % 3)) % 12);
+				eeprom_is_dirty = 1;
+				debounce();
+				while (button1_is_down())
+     ece:	1b 9b       	sbis	0x03, 3	; 3
+     ed0:	dc cf       	rjmp	.-72     	; 0xe8a <main+0x984>
+     ed2:	41 e2       	ldi	r20, 0x21	; 33
+     ed4:	4a 95       	dec	r20
+     ed6:	f1 f7       	brne	.-4      	; 0xed4 <main+0x9ce>
+     ed8:	00 00       	nop
+			
+			if (button1_is_down())
+			{
+				alarm_enabled = alarm_enabled == 0 ? 1 : 0; // change
+				display_hour = (alarm_enabled != 0) ? (5 + (cur_second % 3)) : ((11 + (cur_second % 3)) % 12);
+				eeprom_is_dirty = 1;
+     eda:	21 e0       	ldi	r18, 0x01	; 1
+					display_hour = (alarm_enabled != 0) ? (5 + (cur_second % 3)) : ((11 + (cur_second % 3)) % 12);
+				}
+				debounce();
+			}
+			
+			if (button2_is_down())
+     edc:	19 99       	sbic	0x03, 1	; 3
+     ede:	2a c0       	rjmp	.+84     	; 0xf34 <main+0xa2e>
+			{
+				// go to sleep
+				display_second = -1;
+     ee0:	c0 93 a4 01 	sts	0x01A4, r28
+				display_minute = -1;
+     ee4:	c0 93 a8 01 	sts	0x01A8, r28
+				display_hour = -1;
+     ee8:	c0 93 a3 01 	sts	0x01A3, r28
+				mode = 0;
+     eec:	10 92 97 01 	sts	0x0197, r1
+				to_sleep = 1;
+     ef0:	81 e0       	ldi	r24, 0x01	; 1
+     ef2:	80 93 98 01 	sts	0x0198, r24
+     ef6:	51 e2       	ldi	r21, 0x21	; 33
+     ef8:	5a 95       	dec	r21
+     efa:	f1 f7       	brne	.-4      	; 0xef8 <main+0x9f2>
+     efc:	07 ce       	rjmp	.-1010   	; 0xb0c <main+0x606>
+				debounce();
+			}
+		}
+		else if (mode == 7)
+     efe:	80 91 97 01 	lds	r24, 0x0197
+     f02:	87 30       	cpi	r24, 0x07	; 7
+     f04:	b9 f4       	brne	.+46     	; 0xf34 <main+0xa2e>
+		{
+			if (bit_is_set(cur_second, 0))
+     f06:	80 91 9f 01 	lds	r24, 0x019F
+     f0a:	80 ff       	sbrs	r24, 0
+     f0c:	07 c0       	rjmp	.+14     	; 0xf1c <main+0xa16>
+			{
+				display_second = -1;
+     f0e:	c0 93 a4 01 	sts	0x01A4, r28
+				display_minute = -1;
+     f12:	c0 93 a8 01 	sts	0x01A8, r28
+				display_hour = -1;
+     f16:	c0 93 a3 01 	sts	0x01A3, r28
+     f1a:	0c c0       	rjmp	.+24     	; 0xf34 <main+0xa2e>
+			}
+			else
+			{
+				display_second = cur_second;
+     f1c:	80 91 9f 01 	lds	r24, 0x019F
+     f20:	80 93 a4 01 	sts	0x01A4, r24
+				display_minute = cur_minute;
+     f24:	80 91 a0 01 	lds	r24, 0x01A0
+     f28:	80 93 a8 01 	sts	0x01A8, r24
+				display_hour = cur_hour;
+     f2c:	80 91 9e 01 	lds	r24, 0x019E
+     f30:	80 93 a3 01 	sts	0x01A3, r24
+			}
+		}
+		
+		if (to_sleep)
+     f34:	80 91 98 01 	lds	r24, 0x0198
+     f38:	88 23       	and	r24, r24
+     f3a:	09 f4       	brne	.+2      	; 0xf3e <main+0xa38>
+     f3c:	9b cb       	rjmp	.-2250   	; 0x674 <main+0x16e>
+		{
+			// nothing to do, disable LEDs and go to sleep
+			display_second = -1;
+     f3e:	c0 93 a4 01 	sts	0x01A4, r28
+			display_minute = -1;
+     f42:	c0 93 a8 01 	sts	0x01A8, r28
+			display_hour = -1;
+     f46:	c0 93 a3 01 	sts	0x01A3, r28
+			mode = 0;
+     f4a:	10 92 97 01 	sts	0x0197, r1
+			
+			// save data if required
+			if (eeprom_is_dirty)
+     f4e:	22 23       	and	r18, r18
+     f50:	21 f1       	breq	.+72     	; 0xf9a <main+0xa94>
+			{
+				eeprom_update_byte(0, cur_second);
+     f52:	60 91 9f 01 	lds	r22, 0x019F
+     f56:	80 e0       	ldi	r24, 0x00	; 0
+     f58:	90 e0       	ldi	r25, 0x00	; 0
+     f5a:	0e 94 22 08 	call	0x1044	; 0x1044 <__eeupd_byte_m165pa>
+				eeprom_update_byte(1, cur_minute);
+     f5e:	60 91 a0 01 	lds	r22, 0x01A0
+     f62:	81 e0       	ldi	r24, 0x01	; 1
+     f64:	90 e0       	ldi	r25, 0x00	; 0
+     f66:	0e 94 22 08 	call	0x1044	; 0x1044 <__eeupd_byte_m165pa>
+				eeprom_update_byte(2, cur_hour);
+     f6a:	60 91 9e 01 	lds	r22, 0x019E
+     f6e:	82 e0       	ldi	r24, 0x02	; 2
+     f70:	90 e0       	ldi	r25, 0x00	; 0
+     f72:	0e 94 22 08 	call	0x1044	; 0x1044 <__eeupd_byte_m165pa>
+				eeprom_update_byte(3, alarm_minute);
+     f76:	60 91 a1 01 	lds	r22, 0x01A1
+     f7a:	83 e0       	ldi	r24, 0x03	; 3
+     f7c:	90 e0       	ldi	r25, 0x00	; 0
+     f7e:	0e 94 22 08 	call	0x1044	; 0x1044 <__eeupd_byte_m165pa>
+				eeprom_update_byte(4, alarm_hour);
+     f82:	60 91 9c 01 	lds	r22, 0x019C
+     f86:	84 e0       	ldi	r24, 0x04	; 4
+     f88:	90 e0       	ldi	r25, 0x00	; 0
+     f8a:	0e 94 22 08 	call	0x1044	; 0x1044 <__eeupd_byte_m165pa>
+				eeprom_update_byte(5, alarm_enabled);
+     f8e:	60 91 9d 01 	lds	r22, 0x019D
+     f92:	85 e0       	ldi	r24, 0x05	; 5
+     f94:	90 e0       	ldi	r25, 0x00	; 0
+     f96:	0e 94 22 08 	call	0x1044	; 0x1044 <__eeupd_byte_m165pa>
+				
+				eeprom_is_dirty = 0;
+			}
+			
+			if (alarm_active == 0)
+     f9a:	80 91 a7 01 	lds	r24, 0x01A7
+     f9e:	88 23       	and	r24, r24
+     fa0:	09 f0       	breq	.+2      	; 0xfa4 <main+0xa9e>
+     fa2:	67 cb       	rjmp	.-2354   	; 0x672 <main+0x16c>
+			{
+				sleep_enable(); // SMCR |= _BV(SE); // enable sleep
+     fa4:	83 b7       	in	r24, 0x33	; 51
+     fa6:	81 60       	ori	r24, 0x01	; 1
+     fa8:	83 bf       	out	0x33, r24	; 51
+				sleep_cpu();
+     faa:	88 95       	sleep
+				sleep_disable(); // SMCR &= ~_BV(SE); // disable sleep, prevent accidental sleep
+     fac:	83 b7       	in	r24, 0x33	; 51
+     fae:	8e 7f       	andi	r24, 0xFE	; 254
+     fb0:	83 bf       	out	0x33, r24	; 51
+     fb2:	5f cb       	rjmp	.-2370   	; 0x672 <main+0x16c>
+
+00000fb4 <__udivmodqi4>:
+     fb4:	99 1b       	sub	r25, r25
+     fb6:	79 e0       	ldi	r23, 0x09	; 9
+     fb8:	04 c0       	rjmp	.+8      	; 0xfc2 <__udivmodqi4_ep>
+
+00000fba <__udivmodqi4_loop>:
+     fba:	99 1f       	adc	r25, r25
+     fbc:	96 17       	cp	r25, r22
+     fbe:	08 f0       	brcs	.+2      	; 0xfc2 <__udivmodqi4_ep>
+     fc0:	96 1b       	sub	r25, r22
+
+00000fc2 <__udivmodqi4_ep>:
+     fc2:	88 1f       	adc	r24, r24
+     fc4:	7a 95       	dec	r23
+     fc6:	c9 f7       	brne	.-14     	; 0xfba <__udivmodqi4_loop>
+     fc8:	80 95       	com	r24
+     fca:	08 95       	ret
+
+00000fcc <__divmodqi4>:
+     fcc:	87 fb       	bst	r24, 7
+     fce:	08 2e       	mov	r0, r24
+     fd0:	06 26       	eor	r0, r22
+     fd2:	87 fd       	sbrc	r24, 7
+     fd4:	81 95       	neg	r24
+     fd6:	67 fd       	sbrc	r22, 7
+     fd8:	61 95       	neg	r22
+     fda:	ec df       	rcall	.-40     	; 0xfb4 <__udivmodqi4>
+     fdc:	0e f4       	brtc	.+2      	; 0xfe0 <__divmodqi4_1>
+     fde:	91 95       	neg	r25
+
+00000fe0 <__divmodqi4_1>:
+     fe0:	07 fc       	sbrc	r0, 7
+     fe2:	81 95       	neg	r24
+
+00000fe4 <__divmodqi4_exit>:
+     fe4:	08 95       	ret
+
+00000fe6 <__divmodhi4>:
+     fe6:	97 fb       	bst	r25, 7
+     fe8:	09 2e       	mov	r0, r25
+     fea:	07 26       	eor	r0, r23
+     fec:	0a d0       	rcall	.+20     	; 0x1002 <__divmodhi4_neg1>
+     fee:	77 fd       	sbrc	r23, 7
+     ff0:	04 d0       	rcall	.+8      	; 0xffa <__divmodhi4_neg2>
+     ff2:	0c d0       	rcall	.+24     	; 0x100c <__udivmodhi4>
+     ff4:	06 d0       	rcall	.+12     	; 0x1002 <__divmodhi4_neg1>
+     ff6:	00 20       	and	r0, r0
+     ff8:	1a f4       	brpl	.+6      	; 0x1000 <__divmodhi4_exit>
+
+00000ffa <__divmodhi4_neg2>:
+     ffa:	70 95       	com	r23
+     ffc:	61 95       	neg	r22
+     ffe:	7f 4f       	sbci	r23, 0xFF	; 255
+
+00001000 <__divmodhi4_exit>:
+    1000:	08 95       	ret
+
+00001002 <__divmodhi4_neg1>:
+    1002:	f6 f7       	brtc	.-4      	; 0x1000 <__divmodhi4_exit>
+    1004:	90 95       	com	r25
+    1006:	81 95       	neg	r24
+    1008:	9f 4f       	sbci	r25, 0xFF	; 255
+    100a:	08 95       	ret
+
+0000100c <__udivmodhi4>:
+    100c:	aa 1b       	sub	r26, r26
+    100e:	bb 1b       	sub	r27, r27
+    1010:	51 e1       	ldi	r21, 0x11	; 17
+    1012:	07 c0       	rjmp	.+14     	; 0x1022 <__udivmodhi4_ep>
+
+00001014 <__udivmodhi4_loop>:
+    1014:	aa 1f       	adc	r26, r26
+    1016:	bb 1f       	adc	r27, r27
+    1018:	a6 17       	cp	r26, r22
+    101a:	b7 07       	cpc	r27, r23
+    101c:	10 f0       	brcs	.+4      	; 0x1022 <__udivmodhi4_ep>
+    101e:	a6 1b       	sub	r26, r22
+    1020:	b7 0b       	sbc	r27, r23
+
+00001022 <__udivmodhi4_ep>:
+    1022:	88 1f       	adc	r24, r24
+    1024:	99 1f       	adc	r25, r25
+    1026:	5a 95       	dec	r21
+    1028:	a9 f7       	brne	.-22     	; 0x1014 <__udivmodhi4_loop>
+    102a:	80 95       	com	r24
+    102c:	90 95       	com	r25
+    102e:	bc 01       	movw	r22, r24
+    1030:	cd 01       	movw	r24, r26
+    1032:	08 95       	ret
+
+00001034 <__eerd_byte_m165pa>:
+    1034:	f9 99       	sbic	0x1f, 1	; 31
+    1036:	fe cf       	rjmp	.-4      	; 0x1034 <__eerd_byte_m165pa>
+    1038:	92 bd       	out	0x22, r25	; 34
+    103a:	81 bd       	out	0x21, r24	; 33
+    103c:	f8 9a       	sbi	0x1f, 0	; 31
+    103e:	99 27       	eor	r25, r25
+    1040:	80 b5       	in	r24, 0x20	; 32
+    1042:	08 95       	ret
+
+00001044 <__eeupd_byte_m165pa>:
+    1044:	26 2f       	mov	r18, r22
+
+00001046 <__eeupd_r18_m165pa>:
+    1046:	f9 99       	sbic	0x1f, 1	; 31
+    1048:	fe cf       	rjmp	.-4      	; 0x1046 <__eeupd_r18_m165pa>
+    104a:	92 bd       	out	0x22, r25	; 34
+    104c:	81 bd       	out	0x21, r24	; 33
+    104e:	f8 9a       	sbi	0x1f, 0	; 31
+    1050:	01 97       	sbiw	r24, 0x01	; 1
+    1052:	00 b4       	in	r0, 0x20	; 32
+    1054:	02 16       	cp	r0, r18
+    1056:	31 f0       	breq	.+12     	; 0x1064 <__eeupd_r18_m165pa+0x1e>
+    1058:	20 bd       	out	0x20, r18	; 32
+    105a:	0f b6       	in	r0, 0x3f	; 63
+    105c:	f8 94       	cli
+    105e:	fa 9a       	sbi	0x1f, 2	; 31
+    1060:	f9 9a       	sbi	0x1f, 1	; 31
+    1062:	0f be       	out	0x3f, r0	; 63
+    1064:	08 95       	ret
+
+00001066 <_exit>:
+    1066:	f8 94       	cli
+
+00001068 <__stop_program>:
+    1068:	ff cf       	rjmp	.-2      	; 0x1068 <__stop_program>
