@@ -861,9 +861,11 @@ int main()
 			
 			if (alarm_active == 0)
 			{
+				TIMSK0 = 0; // disable interrupt to save power
 				sleep_enable(); // SMCR |= _BV(SE); // enable sleep
 				sleep_cpu();
 				sleep_disable(); // SMCR &= ~_BV(SE); // disable sleep, prevent accidental sleep
+				TIMSK0 = _BV(TOIE0) | _BV(OCIE0A); // re-enable interrupt
 			}
 		}
 	}

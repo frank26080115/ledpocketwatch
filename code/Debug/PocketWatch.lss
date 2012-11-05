@@ -3,31 +3,31 @@ PocketWatch.elf:     file format elf32-avr
 
 Sections:
 Idx Name          Size      VMA       LMA       File off  Algn
-  0 .data         00000096  00800100  000010a0  00001134  2**0
+  0 .data         00000096  00800100  000010a8  0000113c  2**0
                   CONTENTS, ALLOC, LOAD, DATA
-  1 .text         000010a0  00000000  00000000  00000094  2**1
+  1 .text         000010a8  00000000  00000000  00000094  2**1
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
-  2 .bss          00000013  00800196  00800196  000011ca  2**0
+  2 .bss          00000013  00800196  00800196  000011d2  2**0
                   ALLOC
-  3 .stab         00000864  00000000  00000000  000011cc  2**2
+  3 .stab         00000864  00000000  00000000  000011d4  2**2
                   CONTENTS, READONLY, DEBUGGING
-  4 .stabstr      0000014c  00000000  00000000  00001a30  2**0
+  4 .stabstr      0000014c  00000000  00000000  00001a38  2**0
                   CONTENTS, READONLY, DEBUGGING
-  5 .debug_aranges 00000148  00000000  00000000  00001b80  2**3
+  5 .debug_aranges 00000148  00000000  00000000  00001b88  2**3
                   CONTENTS, READONLY, DEBUGGING
-  6 .debug_info   000014ff  00000000  00000000  00001cc8  2**0
+  6 .debug_info   000014ff  00000000  00000000  00001cd0  2**0
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_abbrev 000002c0  00000000  00000000  000031c7  2**0
+  7 .debug_abbrev 000002c0  00000000  00000000  000031cf  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_line   00000c98  00000000  00000000  00003487  2**0
+  8 .debug_line   00000c9a  00000000  00000000  0000348f  2**0
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_frame  000001a4  00000000  00000000  00004120  2**2
+  9 .debug_frame  000001a4  00000000  00000000  0000412c  2**2
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_str    00000331  00000000  00000000  000042c4  2**0
+ 10 .debug_str    00000331  00000000  00000000  000042d0  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_loc    00000e44  00000000  00000000  000045f5  2**0
+ 11 .debug_loc    00000e44  00000000  00000000  00004601  2**0
                   CONTENTS, READONLY, DEBUGGING
- 12 .debug_ranges 00000058  00000000  00000000  00005439  2**0
+ 12 .debug_ranges 00000058  00000000  00000000  00005445  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -68,7 +68,7 @@ Disassembly of section .text:
       64:	11 e0       	ldi	r17, 0x01	; 1
       66:	a0 e0       	ldi	r26, 0x00	; 0
       68:	b1 e0       	ldi	r27, 0x01	; 1
-      6a:	e0 ea       	ldi	r30, 0xA0	; 160
+      6a:	e8 ea       	ldi	r30, 0xA8	; 168
       6c:	f0 e1       	ldi	r31, 0x10	; 16
       6e:	02 c0       	rjmp	.+4      	; 0x74 <__do_copy_data+0x10>
       70:	05 90       	lpm	r0, Z+
@@ -91,7 +91,7 @@ Disassembly of section .text:
       86:	b1 07       	cpc	r27, r17
       88:	e1 f7       	brne	.-8      	; 0x82 <.do_clear_bss_loop>
       8a:	0e 94 9b 02 	call	0x536	; 0x536 <main>
-      8e:	0c 94 4e 08 	jmp	0x109c	; 0x109c <_exit>
+      8e:	0c 94 52 08 	jmp	0x10a4	; 0x10a4 <_exit>
 
 00000092 <__bad_interrupt>:
       92:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
@@ -142,7 +142,7 @@ void set_hour_led(int8_t number)
 		// calculate appropriate index
 		idx = (number % 12) * 5;
       d4:	6c e0       	ldi	r22, 0x0C	; 12
-      d6:	0e 94 01 08 	call	0x1002	; 0x1002 <__divmodqi4>
+      d6:	0e 94 05 08 	call	0x100a	; 0x100a <__divmodqi4>
       da:	89 2f       	mov	r24, r25
       dc:	88 0f       	add	r24, r24
       de:	88 0f       	add	r24, r24
@@ -262,7 +262,7 @@ void set_minute_led(int8_t number)
 		idx = number % 60;
      19c:	8a 81       	ldd	r24, Y+2	; 0x02
      19e:	6c e3       	ldi	r22, 0x3C	; 60
-     1a0:	0e 94 01 08 	call	0x1002	; 0x1002 <__divmodqi4>
+     1a0:	0e 94 05 08 	call	0x100a	; 0x100a <__divmodqi4>
      1a4:	99 83       	std	Y+1, r25	; 0x01
 		idx /= 2;
      1a6:	89 81       	ldd	r24, Y+1	; 0x01
@@ -379,7 +379,7 @@ void set_second_led(int8_t number)
 		idx = number % 60;
      260:	8a 81       	ldd	r24, Y+2	; 0x02
      262:	6c e3       	ldi	r22, 0x3C	; 60
-     264:	0e 94 01 08 	call	0x1002	; 0x1002 <__divmodqi4>
+     264:	0e 94 05 08 	call	0x100a	; 0x100a <__divmodqi4>
      268:	99 83       	std	Y+1, r25	; 0x01
 		idx /= 2;
      26a:	89 81       	ldd	r24, Y+1	; 0x01
@@ -671,7 +671,7 @@ ISR(TIMER0_OVF_vect)
 		uint8_t which_ring = ovf_cnt % 3; // each ring will only get 1/3 duty cycle
      432:	80 91 96 01 	lds	r24, 0x0196
      436:	63 e0       	ldi	r22, 0x03	; 3
-     438:	0e 94 f5 07 	call	0xfea	; 0xfea <__udivmodqi4>
+     438:	0e 94 f9 07 	call	0xff2	; 0xff2 <__udivmodqi4>
 		
 		if (which_ring == 0) // hour
      43c:	99 23       	and	r25, r25
@@ -851,46 +851,46 @@ int main()
 	cur_second = eeprom_read_byte(0) % 60;
      536:	80 e0       	ldi	r24, 0x00	; 0
      538:	90 e0       	ldi	r25, 0x00	; 0
-     53a:	0e 94 35 08 	call	0x106a	; 0x106a <__eerd_byte_m165pa>
+     53a:	0e 94 39 08 	call	0x1072	; 0x1072 <__eerd_byte_m165pa>
      53e:	cc e3       	ldi	r28, 0x3C	; 60
      540:	6c 2f       	mov	r22, r28
-     542:	0e 94 f5 07 	call	0xfea	; 0xfea <__udivmodqi4>
+     542:	0e 94 f9 07 	call	0xff2	; 0xff2 <__udivmodqi4>
      546:	90 93 9f 01 	sts	0x019F, r25
 	cur_minute = eeprom_read_byte(1) % 60;
      54a:	81 e0       	ldi	r24, 0x01	; 1
      54c:	90 e0       	ldi	r25, 0x00	; 0
-     54e:	0e 94 35 08 	call	0x106a	; 0x106a <__eerd_byte_m165pa>
+     54e:	0e 94 39 08 	call	0x1072	; 0x1072 <__eerd_byte_m165pa>
      552:	6c 2f       	mov	r22, r28
-     554:	0e 94 f5 07 	call	0xfea	; 0xfea <__udivmodqi4>
+     554:	0e 94 f9 07 	call	0xff2	; 0xff2 <__udivmodqi4>
      558:	90 93 a0 01 	sts	0x01A0, r25
 	cur_hour = eeprom_read_byte(2) % 24;
      55c:	82 e0       	ldi	r24, 0x02	; 2
      55e:	90 e0       	ldi	r25, 0x00	; 0
-     560:	0e 94 35 08 	call	0x106a	; 0x106a <__eerd_byte_m165pa>
+     560:	0e 94 39 08 	call	0x1072	; 0x1072 <__eerd_byte_m165pa>
      564:	d8 e1       	ldi	r29, 0x18	; 24
      566:	6d 2f       	mov	r22, r29
-     568:	0e 94 f5 07 	call	0xfea	; 0xfea <__udivmodqi4>
+     568:	0e 94 f9 07 	call	0xff2	; 0xff2 <__udivmodqi4>
      56c:	90 93 9e 01 	sts	0x019E, r25
 	
 	// read in alarm settings from eeprom
 	alarm_minute = eeprom_read_byte(3) % 60;
      570:	83 e0       	ldi	r24, 0x03	; 3
      572:	90 e0       	ldi	r25, 0x00	; 0
-     574:	0e 94 35 08 	call	0x106a	; 0x106a <__eerd_byte_m165pa>
+     574:	0e 94 39 08 	call	0x1072	; 0x1072 <__eerd_byte_m165pa>
      578:	6c 2f       	mov	r22, r28
-     57a:	0e 94 f5 07 	call	0xfea	; 0xfea <__udivmodqi4>
+     57a:	0e 94 f9 07 	call	0xff2	; 0xff2 <__udivmodqi4>
      57e:	90 93 a1 01 	sts	0x01A1, r25
 	alarm_hour = eeprom_read_byte(4) % 24;
      582:	84 e0       	ldi	r24, 0x04	; 4
      584:	90 e0       	ldi	r25, 0x00	; 0
-     586:	0e 94 35 08 	call	0x106a	; 0x106a <__eerd_byte_m165pa>
+     586:	0e 94 39 08 	call	0x1072	; 0x1072 <__eerd_byte_m165pa>
      58a:	6d 2f       	mov	r22, r29
-     58c:	0e 94 f5 07 	call	0xfea	; 0xfea <__udivmodqi4>
+     58c:	0e 94 f9 07 	call	0xff2	; 0xff2 <__udivmodqi4>
      590:	90 93 9c 01 	sts	0x019C, r25
 	alarm_enabled = eeprom_read_byte(5);
      594:	85 e0       	ldi	r24, 0x05	; 5
      596:	90 e0       	ldi	r25, 0x00	; 0
-     598:	0e 94 35 08 	call	0x106a	; 0x106a <__eerd_byte_m165pa>
+     598:	0e 94 39 08 	call	0x1072	; 0x1072 <__eerd_byte_m165pa>
      59c:	80 93 9d 01 	sts	0x019D, r24
 	
 	// ground all grounded pins
@@ -1211,13 +1211,13 @@ int main()
      708:	50 e0       	ldi	r21, 0x00	; 0
      70a:	80 91 9f 01 	lds	r24, 0x019F
      70e:	63 2f       	mov	r22, r19
-     710:	0e 94 f5 07 	call	0xfea	; 0xfea <__udivmodqi4>
+     710:	0e 94 f9 07 	call	0xff2	; 0xff2 <__udivmodqi4>
      714:	ba 01       	movw	r22, r20
      716:	69 0f       	add	r22, r25
      718:	71 1d       	adc	r23, r1
      71a:	cb 01       	movw	r24, r22
      71c:	bf 01       	movw	r22, r30
-     71e:	0e 94 0e 08 	call	0x101c	; 0x101c <__divmodhi4>
+     71e:	0e 94 12 08 	call	0x1024	; 0x1024 <__divmodhi4>
      722:	80 93 a8 01 	sts	0x01A8, r24
 					
 					// indicate current settings
@@ -1425,14 +1425,14 @@ int main()
      82e:	50 e0       	ldi	r21, 0x00	; 0
      830:	80 91 9f 01 	lds	r24, 0x019F
      834:	65 e0       	ldi	r22, 0x05	; 5
-     836:	0e 94 f5 07 	call	0xfea	; 0xfea <__udivmodqi4>
+     836:	0e 94 f9 07 	call	0xff2	; 0xff2 <__udivmodqi4>
      83a:	ba 01       	movw	r22, r20
      83c:	69 0f       	add	r22, r25
      83e:	71 1d       	adc	r23, r1
      840:	cb 01       	movw	r24, r22
      842:	6c e3       	ldi	r22, 0x3C	; 60
      844:	70 e0       	ldi	r23, 0x00	; 0
-     846:	0e 94 0e 08 	call	0x101c	; 0x101c <__divmodhi4>
+     846:	0e 94 12 08 	call	0x1024	; 0x1024 <__divmodhi4>
      84a:	80 93 a8 01 	sts	0x01A8, r24
 			
 			// indicate current settings
@@ -1451,7 +1451,7 @@ int main()
      860:	01 96       	adiw	r24, 0x01	; 1
      862:	68 e1       	ldi	r22, 0x18	; 24
      864:	70 e0       	ldi	r23, 0x00	; 0
-     866:	0e 94 0e 08 	call	0x101c	; 0x101c <__divmodhi4>
+     866:	0e 94 12 08 	call	0x1024	; 0x1024 <__divmodhi4>
      86a:	80 93 9e 01 	sts	0x019E, r24
 				display_hour = cur_hour;
      86e:	80 91 9e 01 	lds	r24, 0x019E
@@ -1471,14 +1471,14 @@ int main()
      886:	30 e0       	ldi	r19, 0x00	; 0
      888:	80 91 9f 01 	lds	r24, 0x019F
      88c:	65 e0       	ldi	r22, 0x05	; 5
-     88e:	0e 94 f5 07 	call	0xfea	; 0xfea <__udivmodqi4>
+     88e:	0e 94 f9 07 	call	0xff2	; 0xff2 <__udivmodqi4>
      892:	a9 01       	movw	r20, r18
      894:	49 0f       	add	r20, r25
      896:	51 1d       	adc	r21, r1
      898:	ca 01       	movw	r24, r20
      89a:	6c e3       	ldi	r22, 0x3C	; 60
      89c:	70 e0       	ldi	r23, 0x00	; 0
-     89e:	0e 94 0e 08 	call	0x101c	; 0x101c <__divmodhi4>
+     89e:	0e 94 12 08 	call	0x1024	; 0x1024 <__divmodhi4>
      8a2:	80 93 a8 01 	sts	0x01A8, r24
      8a6:	51 e2       	ldi	r21, 0x21	; 33
      8a8:	5a 95       	dec	r21
@@ -1529,13 +1529,13 @@ int main()
      8dc:	30 e0       	ldi	r19, 0x00	; 0
      8de:	80 91 9f 01 	lds	r24, 0x019F
      8e2:	6e 2f       	mov	r22, r30
-     8e4:	0e 94 f5 07 	call	0xfea	; 0xfea <__udivmodqi4>
+     8e4:	0e 94 f9 07 	call	0xff2	; 0xff2 <__udivmodqi4>
      8e8:	b9 01       	movw	r22, r18
      8ea:	69 0f       	add	r22, r25
      8ec:	71 1d       	adc	r23, r1
      8ee:	cb 01       	movw	r24, r22
      8f0:	b5 01       	movw	r22, r10
-     8f2:	0e 94 0e 08 	call	0x101c	; 0x101c <__divmodhi4>
+     8f2:	0e 94 12 08 	call	0x1024	; 0x1024 <__divmodhi4>
      8f6:	80 93 a8 01 	sts	0x01A8, r24
 					
 					// indicate current settings
@@ -1741,7 +1741,7 @@ int main()
      9e0:	01 96       	adiw	r24, 0x01	; 1
      9e2:	6c e3       	ldi	r22, 0x3C	; 60
      9e4:	70 e0       	ldi	r23, 0x00	; 0
-     9e6:	0e 94 0e 08 	call	0x101c	; 0x101c <__divmodhi4>
+     9e6:	0e 94 12 08 	call	0x1024	; 0x1024 <__divmodhi4>
      9ea:	80 93 a0 01 	sts	0x01A0, r24
 				display_minute = cur_minute;
      9ee:	80 91 a0 01 	lds	r24, 0x01A0
@@ -1908,17 +1908,17 @@ int main()
      aae:	39 f0       	breq	.+14     	; 0xabe <main+0x588>
      ab0:	80 91 9f 01 	lds	r24, 0x019F
      ab4:	6d 2f       	mov	r22, r29
-     ab6:	0e 94 f5 07 	call	0xfea	; 0xfea <__udivmodqi4>
+     ab6:	0e 94 f9 07 	call	0xff2	; 0xff2 <__udivmodqi4>
      aba:	9b 5f       	subi	r25, 0xFB	; 251
      abc:	0c c0       	rjmp	.+24     	; 0xad6 <main+0x5a0>
      abe:	80 91 9f 01 	lds	r24, 0x019F
      ac2:	6d 2f       	mov	r22, r29
-     ac4:	0e 94 f5 07 	call	0xfea	; 0xfea <__udivmodqi4>
+     ac4:	0e 94 f9 07 	call	0xff2	; 0xff2 <__udivmodqi4>
      ac8:	89 2f       	mov	r24, r25
      aca:	90 e0       	ldi	r25, 0x00	; 0
      acc:	0b 96       	adiw	r24, 0x0b	; 11
      ace:	b4 01       	movw	r22, r8
-     ad0:	0e 94 0e 08 	call	0x101c	; 0x101c <__divmodhi4>
+     ad0:	0e 94 12 08 	call	0x1024	; 0x1024 <__divmodhi4>
      ad4:	98 2f       	mov	r25, r24
      ad6:	90 93 a3 01 	sts	0x01A3, r25
 				{
@@ -1965,17 +1965,17 @@ int main()
      b0c:	39 f0       	breq	.+14     	; 0xb1c <main+0x5e6>
      b0e:	80 91 9f 01 	lds	r24, 0x019F
      b12:	6d 2f       	mov	r22, r29
-     b14:	0e 94 f5 07 	call	0xfea	; 0xfea <__udivmodqi4>
+     b14:	0e 94 f9 07 	call	0xff2	; 0xff2 <__udivmodqi4>
      b18:	9b 5f       	subi	r25, 0xFB	; 251
      b1a:	0c c0       	rjmp	.+24     	; 0xb34 <main+0x5fe>
      b1c:	80 91 9f 01 	lds	r24, 0x019F
      b20:	6d 2f       	mov	r22, r29
-     b22:	0e 94 f5 07 	call	0xfea	; 0xfea <__udivmodqi4>
+     b22:	0e 94 f9 07 	call	0xff2	; 0xff2 <__udivmodqi4>
      b26:	89 2f       	mov	r24, r25
      b28:	90 e0       	ldi	r25, 0x00	; 0
      b2a:	0b 96       	adiw	r24, 0x0b	; 11
      b2c:	b4 01       	movw	r22, r8
-     b2e:	0e 94 0e 08 	call	0x101c	; 0x101c <__divmodhi4>
+     b2e:	0e 94 12 08 	call	0x1024	; 0x1024 <__divmodhi4>
      b32:	98 2f       	mov	r25, r24
      b34:	90 93 a3 01 	sts	0x01A3, r25
 				{
@@ -2024,14 +2024,14 @@ int main()
      b72:	50 e0       	ldi	r21, 0x00	; 0
      b74:	80 91 9f 01 	lds	r24, 0x019F
      b78:	65 e0       	ldi	r22, 0x05	; 5
-     b7a:	0e 94 f5 07 	call	0xfea	; 0xfea <__udivmodqi4>
+     b7a:	0e 94 f9 07 	call	0xff2	; 0xff2 <__udivmodqi4>
      b7e:	ba 01       	movw	r22, r20
      b80:	69 0f       	add	r22, r25
      b82:	71 1d       	adc	r23, r1
      b84:	cb 01       	movw	r24, r22
      b86:	6c e3       	ldi	r22, 0x3C	; 60
      b88:	70 e0       	ldi	r23, 0x00	; 0
-     b8a:	0e 94 0e 08 	call	0x101c	; 0x101c <__divmodhi4>
+     b8a:	0e 94 12 08 	call	0x1024	; 0x1024 <__divmodhi4>
      b8e:	80 93 a8 01 	sts	0x01A8, r24
 			
 			// indicate current settings
@@ -2050,7 +2050,7 @@ int main()
      ba4:	01 96       	adiw	r24, 0x01	; 1
      ba6:	68 e1       	ldi	r22, 0x18	; 24
      ba8:	70 e0       	ldi	r23, 0x00	; 0
-     baa:	0e 94 0e 08 	call	0x101c	; 0x101c <__divmodhi4>
+     baa:	0e 94 12 08 	call	0x1024	; 0x1024 <__divmodhi4>
      bae:	80 93 9c 01 	sts	0x019C, r24
 				display_hour = alarm_hour;
      bb2:	80 91 9c 01 	lds	r24, 0x019C
@@ -2070,14 +2070,14 @@ int main()
      bca:	30 e0       	ldi	r19, 0x00	; 0
      bcc:	80 91 9f 01 	lds	r24, 0x019F
      bd0:	65 e0       	ldi	r22, 0x05	; 5
-     bd2:	0e 94 f5 07 	call	0xfea	; 0xfea <__udivmodqi4>
+     bd2:	0e 94 f9 07 	call	0xff2	; 0xff2 <__udivmodqi4>
      bd6:	a9 01       	movw	r20, r18
      bd8:	49 0f       	add	r20, r25
      bda:	51 1d       	adc	r21, r1
      bdc:	ca 01       	movw	r24, r20
      bde:	6c e3       	ldi	r22, 0x3C	; 60
      be0:	70 e0       	ldi	r23, 0x00	; 0
-     be2:	0e 94 0e 08 	call	0x101c	; 0x101c <__divmodhi4>
+     be2:	0e 94 12 08 	call	0x1024	; 0x1024 <__divmodhi4>
      be6:	80 93 a8 01 	sts	0x01A8, r24
      bea:	51 e2       	ldi	r21, 0x21	; 33
      bec:	5a 95       	dec	r21
@@ -2128,13 +2128,13 @@ int main()
      c20:	30 e0       	ldi	r19, 0x00	; 0
      c22:	80 91 9f 01 	lds	r24, 0x019F
      c26:	6e 2f       	mov	r22, r30
-     c28:	0e 94 f5 07 	call	0xfea	; 0xfea <__udivmodqi4>
+     c28:	0e 94 f9 07 	call	0xff2	; 0xff2 <__udivmodqi4>
      c2c:	b9 01       	movw	r22, r18
      c2e:	69 0f       	add	r22, r25
      c30:	71 1d       	adc	r23, r1
      c32:	cb 01       	movw	r24, r22
      c34:	b5 01       	movw	r22, r10
-     c36:	0e 94 0e 08 	call	0x101c	; 0x101c <__divmodhi4>
+     c36:	0e 94 12 08 	call	0x1024	; 0x1024 <__divmodhi4>
      c3a:	80 93 a8 01 	sts	0x01A8, r24
 					
 					// indicate current settings
@@ -2331,7 +2331,7 @@ int main()
      d22:	01 96       	adiw	r24, 0x01	; 1
      d24:	6c e3       	ldi	r22, 0x3C	; 60
      d26:	70 e0       	ldi	r23, 0x00	; 0
-     d28:	0e 94 0e 08 	call	0x101c	; 0x101c <__divmodhi4>
+     d28:	0e 94 12 08 	call	0x1024	; 0x1024 <__divmodhi4>
      d2c:	80 93 a1 01 	sts	0x01A1, r24
 				display_minute = alarm_minute;
      d30:	80 91 a1 01 	lds	r24, 0x01A1
@@ -2493,17 +2493,17 @@ int main()
      de8:	39 f0       	breq	.+14     	; 0xdf8 <main+0x8c2>
      dea:	80 91 9f 01 	lds	r24, 0x019F
      dee:	6d 2f       	mov	r22, r29
-     df0:	0e 94 f5 07 	call	0xfea	; 0xfea <__udivmodqi4>
+     df0:	0e 94 f9 07 	call	0xff2	; 0xff2 <__udivmodqi4>
      df4:	9b 5f       	subi	r25, 0xFB	; 251
      df6:	0c c0       	rjmp	.+24     	; 0xe10 <main+0x8da>
      df8:	80 91 9f 01 	lds	r24, 0x019F
      dfc:	6d 2f       	mov	r22, r29
-     dfe:	0e 94 f5 07 	call	0xfea	; 0xfea <__udivmodqi4>
+     dfe:	0e 94 f9 07 	call	0xff2	; 0xff2 <__udivmodqi4>
      e02:	89 2f       	mov	r24, r25
      e04:	90 e0       	ldi	r25, 0x00	; 0
      e06:	0b 96       	adiw	r24, 0x0b	; 11
      e08:	b4 01       	movw	r22, r8
-     e0a:	0e 94 0e 08 	call	0x101c	; 0x101c <__divmodhi4>
+     e0a:	0e 94 12 08 	call	0x1024	; 0x1024 <__divmodhi4>
      e0e:	98 2f       	mov	r25, r24
      e10:	90 93 a3 01 	sts	0x01A3, r25
 				
@@ -2549,17 +2549,17 @@ int main()
      e46:	39 f0       	breq	.+14     	; 0xe56 <main+0x920>
      e48:	80 91 9f 01 	lds	r24, 0x019F
      e4c:	6d 2f       	mov	r22, r29
-     e4e:	0e 94 f5 07 	call	0xfea	; 0xfea <__udivmodqi4>
+     e4e:	0e 94 f9 07 	call	0xff2	; 0xff2 <__udivmodqi4>
      e52:	9b 5f       	subi	r25, 0xFB	; 251
      e54:	0c c0       	rjmp	.+24     	; 0xe6e <main+0x938>
      e56:	80 91 9f 01 	lds	r24, 0x019F
      e5a:	6d 2f       	mov	r22, r29
-     e5c:	0e 94 f5 07 	call	0xfea	; 0xfea <__udivmodqi4>
+     e5c:	0e 94 f9 07 	call	0xff2	; 0xff2 <__udivmodqi4>
      e60:	89 2f       	mov	r24, r25
      e62:	90 e0       	ldi	r25, 0x00	; 0
      e64:	0b 96       	adiw	r24, 0x0b	; 11
      e66:	b4 01       	movw	r22, r8
-     e68:	0e 94 0e 08 	call	0x101c	; 0x101c <__divmodhi4>
+     e68:	0e 94 12 08 	call	0x1024	; 0x1024 <__divmodhi4>
      e6c:	98 2f       	mov	r25, r24
      e6e:	90 93 a3 01 	sts	0x01A3, r25
 			
@@ -2579,17 +2579,17 @@ int main()
      e8a:	39 f0       	breq	.+14     	; 0xe9a <main+0x964>
      e8c:	80 91 9f 01 	lds	r24, 0x019F
      e90:	6d 2f       	mov	r22, r29
-     e92:	0e 94 f5 07 	call	0xfea	; 0xfea <__udivmodqi4>
+     e92:	0e 94 f9 07 	call	0xff2	; 0xff2 <__udivmodqi4>
      e96:	9b 5f       	subi	r25, 0xFB	; 251
      e98:	0c c0       	rjmp	.+24     	; 0xeb2 <main+0x97c>
      e9a:	80 91 9f 01 	lds	r24, 0x019F
      e9e:	6d 2f       	mov	r22, r29
-     ea0:	0e 94 f5 07 	call	0xfea	; 0xfea <__udivmodqi4>
+     ea0:	0e 94 f9 07 	call	0xff2	; 0xff2 <__udivmodqi4>
      ea4:	89 2f       	mov	r24, r25
      ea6:	90 e0       	ldi	r25, 0x00	; 0
      ea8:	0b 96       	adiw	r24, 0x0b	; 11
      eaa:	b4 01       	movw	r22, r8
-     eac:	0e 94 0e 08 	call	0x101c	; 0x101c <__divmodhi4>
+     eac:	0e 94 12 08 	call	0x1024	; 0x1024 <__divmodhi4>
      eb0:	98 2f       	mov	r25, r24
      eb2:	90 93 a3 01 	sts	0x01A3, r25
      eb6:	81 e2       	ldi	r24, 0x21	; 33
@@ -2618,17 +2618,17 @@ int main()
      ed8:	39 f0       	breq	.+14     	; 0xee8 <main+0x9b2>
      eda:	80 91 9f 01 	lds	r24, 0x019F
      ede:	6d 2f       	mov	r22, r29
-     ee0:	0e 94 f5 07 	call	0xfea	; 0xfea <__udivmodqi4>
+     ee0:	0e 94 f9 07 	call	0xff2	; 0xff2 <__udivmodqi4>
      ee4:	9b 5f       	subi	r25, 0xFB	; 251
      ee6:	0c c0       	rjmp	.+24     	; 0xf00 <main+0x9ca>
      ee8:	80 91 9f 01 	lds	r24, 0x019F
      eec:	6d 2f       	mov	r22, r29
-     eee:	0e 94 f5 07 	call	0xfea	; 0xfea <__udivmodqi4>
+     eee:	0e 94 f9 07 	call	0xff2	; 0xff2 <__udivmodqi4>
      ef2:	89 2f       	mov	r24, r25
      ef4:	90 e0       	ldi	r25, 0x00	; 0
      ef6:	0b 96       	adiw	r24, 0x0b	; 11
      ef8:	b4 01       	movw	r22, r8
-     efa:	0e 94 0e 08 	call	0x101c	; 0x101c <__divmodhi4>
+     efa:	0e 94 12 08 	call	0x1024	; 0x1024 <__divmodhi4>
      efe:	98 2f       	mov	r25, r24
      f00:	90 93 a3 01 	sts	0x01A3, r25
 			{
@@ -2735,32 +2735,32 @@ int main()
      f88:	60 91 9f 01 	lds	r22, 0x019F
      f8c:	80 e0       	ldi	r24, 0x00	; 0
      f8e:	90 e0       	ldi	r25, 0x00	; 0
-     f90:	0e 94 3d 08 	call	0x107a	; 0x107a <__eeupd_byte_m165pa>
+     f90:	0e 94 41 08 	call	0x1082	; 0x1082 <__eeupd_byte_m165pa>
 				eeprom_update_byte(1, cur_minute);
      f94:	60 91 a0 01 	lds	r22, 0x01A0
      f98:	81 e0       	ldi	r24, 0x01	; 1
      f9a:	90 e0       	ldi	r25, 0x00	; 0
-     f9c:	0e 94 3d 08 	call	0x107a	; 0x107a <__eeupd_byte_m165pa>
+     f9c:	0e 94 41 08 	call	0x1082	; 0x1082 <__eeupd_byte_m165pa>
 				eeprom_update_byte(2, cur_hour);
      fa0:	60 91 9e 01 	lds	r22, 0x019E
      fa4:	82 e0       	ldi	r24, 0x02	; 2
      fa6:	90 e0       	ldi	r25, 0x00	; 0
-     fa8:	0e 94 3d 08 	call	0x107a	; 0x107a <__eeupd_byte_m165pa>
+     fa8:	0e 94 41 08 	call	0x1082	; 0x1082 <__eeupd_byte_m165pa>
 				eeprom_update_byte(3, alarm_minute);
      fac:	60 91 a1 01 	lds	r22, 0x01A1
      fb0:	83 e0       	ldi	r24, 0x03	; 3
      fb2:	90 e0       	ldi	r25, 0x00	; 0
-     fb4:	0e 94 3d 08 	call	0x107a	; 0x107a <__eeupd_byte_m165pa>
+     fb4:	0e 94 41 08 	call	0x1082	; 0x1082 <__eeupd_byte_m165pa>
 				eeprom_update_byte(4, alarm_hour);
      fb8:	60 91 9c 01 	lds	r22, 0x019C
      fbc:	84 e0       	ldi	r24, 0x04	; 4
      fbe:	90 e0       	ldi	r25, 0x00	; 0
-     fc0:	0e 94 3d 08 	call	0x107a	; 0x107a <__eeupd_byte_m165pa>
+     fc0:	0e 94 41 08 	call	0x1082	; 0x1082 <__eeupd_byte_m165pa>
 				eeprom_update_byte(5, alarm_enabled);
      fc4:	60 91 9d 01 	lds	r22, 0x019D
      fc8:	85 e0       	ldi	r24, 0x05	; 5
      fca:	90 e0       	ldi	r25, 0x00	; 0
-     fcc:	0e 94 3d 08 	call	0x107a	; 0x107a <__eeupd_byte_m165pa>
+     fcc:	0e 94 41 08 	call	0x1082	; 0x1082 <__eeupd_byte_m165pa>
 				
 				eeprom_is_dirty = 0;
 			}
@@ -2771,141 +2771,145 @@ int main()
      fd6:	09 f0       	breq	.+2      	; 0xfda <main+0xaa4>
      fd8:	67 cb       	rjmp	.-2354   	; 0x6a8 <main+0x172>
 			{
+				TIMSK0 = 0; // disable interrupt to save power
+     fda:	10 92 6e 00 	sts	0x006E, r1
 				sleep_enable(); // SMCR |= _BV(SE); // enable sleep
-     fda:	83 b7       	in	r24, 0x33	; 51
-     fdc:	81 60       	ori	r24, 0x01	; 1
-     fde:	83 bf       	out	0x33, r24	; 51
+     fde:	83 b7       	in	r24, 0x33	; 51
+     fe0:	81 60       	ori	r24, 0x01	; 1
+     fe2:	83 bf       	out	0x33, r24	; 51
 				sleep_cpu();
-     fe0:	88 95       	sleep
+     fe4:	88 95       	sleep
 				sleep_disable(); // SMCR &= ~_BV(SE); // disable sleep, prevent accidental sleep
-     fe2:	83 b7       	in	r24, 0x33	; 51
-     fe4:	8e 7f       	andi	r24, 0xFE	; 254
-     fe6:	83 bf       	out	0x33, r24	; 51
-     fe8:	5f cb       	rjmp	.-2370   	; 0x6a8 <main+0x172>
+     fe6:	83 b7       	in	r24, 0x33	; 51
+     fe8:	8e 7f       	andi	r24, 0xFE	; 254
+     fea:	83 bf       	out	0x33, r24	; 51
+				TIMSK0 = _BV(TOIE0) | _BV(OCIE0A); // re-enable interrupt
+     fec:	d0 93 6e 00 	sts	0x006E, r29
+     ff0:	5b cb       	rjmp	.-2378   	; 0x6a8 <main+0x172>
 
-00000fea <__udivmodqi4>:
-     fea:	99 1b       	sub	r25, r25
-     fec:	79 e0       	ldi	r23, 0x09	; 9
-     fee:	04 c0       	rjmp	.+8      	; 0xff8 <__udivmodqi4_ep>
+00000ff2 <__udivmodqi4>:
+     ff2:	99 1b       	sub	r25, r25
+     ff4:	79 e0       	ldi	r23, 0x09	; 9
+     ff6:	04 c0       	rjmp	.+8      	; 0x1000 <__udivmodqi4_ep>
 
-00000ff0 <__udivmodqi4_loop>:
-     ff0:	99 1f       	adc	r25, r25
-     ff2:	96 17       	cp	r25, r22
-     ff4:	08 f0       	brcs	.+2      	; 0xff8 <__udivmodqi4_ep>
-     ff6:	96 1b       	sub	r25, r22
+00000ff8 <__udivmodqi4_loop>:
+     ff8:	99 1f       	adc	r25, r25
+     ffa:	96 17       	cp	r25, r22
+     ffc:	08 f0       	brcs	.+2      	; 0x1000 <__udivmodqi4_ep>
+     ffe:	96 1b       	sub	r25, r22
 
-00000ff8 <__udivmodqi4_ep>:
-     ff8:	88 1f       	adc	r24, r24
-     ffa:	7a 95       	dec	r23
-     ffc:	c9 f7       	brne	.-14     	; 0xff0 <__udivmodqi4_loop>
-     ffe:	80 95       	com	r24
-    1000:	08 95       	ret
+00001000 <__udivmodqi4_ep>:
+    1000:	88 1f       	adc	r24, r24
+    1002:	7a 95       	dec	r23
+    1004:	c9 f7       	brne	.-14     	; 0xff8 <__udivmodqi4_loop>
+    1006:	80 95       	com	r24
+    1008:	08 95       	ret
 
-00001002 <__divmodqi4>:
-    1002:	87 fb       	bst	r24, 7
-    1004:	08 2e       	mov	r0, r24
-    1006:	06 26       	eor	r0, r22
-    1008:	87 fd       	sbrc	r24, 7
-    100a:	81 95       	neg	r24
-    100c:	67 fd       	sbrc	r22, 7
-    100e:	61 95       	neg	r22
-    1010:	ec df       	rcall	.-40     	; 0xfea <__udivmodqi4>
-    1012:	0e f4       	brtc	.+2      	; 0x1016 <__divmodqi4_1>
-    1014:	91 95       	neg	r25
+0000100a <__divmodqi4>:
+    100a:	87 fb       	bst	r24, 7
+    100c:	08 2e       	mov	r0, r24
+    100e:	06 26       	eor	r0, r22
+    1010:	87 fd       	sbrc	r24, 7
+    1012:	81 95       	neg	r24
+    1014:	67 fd       	sbrc	r22, 7
+    1016:	61 95       	neg	r22
+    1018:	ec df       	rcall	.-40     	; 0xff2 <__udivmodqi4>
+    101a:	0e f4       	brtc	.+2      	; 0x101e <__divmodqi4_1>
+    101c:	91 95       	neg	r25
 
-00001016 <__divmodqi4_1>:
-    1016:	07 fc       	sbrc	r0, 7
-    1018:	81 95       	neg	r24
+0000101e <__divmodqi4_1>:
+    101e:	07 fc       	sbrc	r0, 7
+    1020:	81 95       	neg	r24
 
-0000101a <__divmodqi4_exit>:
-    101a:	08 95       	ret
+00001022 <__divmodqi4_exit>:
+    1022:	08 95       	ret
 
-0000101c <__divmodhi4>:
-    101c:	97 fb       	bst	r25, 7
-    101e:	09 2e       	mov	r0, r25
-    1020:	07 26       	eor	r0, r23
-    1022:	0a d0       	rcall	.+20     	; 0x1038 <__divmodhi4_neg1>
-    1024:	77 fd       	sbrc	r23, 7
-    1026:	04 d0       	rcall	.+8      	; 0x1030 <__divmodhi4_neg2>
-    1028:	0c d0       	rcall	.+24     	; 0x1042 <__udivmodhi4>
-    102a:	06 d0       	rcall	.+12     	; 0x1038 <__divmodhi4_neg1>
-    102c:	00 20       	and	r0, r0
-    102e:	1a f4       	brpl	.+6      	; 0x1036 <__divmodhi4_exit>
+00001024 <__divmodhi4>:
+    1024:	97 fb       	bst	r25, 7
+    1026:	09 2e       	mov	r0, r25
+    1028:	07 26       	eor	r0, r23
+    102a:	0a d0       	rcall	.+20     	; 0x1040 <__divmodhi4_neg1>
+    102c:	77 fd       	sbrc	r23, 7
+    102e:	04 d0       	rcall	.+8      	; 0x1038 <__divmodhi4_neg2>
+    1030:	0c d0       	rcall	.+24     	; 0x104a <__udivmodhi4>
+    1032:	06 d0       	rcall	.+12     	; 0x1040 <__divmodhi4_neg1>
+    1034:	00 20       	and	r0, r0
+    1036:	1a f4       	brpl	.+6      	; 0x103e <__divmodhi4_exit>
 
-00001030 <__divmodhi4_neg2>:
-    1030:	70 95       	com	r23
-    1032:	61 95       	neg	r22
-    1034:	7f 4f       	sbci	r23, 0xFF	; 255
+00001038 <__divmodhi4_neg2>:
+    1038:	70 95       	com	r23
+    103a:	61 95       	neg	r22
+    103c:	7f 4f       	sbci	r23, 0xFF	; 255
 
-00001036 <__divmodhi4_exit>:
-    1036:	08 95       	ret
+0000103e <__divmodhi4_exit>:
+    103e:	08 95       	ret
 
-00001038 <__divmodhi4_neg1>:
-    1038:	f6 f7       	brtc	.-4      	; 0x1036 <__divmodhi4_exit>
-    103a:	90 95       	com	r25
-    103c:	81 95       	neg	r24
-    103e:	9f 4f       	sbci	r25, 0xFF	; 255
-    1040:	08 95       	ret
+00001040 <__divmodhi4_neg1>:
+    1040:	f6 f7       	brtc	.-4      	; 0x103e <__divmodhi4_exit>
+    1042:	90 95       	com	r25
+    1044:	81 95       	neg	r24
+    1046:	9f 4f       	sbci	r25, 0xFF	; 255
+    1048:	08 95       	ret
 
-00001042 <__udivmodhi4>:
-    1042:	aa 1b       	sub	r26, r26
-    1044:	bb 1b       	sub	r27, r27
-    1046:	51 e1       	ldi	r21, 0x11	; 17
-    1048:	07 c0       	rjmp	.+14     	; 0x1058 <__udivmodhi4_ep>
+0000104a <__udivmodhi4>:
+    104a:	aa 1b       	sub	r26, r26
+    104c:	bb 1b       	sub	r27, r27
+    104e:	51 e1       	ldi	r21, 0x11	; 17
+    1050:	07 c0       	rjmp	.+14     	; 0x1060 <__udivmodhi4_ep>
 
-0000104a <__udivmodhi4_loop>:
-    104a:	aa 1f       	adc	r26, r26
-    104c:	bb 1f       	adc	r27, r27
-    104e:	a6 17       	cp	r26, r22
-    1050:	b7 07       	cpc	r27, r23
-    1052:	10 f0       	brcs	.+4      	; 0x1058 <__udivmodhi4_ep>
-    1054:	a6 1b       	sub	r26, r22
-    1056:	b7 0b       	sbc	r27, r23
+00001052 <__udivmodhi4_loop>:
+    1052:	aa 1f       	adc	r26, r26
+    1054:	bb 1f       	adc	r27, r27
+    1056:	a6 17       	cp	r26, r22
+    1058:	b7 07       	cpc	r27, r23
+    105a:	10 f0       	brcs	.+4      	; 0x1060 <__udivmodhi4_ep>
+    105c:	a6 1b       	sub	r26, r22
+    105e:	b7 0b       	sbc	r27, r23
 
-00001058 <__udivmodhi4_ep>:
-    1058:	88 1f       	adc	r24, r24
-    105a:	99 1f       	adc	r25, r25
-    105c:	5a 95       	dec	r21
-    105e:	a9 f7       	brne	.-22     	; 0x104a <__udivmodhi4_loop>
-    1060:	80 95       	com	r24
-    1062:	90 95       	com	r25
-    1064:	bc 01       	movw	r22, r24
-    1066:	cd 01       	movw	r24, r26
-    1068:	08 95       	ret
+00001060 <__udivmodhi4_ep>:
+    1060:	88 1f       	adc	r24, r24
+    1062:	99 1f       	adc	r25, r25
+    1064:	5a 95       	dec	r21
+    1066:	a9 f7       	brne	.-22     	; 0x1052 <__udivmodhi4_loop>
+    1068:	80 95       	com	r24
+    106a:	90 95       	com	r25
+    106c:	bc 01       	movw	r22, r24
+    106e:	cd 01       	movw	r24, r26
+    1070:	08 95       	ret
 
-0000106a <__eerd_byte_m165pa>:
-    106a:	f9 99       	sbic	0x1f, 1	; 31
-    106c:	fe cf       	rjmp	.-4      	; 0x106a <__eerd_byte_m165pa>
-    106e:	92 bd       	out	0x22, r25	; 34
-    1070:	81 bd       	out	0x21, r24	; 33
-    1072:	f8 9a       	sbi	0x1f, 0	; 31
-    1074:	99 27       	eor	r25, r25
-    1076:	80 b5       	in	r24, 0x20	; 32
-    1078:	08 95       	ret
+00001072 <__eerd_byte_m165pa>:
+    1072:	f9 99       	sbic	0x1f, 1	; 31
+    1074:	fe cf       	rjmp	.-4      	; 0x1072 <__eerd_byte_m165pa>
+    1076:	92 bd       	out	0x22, r25	; 34
+    1078:	81 bd       	out	0x21, r24	; 33
+    107a:	f8 9a       	sbi	0x1f, 0	; 31
+    107c:	99 27       	eor	r25, r25
+    107e:	80 b5       	in	r24, 0x20	; 32
+    1080:	08 95       	ret
 
-0000107a <__eeupd_byte_m165pa>:
-    107a:	26 2f       	mov	r18, r22
+00001082 <__eeupd_byte_m165pa>:
+    1082:	26 2f       	mov	r18, r22
 
-0000107c <__eeupd_r18_m165pa>:
-    107c:	f9 99       	sbic	0x1f, 1	; 31
-    107e:	fe cf       	rjmp	.-4      	; 0x107c <__eeupd_r18_m165pa>
-    1080:	92 bd       	out	0x22, r25	; 34
-    1082:	81 bd       	out	0x21, r24	; 33
-    1084:	f8 9a       	sbi	0x1f, 0	; 31
-    1086:	01 97       	sbiw	r24, 0x01	; 1
-    1088:	00 b4       	in	r0, 0x20	; 32
-    108a:	02 16       	cp	r0, r18
-    108c:	31 f0       	breq	.+12     	; 0x109a <__eeupd_r18_m165pa+0x1e>
-    108e:	20 bd       	out	0x20, r18	; 32
-    1090:	0f b6       	in	r0, 0x3f	; 63
-    1092:	f8 94       	cli
-    1094:	fa 9a       	sbi	0x1f, 2	; 31
-    1096:	f9 9a       	sbi	0x1f, 1	; 31
-    1098:	0f be       	out	0x3f, r0	; 63
-    109a:	08 95       	ret
+00001084 <__eeupd_r18_m165pa>:
+    1084:	f9 99       	sbic	0x1f, 1	; 31
+    1086:	fe cf       	rjmp	.-4      	; 0x1084 <__eeupd_r18_m165pa>
+    1088:	92 bd       	out	0x22, r25	; 34
+    108a:	81 bd       	out	0x21, r24	; 33
+    108c:	f8 9a       	sbi	0x1f, 0	; 31
+    108e:	01 97       	sbiw	r24, 0x01	; 1
+    1090:	00 b4       	in	r0, 0x20	; 32
+    1092:	02 16       	cp	r0, r18
+    1094:	31 f0       	breq	.+12     	; 0x10a2 <__eeupd_r18_m165pa+0x1e>
+    1096:	20 bd       	out	0x20, r18	; 32
+    1098:	0f b6       	in	r0, 0x3f	; 63
+    109a:	f8 94       	cli
+    109c:	fa 9a       	sbi	0x1f, 2	; 31
+    109e:	f9 9a       	sbi	0x1f, 1	; 31
+    10a0:	0f be       	out	0x3f, r0	; 63
+    10a2:	08 95       	ret
 
-0000109c <_exit>:
-    109c:	f8 94       	cli
+000010a4 <_exit>:
+    10a4:	f8 94       	cli
 
-0000109e <__stop_program>:
-    109e:	ff cf       	rjmp	.-2      	; 0x109e <__stop_program>
+000010a6 <__stop_program>:
+    10a6:	ff cf       	rjmp	.-2      	; 0x10a6 <__stop_program>
