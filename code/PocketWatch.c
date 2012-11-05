@@ -56,7 +56,7 @@ ISR(TIMER2_OVF_vect)
 		}
 	}
 	
-	if (battery_is_low() == 0 && (mode == MODE_CURTIME_SHOWING || alarm_active != 0))
+	if (battery_is_low() == 0 && (mode == MODE_CURTIME_SHOWING || mode == MODE_SHOW_ENTERING || alarm_active != 0))
 	{
 		PORTx_MOTOR |= _BV(PIN_MOTOR); // turn on the motor
 	}
@@ -95,7 +95,8 @@ ISR(TIMER2_COMP_vect)
 		PORTx_MOTOR &= ~_BV(PIN_MOTOR); // turn off motor
 	}
 }
-	
+
+volatile uint8_t animation_cnt;
 volatile uint8_t ovf_cnt = 0;
 
 ISR(TIMER0_OVF_vect)
@@ -126,6 +127,7 @@ ISR(TIMER0_OVF_vect)
 		else if (which_ring == 2) // second
 		{
 			set_second_led(display_second);
+			animation_cnt++;
 		}
 		
 		if (ovf_cnt >= 125)
@@ -335,7 +337,13 @@ int main()
 	TCCR2A = _BV(CS22) | 0 | _BV(CS20); // start timer with clock div 128
 	
 	// setup timer 0
+	#if F_CPU == 1000000
 	TCCR0A = _BV(CS00); // start timer with clk div 1
+	#elif F_CPU == 8000000
+	TCCR0A = _BV(CS01); // start timer with clk div 8
+	#else
+	#error bad F_CPU
+	#endif
 	OCR0A = 0x80; // setup compare match at 50% duty cycle
 	TIMSK0 = _BV(TOIE0) | _BV(OCIE0A); // enable overflow and compare match interrupts
 	
@@ -390,15 +398,59 @@ int main()
 			else if (button1_is_down())
 			{
 				// go into time display mode
-				mode = MODE_CURTIME_SHOWING;
+				mode = MODE_SHOW_ENTERING;
+				display_hour = -1;
+				display_minute = -1;
+				display_second = -1;
+				animation_cnt = 0;
 				to_sleep = 0;
-				
-				debounce();
 				held_cnt = 0;
+				debounce();
 			}
 			else if (mode != MODE_ALARMING)
 			{
 				to_sleep = 1;
+			}
+		}
+		else if (mode == MODE_SHOW_ENTERING)
+		{
+			if (battery_is_low() || 1)
+			{
+				mode = MODE_CURTIME_SHOWING; // save power by ignoring animation
+			}
+			else
+			{
+				// show a nice startup animation
+				
+				timeout_cnt = 0; // no timeout during animation
+				
+				if (button1_is_down())
+				{
+					held_cnt = (held_cnt > HOLD_CNT_THRESH) ? held_cnt : (held_cnt + 1);
+					to_sleep = 0;
+				}
+				else
+				{
+					held_cnt = 0;
+				}
+				
+				// move the LEDs if it's time to do so according to the animation speed
+				if (animation_cnt >= ANIMATION_SPEED)
+				{
+					if (display_second < cur_second)    display_second++;
+					if (display_minute < cur_minute)    display_minute++;
+					if (display_hour < (cur_hour % 12)) display_hour++;
+					animation_cnt = 0;
+				}
+				else
+				{
+					if (display_hour   >= cur_hour)   display_hour   = cur_hour;
+					if (display_minute >= cur_minute) display_minute = cur_minute;
+					if (display_second >= cur_second) display_second = cur_second;
+				}
+				
+				// the animation finishes when the displayed time matches the current time
+				if (display_second == cur_second && display_minute == cur_minute && display_hour == cur_hour) mode = MODE_CURTIME_SHOWING;
 			}
 		}
 		else if (mode == MODE_CURTIME_SHOWING)
@@ -428,12 +480,17 @@ int main()
 			}
 			else
 			{
-				if (battery_is_low() || held_cnt >= HOLD_CNT_THRESH)
+				if (battery_is_low())
 				{
 					// save power if battery is low
 					// or if user holds down the button for longer than 5 seconds
 					mode = MODE_SLEEPING;
 					to_sleep = 1;
+				}
+				else if (held_cnt >= HOLD_CNT_THRESH)
+				{
+					mode = MODE_SHOW_EXITING;
+					animation_cnt = 0;
 				}
 				else
 				{
@@ -441,8 +498,8 @@ int main()
 					if (timeout_cnt >= TIMEOUT_THRESH)
 					{
 						// button has been release for a sufficiently long enough time to sleep
-						mode = MODE_SLEEPING;
-						to_sleep = 1;
+						mode = MODE_SHOW_EXITING;
+						animation_cnt = 0;
 					}
 					else
 					{
@@ -453,6 +510,55 @@ int main()
 				
 				// no longer held down
 				held_cnt = 0;
+			}
+		}
+		else if (mode == MODE_SHOW_EXITING)
+		{
+			if (battery_is_low() || 1)
+			{
+				// save power by ignoring animation
+				mode = MODE_SLEEPING;
+				to_sleep = 1;
+			}
+			else
+			{
+				// show a nice exit animation
+				
+				timeout_cnt = 0; // no timeout during animation
+				
+				if (button1_is_down())
+				{
+					held_cnt = (held_cnt > HOLD_CNT_THRESH) ? held_cnt : (held_cnt + 1);
+					to_sleep = 0;
+					mode = MODE_SHOW_ENTERING; // button is down, so undo the animation
+				}
+				else
+				{
+					held_cnt = 0;
+				}
+				
+				// move the LEDs if it's time to do so according to the animation speed
+				if (animation_cnt >= ANIMATION_SPEED)
+				{
+					if (display_second >= 0) display_second++;
+					if (display_minute >= 0) display_minute++;
+					if (display_hour >= 0)   display_hour++;
+					animation_cnt = 0;
+				}
+				else
+				{
+					// the animation finishes when the displayed time ends up at the top of the clock
+					if (display_second >= 60) display_second = -1;
+					if (display_minute >= 60) display_minute = -1;
+					if (display_hour == 12 || display_hour >= 24) display_hour = -1;
+				}
+				
+				// go to sleep once animation is finished
+				if (display_second < 0 && display_minute < 0 && display_hour < 0)
+				{
+					mode = MODE_SLEEPING;
+					to_sleep = 1;
+				}
 			}
 		}
 		else if (mode == MODE_SETTIME_HOUR)
