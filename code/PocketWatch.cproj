@@ -105,10 +105,10 @@
     <Compile Include="pins.c">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="pins.h">
+    <Compile Include="PocketWatch.c">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="PocketWatch.c">
+    <Compile Include="pocketwatch.h">
       <SubType>compile</SubType>
     </Compile>
   </ItemGroup>
