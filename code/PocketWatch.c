@@ -412,13 +412,13 @@ int main()
 			
 			if (button1_is_down())
 			{
-				held_cnt = (held_cnt > 10 * 1000 / 50) ? held_cnt : (held_cnt + 1);
+				held_cnt = (held_cnt > HOLD_CNT_THRESH) ? held_cnt : (held_cnt + 1);
 				timeout_cnt = 0;
 				to_sleep = 0;
 			}
 			else
 			{
-				if (battery_is_low() || held_cnt >= 10 * 1000 / 50)
+				if (battery_is_low() || held_cnt >= HOLD_CNT_THRESH)
 				{
 					// save power if battery is low
 					// or if user holds down the button for longer than 5 seconds
@@ -427,8 +427,8 @@ int main()
 				}
 				else
 				{
-					timeout_cnt = (timeout_cnt > 10 * 1000 / 50) ? timeout_cnt : (timeout_cnt + 1);
-					if (timeout_cnt >= 10 * 1000 / 50)
+					timeout_cnt = (timeout_cnt > TIMEOUT_THRESH) ? timeout_cnt : (timeout_cnt + 1);
+					if (timeout_cnt >= TIMEOUT_THRESH)
 					{
 						// button has been release for a sufficiently long enough time to sleep
 						mode = MODE_SLEEPING;

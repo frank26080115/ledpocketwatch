@@ -1275,7 +1275,7 @@ int main()
      75c:	1b 99       	sbic	0x03, 3	; 3
      75e:	11 c0       	rjmp	.+34     	; 0x782 <main+0x27c>
 			{
-				held_cnt = (held_cnt > 10 * 1000 / 50) ? held_cnt : (held_cnt + 1);
+				held_cnt = (held_cnt > HOLD_CNT_THRESH) ? held_cnt : (held_cnt + 1);
      760:	59 ec       	ldi	r21, 0xC9	; 201
      762:	c5 16       	cp	r12, r21
      764:	d1 04       	cpc	r13, r1
@@ -1294,7 +1294,7 @@ int main()
 			
 			if (button1_is_down())
 			{
-				held_cnt = (held_cnt > 10 * 1000 / 50) ? held_cnt : (held_cnt + 1);
+				held_cnt = (held_cnt > HOLD_CNT_THRESH) ? held_cnt : (held_cnt + 1);
 				timeout_cnt = 0;
      77a:	44 24       	eor	r4, r4
      77c:	55 24       	eor	r5, r5
@@ -1304,7 +1304,7 @@ int main()
 			}
 			else
 			{
-				if (battery_is_low() || held_cnt >= 10 * 1000 / 50)
+				if (battery_is_low() || held_cnt >= HOLD_CNT_THRESH)
      782:	13 9b       	sbis	0x02, 3	; 2
      784:	17 c0       	rjmp	.+46     	; 0x7b4 <main+0x2ae>
      786:	68 ec       	ldi	r22, 0xC8	; 200
@@ -1318,7 +1318,7 @@ int main()
 				}
 				else
 				{
-					timeout_cnt = (timeout_cnt > 10 * 1000 / 50) ? timeout_cnt : (timeout_cnt + 1);
+					timeout_cnt = (timeout_cnt > TIMEOUT_THRESH) ? timeout_cnt : (timeout_cnt + 1);
      792:	79 ec       	ldi	r23, 0xC9	; 201
      794:	47 16       	cp	r4, r23
      796:	51 04       	cpc	r5, r1
@@ -1330,7 +1330,7 @@ int main()
      7a2:	51 1c       	adc	r5, r1
      7a4:	61 1c       	adc	r6, r1
      7a6:	71 1c       	adc	r7, r1
-					if (timeout_cnt >= 10 * 1000 / 50)
+					if (timeout_cnt >= TIMEOUT_THRESH)
      7a8:	88 ec       	ldi	r24, 0xC8	; 200
      7aa:	48 16       	cp	r4, r24
      7ac:	51 04       	cpc	r5, r1

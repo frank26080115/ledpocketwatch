@@ -54,6 +54,8 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 #define battery_is_low() bit_is_clear(PORTA, PIN_LOWBATTDET)
 
 #define debounce() _delay_us(100)
+#define HOLD_CNT_THRESH (10 * 1000 / 50)
+#define TIMEOUT_THRESH (10 * 1000 / 50)
 
 extern uint16_t portx[30];
 extern uint16_t ddrx[30];
