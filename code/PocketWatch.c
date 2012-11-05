@@ -56,6 +56,11 @@ ISR(TIMER2_OVF_vect)
 		}
 	}
 	
+	if (battery_is_low() == 0 && (mode == MODE_CURTIME_SHOWING || alarm_active != 0))
+	{
+		PORTx_MOTOR |= _BV(PIN_MOTOR); // turn on the motor
+	}
+	
 	// check if alarm should go off
 	if (alarm_enabled != 0 && alarm_hour == cur_hour && alarm_minute == cur_minute)
 	{
@@ -83,6 +88,14 @@ ISR(TIMER2_OVF_vect)
 	}
 }
 
+ISR(TIMER2_COMP_vect)
+{
+	if (alarm_active == 0)
+	{
+		PORTx_MOTOR &= ~_BV(PIN_MOTOR); // turn off motor
+	}
+}
+	
 volatile uint8_t ovf_cnt = 0;
 
 ISR(TIMER0_OVF_vect)
@@ -94,10 +107,6 @@ ISR(TIMER0_OVF_vect)
 		// buzz the alarm buzzer, set pin high, use the compare match to set pin low for 4.1 KHz
 		PORTx_BUZZER |= _BV(PIN_BUZZER);
 		if (battery_is_low() == 0) PORTx_MOTOR |= _BV(PIN_MOTOR);
-	}
-	else
-	{
-		PORTx_MOTOR &= ~_BV(PIN_MOTOR);
 	}
 	
 	if (mode != 0 && mode != 7)
@@ -321,8 +330,9 @@ int main()
 	
 	// setup async timer 2
 	ASSR = _BV(AS2); // enable async xtal input
+	OCR2A = MOTOR_TICK_LENGTH; // set the tick length
+	TIMSK2 = _BV(TOIE2) | _BV(OCIE2A); // enable overflow and tick interrupt
 	TCCR2A = _BV(CS22) | 0 | _BV(CS20); // start timer with clock div 128
-	TIMSK2 = _BV(TOIE2); // enable overflow interrupt
 	
 	// setup timer 0
 	TCCR0A = _BV(CS00); // start timer with clk div 1
@@ -605,7 +615,7 @@ int main()
 				else
 				{
 					// goto alarm time set mode
-					mode = MODE_SETALARM_ONOFF;
+					mode = MODE_SETALARM_HOUR;
 					to_sleep = 0;
 					debounce();
 					while (button2_is_down())

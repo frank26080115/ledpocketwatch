@@ -56,6 +56,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 #define debounce() _delay_us(100)
 #define HOLD_CNT_THRESH (10 * 1000 / 50)
 #define TIMEOUT_THRESH (10 * 1000 / 50)
+#define MOTOR_TICK_LENGTH 0x04
 
 extern uint16_t portx[30];
 extern uint16_t ddrx[30];
