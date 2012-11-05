@@ -110,7 +110,7 @@ ISR(TIMER0_OVF_vect)
 		if (battery_is_low() == 0) PORTx_MOTOR |= _BV(PIN_MOTOR);
 	}
 	
-	if (mode != 0 && mode != 7)
+	if (mode != MODE_SLEEPING && mode != MODE_ALARMING)
 	{
 		// display LEDs if not sleeping
 
@@ -282,14 +282,14 @@ void clear_leds()
 int main()
 {
 	// read in time from eeprom, to keep things interesting during development
-	cur_second = eeprom_read_byte(0) % 60;
-	cur_minute = eeprom_read_byte(1) % 60;
-	cur_hour = eeprom_read_byte(2) % 24;
+	cur_second = (eeprom_read_byte(0) & 0x7F) % 60;
+	cur_minute = (eeprom_read_byte(1) & 0x7F) % 60;
+	cur_hour   = (eeprom_read_byte(2) & 0x7F) % 24;
 	
 	// read in alarm settings from eeprom
-	alarm_minute = eeprom_read_byte(3) % 60;
-	alarm_hour = eeprom_read_byte(4) % 24;
-	alarm_enabled = eeprom_read_byte(5);
+	alarm_minute  = (eeprom_read_byte(3) & 0x7F) % 60;
+	alarm_hour    = (eeprom_read_byte(4) & 0x7F) % 24;
+	alarm_enabled = (eeprom_read_byte(5) & 0x7F);
 	
 	// ground all grounded pins
 	DDRA  = 0x00;
@@ -414,7 +414,7 @@ int main()
 		}
 		else if (mode == MODE_SHOW_ENTERING)
 		{
-			if (battery_is_low() || 1)
+			if (battery_is_low())
 			{
 				mode = MODE_CURTIME_SHOWING; // save power by ignoring animation
 			}
@@ -435,18 +435,12 @@ int main()
 				}
 				
 				// move the LEDs if it's time to do so according to the animation speed
-				if (animation_cnt >= ANIMATION_SPEED)
+				if (animation_cnt >= ANIMATION_SPEED_1)
 				{
-					if (display_second < cur_second)    display_second++;
-					if (display_minute < cur_minute)    display_minute++;
-					if (display_hour < (cur_hour % 12)) display_hour++;
+					if (display_second < cur_second)    display_second++; else display_second = cur_second;
+					if (display_minute < cur_minute)    display_minute++; else display_minute = cur_minute;
+					if (display_hour < (cur_hour % 12)) display_hour++;   else display_hour   = cur_hour;
 					animation_cnt = 0;
-				}
-				else
-				{
-					if (display_hour   >= cur_hour)   display_hour   = cur_hour;
-					if (display_minute >= cur_minute) display_minute = cur_minute;
-					if (display_second >= cur_second) display_second = cur_second;
 				}
 				
 				// the animation finishes when the displayed time matches the current time
@@ -457,7 +451,7 @@ int main()
 		{
 			// indicate current time
 			display_minute = cur_minute;
-			display_hour = cur_hour;
+			display_hour   = cur_hour;
 			
 			if (battery_is_low())
 			{
@@ -514,7 +508,7 @@ int main()
 		}
 		else if (mode == MODE_SHOW_EXITING)
 		{
-			if (battery_is_low() || 1)
+			if (battery_is_low())
 			{
 				// save power by ignoring animation
 				mode = MODE_SLEEPING;
@@ -538,16 +532,12 @@ int main()
 				}
 				
 				// move the LEDs if it's time to do so according to the animation speed
-				if (animation_cnt >= ANIMATION_SPEED)
+				if (animation_cnt >= ANIMATION_SPEED_2)
 				{
 					if (display_second >= 0) display_second++;
 					if (display_minute >= 0) display_minute++;
-					if (display_hour >= 0)   display_hour++;
+					if (display_hour   >= 0) display_hour++;
 					animation_cnt = 0;
-				}
-				else
-				{
-					// the animation finishes when the displayed time ends up at the top of the clock
 					if (display_second >= 60) display_second = -1;
 					if (display_minute >= 60) display_minute = -1;
 					if (display_hour == 12 || display_hour >= 24) display_hour = -1;
@@ -622,8 +612,6 @@ int main()
 				// indicate mode
 				display_second = bit_is_set(cur_second, 0) ? 5 : -1;
 				
-				// indicate current settings
-				display_minute = cur_minute;
 				display_hour = -1;
 				
 				eeprom_is_dirty = 1;
@@ -729,8 +717,11 @@ int main()
 						// indicate mode
 						display_second = bit_is_set(cur_second, 0) ? 10 : -1;
 						
-						// indicate alarm enabled status
-						display_hour = (alarm_enabled != 0) ? (5 + (cur_second % 3)) : ((11 + (cur_second % 3)) % 12);
+						// indicate AM or PM
+						display_minute = (((alarm_hour >= 12) ? 58 : 28) + (cur_second % 5)) % 60;
+						
+						// indicate alarm hour time
+						display_hour = alarm_hour;
 					}
 					debounce();
 				}
@@ -794,11 +785,7 @@ int main()
 			
 			if (button2_is_down())
 			{
-				// indicate mode
-				display_second = bit_is_set(cur_second, 0) ? 15 : -1;
-				
-				// indicate current settings
-				display_minute = alarm_minute;
+				// clear
 				display_hour = -1;
 				
 				// goto next mode
@@ -813,7 +800,7 @@ int main()
 					display_second = bit_is_set(cur_second, 0) ? 15 : -1;
 					
 					// indicate current settings
-					display_minute = cur_minute;
+					display_minute = alarm_minute;
 				}
 				
 				debounce();
