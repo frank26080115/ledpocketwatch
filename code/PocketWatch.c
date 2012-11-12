@@ -80,12 +80,6 @@ ISR(TIMER2_OVF_vect)
 	{
 		alarm_already_off = 0;
 	}
-	
-	if (mode == MODE_SLEEPING)
-	{
-		// should go back to sleep, nothing to do
-		to_sleep = 1;
-	}
 }
 
 ISR(TIMER2_COMP_vect)
@@ -105,12 +99,12 @@ ISR(TIMER0_OVF_vect)
 	
 	if (alarm_active)
 	{
-		// buzz the alarm buzzer, set pin high, use the compare match to set pin low for 4.1 KHz
-		PORTx_BUZZER |= _BV(PIN_BUZZER);
+		// buzz the alarm buzzer, set pin low, use the compare match to set pin high for 4.1 KHz
+		PORTx_BUZZER &= ~_BV(PIN_BUZZER);
 		if (battery_is_low() == 0) PORTx_MOTOR |= _BV(PIN_MOTOR);
 	}
 	
-	if (mode != MODE_SLEEPING && mode != MODE_ALARMING)
+	if (mode != MODE_SLEEPING)
 	{
 		// display LEDs if not sleeping
 
@@ -143,23 +137,13 @@ ISR(TIMER0_OVF_vect)
 	{
 		// should go back to sleep, nothing to do
 		clear_leds();
-		to_sleep = 1;
 	}
 }
 
 ISR(TIMER0_COMP_vect)
 {
-	if (alarm_active)
-	{
-		// toggle the buzzer pin again, this makes the buzzer frequency about 4.1 KHz
-		PORTx_BUZZER &= ~_BV(PIN_BUZZER);
-	}
-	else if (mode == MODE_SLEEPING)
-	{
-		// should go back to sleep, nothing to do
-		clear_leds();
-		to_sleep = 1;
-	}
+	// toggle the buzzer pin again, this makes the buzzer frequency about 4.1 KHz
+	PORTx_BUZZER |= _BV(PIN_BUZZER);
 }
 
 ISR(PCINT1_vect)
