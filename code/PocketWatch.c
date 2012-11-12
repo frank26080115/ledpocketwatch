@@ -906,10 +906,31 @@ int main()
 			
 			if (button2_is_down())
 			{
-				// go to sleep
+				mode = MODE_RANDOM;
+				srand(TCNT2);
+				display_second = (random() & 0x7F) % 60;
+				display_minute = (random() & 0x7F) % 60;
+				display_hour   = (random() & 0x7F) % 12;
+				debounce();
+			}
+		}
+		else if (mode == MODE_RANDOM)
+		{
+			#ifdef ENABLE_RANDOM_MODE
+			if (button1_is_down())
+			{
+				display_second = (random() & 0x7F) % 60;
+				display_minute = (random() & 0x7F) % 60;
+				display_hour   = (random() & 0x7F) % 12;
+				debounce();
+			}
+			
+			if (button2_is_down())
+			#endif
+			{
 				display_second = -1;
 				display_minute = -1;
-				display_hour = -1;
+				display_hour   = -1;
 				mode = MODE_SLEEPING;
 				to_sleep = 1;
 				debounce();

@@ -60,6 +60,8 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 #define ANIMATION_SPEED_1 0
 #define ANIMATION_SPEED_2 0
 
+#define ENABLE_RANDOM_MODE
+
 extern uint16_t portx[30];
 extern uint16_t ddrx[30];
 extern uint8_t pins[30];
@@ -75,6 +77,7 @@ typedef enum
 	MODE_SETALARM_HOUR,
 	MODE_SETALARM_MINUTE,
 	MODE_SETALARM_ONOFF,
+	MODE_RANDOM,
 	MODE_ALARMING,
 } mode_t;
 
